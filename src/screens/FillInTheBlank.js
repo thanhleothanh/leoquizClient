@@ -33,14 +33,15 @@ const FillInTheBlank = ({ history }) => {
     false
   );
   //no rerendering
-  const score = useRef(0); // current score
+  const playPressed = useRef(false);
+  const endState = useRef('Congratulations!');
+  const preference = useRef('random');
+  const shuffled = useRef(false); //shuffle question array at the beginning, once
   const answer1 = useRef(''); // correct answer
   const wrongAnswer = useRef(false);
   const maxQuestion = useRef(0); // index of the current question
-  const endState = useRef('Congratulations!');
   const question = useRef(0); // index of the current question
-  const shuffled = useRef(false); //shuffle question array at the beginning, once
-  const preference = useRef('random');
+  const score = useRef(0); // current score
   //redux stuffs
   const dispatch = useDispatch();
   const { register, handleSubmit } = useForm(); // initialize the hook
@@ -78,13 +79,16 @@ const FillInTheBlank = ({ history }) => {
   }, [shuffled.current]);
 
   const playHandler = () => {
-    dispatch(
-      getQuestions({ type: 'fillintheblank', preference: preference.current })
-    );
-    document.querySelector('.playButton').classList.add('playButtonPressed');
-    setTimeout(() => {
-      setPlaying(true);
-    }, 1000);
+    if (!playPressed.current) {
+      playPressed.current = true;
+      dispatch(
+        getQuestions({ type: 'fillintheblank', preference: preference.current })
+      );
+      document.querySelector('.playButton').classList.add('playButtonPressed');
+      setTimeout(() => {
+        setPlaying(true);
+      }, 2000);
+    }
   };
   const answerHandler = (data) => {
     const submitBtn = document.getElementById('submit-btn');
@@ -202,7 +206,7 @@ const FillInTheBlank = ({ history }) => {
           <div className='lg:w-6/12 w-full'>
             <div className='w-full flex flex-col md:flex-row justify-center items-center px-1'>
               <div
-                className={`text-center bg-backGroundColorLight dark:bg-backGroundColorDark text-lg md:text-xl lg:text-2xl italic font-sans font-bold text-teal-800 dark:text-teal-50 shadow-md rounded-lg py-2 mt-2 ${
+                className={`text-center bg-backGroundColorLight dark:bg-backGroundColorDark text-lg md:text-xl lg:text-2xl italic font-sans font-bold text-teal-800 dark:text-teal-50 shadow-md rounded-lg py-2 ${
                   question.current < maxQuestion.current &&
                   questions[question.current] &&
                   questions[question.current].question_image

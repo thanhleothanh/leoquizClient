@@ -1,8 +1,8 @@
 # About
 
-This project was an original idea of mine I got during the time working as an English Teacher for the GrapeSEED English Program. I wanted to build a platform for kids at the young age to practice their English, or just learn some new words at the very least!
+This project was an original idea of mine I came up with during the time working as an English Teacher for the GrapeSEED English Program. I wanted to build a platform for kids to go to and practice their English, or just learn some new words at the very least!
 
-## Technologies Utilized
+## Technologies Used
 
 NodeJS, Express, ReactJS, Redux, MongoDB, TailwindCSS...
 
@@ -12,11 +12,11 @@ NodeJS, Express, ReactJS, Redux, MongoDB, TailwindCSS...
 https://leoquiz.netlify.app/
 ```
 
-The backend code is private, API @https://leoquizapp.herokuapp.com/
+The backend code is private
 
 ## Contributing
 
-Just me
+Just me. All the feedbacks, new ideas on improving the app from my friends appreciated
 
 ## Disclaimer
 

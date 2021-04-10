@@ -42,6 +42,7 @@ const MultipleChoice = ({ history }) => {
     false
   );
   //no rerendering
+  const playPressed = useRef(false);
   const endState = useRef('Congratulations!');
   const preference = useRef('random');
   const timerLeft = useRef(null);
@@ -116,14 +117,15 @@ const MultipleChoice = ({ history }) => {
   }, []);
 
   const playHandler = () => {
-    if (!loading) {
+    if (!playPressed.current) {
+      playPressed.current = true;
       dispatch(
         getQuestions({ type: 'multiple', preference: preference.current })
       );
       document.querySelector('.playButton').classList.add('playButtonPressed');
       setTimeout(() => {
         setPlaying(true);
-      }, 1000);
+      }, 2000);
     }
   };
 

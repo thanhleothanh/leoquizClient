@@ -43,6 +43,7 @@ const ReactionGame = ({ history }) => {
   const [timerRun, setTimerRun] = useState(0);
   //game related
   //no rerendering
+  const playPressed = useRef(false);
   const endState = useRef('Congratulations!');
   const preference = useRef('random');
   const shuffled = useRef(false); //shuffle question array at the beginning, once
@@ -114,14 +115,15 @@ const ReactionGame = ({ history }) => {
   //handlers
   //handlers
   const playHandler = () => {
-    if (!loading) {
+    if (!playPressed.current) {
+      playPressed.current = true;
       dispatch(
         getQuestions({ type: 'reaction', preference: preference.current })
       );
       document.querySelector('.playButton').classList.add('playButtonPressed');
       setTimeout(() => {
         setPlaying(true);
-      }, 1000);
+      }, 1500);
     }
   };
 

@@ -14,6 +14,7 @@ const SpaceInvaders = ({ history }) => {
   const timerLeft = useRef(null);
   const intervalLeft = useRef(null);
   const difficulty = useRef(2500);
+  const playPressed = useRef(false);
 
   const { userInfo } = useSelector((state) => state.userLogin);
   const { gameTickets } = useSelector((state) => state.userGameTickets);
@@ -295,10 +296,13 @@ const SpaceInvaders = ({ history }) => {
   }, [playing, userInfo]);
 
   const playHandler = () => {
-    document.querySelector('.playButton').classList.add('playButtonPressed');
-    setTimeout(() => {
-      setPlaying(true);
-    }, 1000);
+    if (!playPressed.current) {
+      playPressed.current = true;
+      document.querySelector('.playButton').classList.add('playButtonPressed');
+      setTimeout(() => {
+        setPlaying(true);
+      }, 1000);
+    }
   };
   return (
     <div className='h-screen container mx-auto'>

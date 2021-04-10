@@ -30,6 +30,7 @@ const FreeFall = ({ history }) => {
   const [next, setNext] = useState(true); //next question
   const [timerRun, setTimerRun] = useState(0);
   //no rerendering
+  const playPressed = useRef(false);
   const shuffled = useRef(false); //shuffle question array at the beginning, once
   const timerLeft = useRef(null); //points to the current timer
   const intervalLeft = useRef(null); // animating stars
@@ -279,12 +280,13 @@ const FreeFall = ({ history }) => {
   }, [playing, over]);
 
   const playHandler = () => {
-    if (!loading) {
+    if (!playPressed.current) {
+      playPressed.current = true;
       dispatch(getQuestions({ type: 'reaction', preference: 'random' }));
       document.querySelector('.playButton').classList.add('playButtonPressed');
       setTimeout(() => {
         setPlaying(true);
-      }, 1000);
+      }, 1500);
     }
   };
 
