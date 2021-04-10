@@ -1,0 +1,116 @@
+@tailwind base;
+@tailwind components;
+
+body {
+  padding-top: env(safe-area-inset-top);
+  @apply bg-backGroundColorLight dark:bg-backGroundColorDark;
+}
+.fixedHeader {
+  height: calc(4rem + env(safe-area-inset-top));
+}
+@media screen and (max-width: 768px) {
+  .fixedHeader {
+    height: calc(3.5rem + env(safe-area-inset-top));
+  }
+}
+
+/*play button screen, prepare to call api screen*/
+.playButton {
+  @apply lg:text-3xl md:text-2xl text-xl text-white font-bold px-10 md:px-14 py-4 rounded-full shadow-lg focus:outline-none uppercase select-none;
+}
+.playButtonPressed {
+  @apply animate-pulse customGradient select-none;
+}
+
+/*games-related*/
+.preferences {
+  @apply inline-flex items-center font-medium text-sm sm:text-base md:text-lg;
+}
+
+/*reaction game*/
+.answerTiles {
+  @apply bg-white dark:bg-purple-900 rounded-2xl shadow-lg h-20 md:h-28 pointer-events-none select-none;
+}
+.answers {
+  @apply h-full flex flex-col justify-center text-center text-base md:text-lg lg:text-xl font-semibold text-gray-100;
+}
+.show {
+  @apply bg-purple-600 dark:bg-purple-500 hover:bg-purple-800 dark:hover:bg-purple-700 rounded-2xl pointer-events-auto select-none;
+}
+
+/*Free Fall game*/
+.answerTilesFreeFall {
+  @apply bg-rose-700 dark:bg-rose-700 rounded-2xl shadow-lg h-20 md:h-28 pointer-events-none select-none;
+}
+.answersFreeFall {
+  @apply h-full flex flex-col justify-center text-center text-base md:text-lg lg:text-xl font-semibold text-gray-100;
+}
+.showFreeFall {
+  @apply bg-rose-700 dark:bg-rose-700 hover:bg-rose-600 dark:hover:bg-rose-600 rounded-2xl pointer-events-auto select-none;
+}
+
+/*multiple choice*/
+.answerTilesMultipleChoice {
+  @apply rounded-2xl bg-cyan-600 shadow-xl h-16 md:h-20 lg:h-32 pointer-events-none;
+}
+.showMultiple {
+  @apply hover:bg-cyan-700 rounded-2xl pointer-events-auto;
+}
+
+/*fill in the blank*/
+.submitBtnFillintheblank {
+  @apply px-3 bg-teal-600 hover:bg-teal-800 font-semibold text-base md:text-sm lg:text-base text-white rounded-r-full focus:outline-none select-none;
+}
+.disableSubmitBtnFillintheblank {
+  @apply px-3 bg-teal-600 bg-opacity-50 font-semibold text-base md:text-sm lg:text-base text-white rounded-r-full focus:outline-none select-none;
+}
+
+/*answers*/
+.correct-chosen {
+  @apply bg-lime-600 dark:bg-lime-600 rounded-2xl animate-bounce select-none;
+}
+.wrong {
+  @apply bg-red-600 dark:bg-red-700 rounded-2xl animate-wiggle select-none;
+}
+
+/*form form form*/
+.fieldAboutYou {
+  @apply text-sm md:text-base rounded w-full py-2 px-5 shadow-md appearance-none focus:ring-4 focus:ring-opacity-75  focus:ring-yellow-600  dark:focus:ring-purple-600 text-red-900 dark:text-purple-800 focus:outline-none placeholder-red-900 dark:placeholder-purple-800;
+}
+.labelFieldAboutYou {
+  @apply block text-base font-bold mb-2 text-red-800 dark:text-purple-800;
+}
+.buttonAboutYou {
+  @apply text-base  lg:text-lg font-bold py-2 px-6 shadow-md rounded focus:outline-none w-full bg-yellow-600 hover:bg-yellow-700 dark:bg-purple-600 dark:hover:bg-purple-700 text-white;
+}
+
+/*table*/
+.tableHead {
+  @apply text-sm md:text-base lg:text-lg text-orange-800 dark:text-purple-800 bg-gray-50 dark:bg-backGroundColorLight shadow-sm;
+}
+.tableCell {
+  @apply text-center font-medium py-2 text-xs md:text-sm lg:text-base text-orange-900 dark:text-purple-800 bg-gray-50 dark:bg-backGroundColorLight shadow-sm;
+}
+
+/**/
+.buttonInDropdown {
+  @apply block text-right px-4 py-2 font-semibold text-sm md:text-base hover:bg-orange-600 dark:hover:bg-purple-700 hover:text-white;
+}
+.topHeader {
+  @apply text-xl lg:text-2xl text-red-800 dark:text-purple-800 font-bold px-4 py-2 shadow-md italic;
+}
+.customGradient {
+  @apply bg-gradient-to-br from-rose-800 via-orange-300 to-yellow-200 
+  dark:from-cyan-700 dark:via-indigo-400 dark:to-purple-400;
+}
+
+.headerIcons {
+  display: inline;
+}
+@media screen and (max-width: 395px) {
+  .headerIcons {
+    display: none;
+  }
+}
+
+@tailwind utilities;
