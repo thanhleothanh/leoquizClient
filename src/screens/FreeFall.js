@@ -177,7 +177,7 @@ const FreeFall = ({ history }) => {
         }
         update() {
           if (!over) {
-            faster += 0.000001;
+            faster += 0.00007;
             this.y -= 8 + faster;
             this.alpha -= 0.003;
           } else {
@@ -223,7 +223,10 @@ const FreeFall = ({ history }) => {
         c.fillRect(0, 0, canvas.width, canvas.height);
         if (player) {
           player.draw();
-          if (player.y + player.radius > canvas.height) {
+          if (
+            player.y + player.radius > canvas.height &&
+            question.current !== maxQuestion.current - 1
+          ) {
             for (let i = 0; i < 500; i++) {
               particles.push(
                 new Particle(
@@ -303,6 +306,7 @@ const FreeFall = ({ history }) => {
 
       answered.current = 'Very cool!';
       setTimerRun(0);
+      if (question.current + 1 === maxQuestion.current) setOver(true);
       setTimeout(() => {
         question.current = question.current + 1;
         score.current = score.current + 2;

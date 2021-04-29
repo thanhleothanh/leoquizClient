@@ -62,7 +62,7 @@ const ProfileDropdown = ({ user }) => {
       >
         {user.role !== 'student' && 'Teacher'}{' '}
         {user.name[0].toUpperCase() + user.name.slice(1)}{' '}
-        <i className='fas fa-id-badge headerIcons' />
+        <i className='fas fa-caret-square-down' />
       </button>
 
       <Transition
@@ -91,7 +91,7 @@ const ProfileDropdown = ({ user }) => {
             {(userInfo.role === 'teacher' || userInfo.role === 'admin') && (
               <Link to='/teacher'>
                 <div className='buttonInDropdown'>
-                  For teacher <i className='fas fa-chalkboard-teacher'></i>
+                  For Teacher <i className='fas fa-chalkboard-teacher'></i>
                 </div>
               </Link>
             )}
@@ -110,7 +110,7 @@ const ProfileDropdown = ({ user }) => {
               className='buttonInDropdown w-full focus:outline-none'
               onClick={changeThemeHandler}
             >
-              Change theme <i className='fas fa-adjust' />
+              Change Theme <i className='fas fa-adjust' />
             </button>
           </div>
         </div>

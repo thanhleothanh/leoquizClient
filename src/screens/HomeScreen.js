@@ -41,8 +41,9 @@ const HomeScreen = ({ history }) => {
           />
           <div className='w-full mt-8'>
             <Message type='info'>
-              You have {Math.floor(gameTickets / 2)}{' '}
-              <strong>Game Ticket(s)</strong>.
+              You have <i className='fas fa-ticket-alt' />{' '}
+              {Math.floor(gameTickets / 2)} <strong>Game Ticket(s)</strong>
+              .
               <br /> Get 1 <strong>Game Ticket</strong> by finishing 2{' '}
               <strong>Quizzes</strong>
             </Message>

@@ -161,7 +161,7 @@ const FillInTheBlank = ({ history }) => {
                 value='random'
                 onChange={(e) => (preference.current = e.target.value)}
               />
-              <span className='ml-2'>Random</span>
+              <span className='ml-2'>Random Questions</span>
             </label>
             <label className='preferences text-teal-800 dark:text-teal-50 mt-2'>
               <input
@@ -171,7 +171,7 @@ const FillInTheBlank = ({ history }) => {
                 value='newest'
                 onChange={(e) => (preference.current = e.target.value)}
               />
-              <span className='ml-2'>New</span>
+              <span className='ml-2'>New Questions</span>
             </label>
           </div>
           <div className='text-base md:text-lg text-teal-800 dark:text-teal-50 mt-5  text-center'>

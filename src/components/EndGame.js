@@ -31,12 +31,13 @@ const EndGame = ({
   const scoreboard = () => {
     history.push('/scoreboard');
   };
+
   useEffect(() => {
     if (title === 'Congratulations!' && preference === 'newest')
       dispatch({ type: 'USER_SKIP_NEWEST', payload: type });
     if (score !== 0) dispatch(updateScore({ score }));
     if (!game) {
-      if (score !== 0) dispatch({ type: 'USER_GAME_TICKETS_ADD' });
+      if (score >= 7) dispatch({ type: 'USER_GAME_TICKETS_ADD' });
     } else {
       if (freegame === undefined) dispatch({ type: 'USER_GAME_TICKETS_MINUS' });
     }
