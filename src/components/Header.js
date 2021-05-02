@@ -25,29 +25,38 @@ const Header = () => {
       select-none customGradient flex justify-between items-end shadow-sm rounded-b-2xl'
     >
       <div className='font-black text-2xl md:text-3xl text-white p-3 md:p-4'>
-        <Tooltip
-          title='Press to Go Home'
-          position='bottom-start'
-          distance='45'
-          animation='perspective'
-          touchHold='true'
-          delay='150'
-          theme='transparent'
-          unmountHTMLWhenHide='true'
-          sticky='true'
-          html={
-            <div style={{ width: 160, fontWeight: '500', color: 'white' }}>
-              Press to Go Home
-            </div>
-          }
-        >
+        {!window.matchMedia('(display-mode: standalone)').matches ? (
+          <Tooltip
+            title='Press to Go Home'
+            position='bottom-start'
+            distance='45'
+            animation='perspective'
+            touchHold='true'
+            delay='150'
+            theme='transparent'
+            unmountHTMLWhenHide='true'
+            sticky='true'
+            html={
+              <div style={{ width: 160, fontWeight: '500', color: 'white' }}>
+                Press to Go Home
+              </div>
+            }
+          >
+            <Link to={`${userInfo ? '/home' : '/'}`}>
+              <h1>
+                <i className='fas fa-puzzle-piece headerIcons mr-1' />
+                Leo Quiz
+              </h1>
+            </Link>
+          </Tooltip>
+        ) : (
           <Link to={`${userInfo ? '/home' : '/'}`}>
             <h1>
               <i className='fas fa-puzzle-piece headerIcons mr-1' />
               Leo Quiz
             </h1>
           </Link>
-        </Tooltip>
+        )}
       </div>
 
       <div className='flex p-3 md:p-4'>
