@@ -27,18 +27,12 @@ const Header = () => {
       <div className='font-black text-2xl md:text-3xl text-white p-3 md:p-4'>
         <Tooltip
           title='Press to Go Home'
-          position='bottom'
+          position='bottom-start'
           distance='45'
           animation='perspective'
-          theme={
-            localStorage.theme === 'dark' ||
-            (!('theme' in localStorage) &&
-              window.matchMedia('(prefers-color-scheme: dark)').matches)
-              ? 'light'
-              : 'dark'
-          }
+          touchHold='true'
+          theme='light'
           hideOnClick='false'
-          offset='100'
           animateFill='false'
         >
           <Link to={`${userInfo ? '/home' : '/'}`}>
