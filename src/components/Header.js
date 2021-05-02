@@ -26,7 +26,7 @@ const Header = () => {
     >
       <div className='font-black text-2xl md:text-3xl text-white p-3 md:p-4'>
         {!window.matchMedia('(display-mode: standalone)').matches &&
-        window.matchMedia('(max-width: 640px)').matches ? (
+        window.matchMedia('(min-width: 640px)').matches ? (
           <Tooltip
             title='Press to Go Home'
             position='bottom-start'
