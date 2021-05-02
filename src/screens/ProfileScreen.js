@@ -236,12 +236,12 @@ const ProfileScreen = ({ history }) => {
                   <tr>
                     <th className='tableHead py-5 w-1/12 rounded-tl-2xl'>#</th>
                     <th className='tableHead py-5 w-1/12 '>Score</th>
-                    <th className='tableHead py-5 w-2/12 md:w-2/12 '>
+                    <th className='tableHead py-5 w-2/12 md:w-3/12 '>
                       Quiz Taken
                     </th>
                     <th className='tableHead py-5 w-2/12 '>Name</th>
                     <th className='tableHead py-5 w-2/12 '>Class</th>
-                    <th className='tableHead py-5 w-4/12 md:w-4/12  rounded-tr-2xl'>
+                    <th className='tableHead py-5 w-4/12 md:w-3/12  rounded-tr-2xl'>
                       Teacher's Star
                     </th>
                   </tr>
@@ -266,10 +266,6 @@ const ProfileScreen = ({ history }) => {
                                 user.class.slice(1)}
                             </td>
                             <td className='tableCell flex justify-center '>
-                              {'(' +
-                                user.teacher.name[0].toUpperCase() +
-                                user.teacher.name.slice(1) +
-                                ')'}
                               <div className='mx-1' id={`star-${user._id}`}>
                                 {user.star}{' '}
                               </div>

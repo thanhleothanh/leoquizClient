@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ProfileDropdown from './ProfileDropdown';
+import 'react-tippy/dist/tippy.css';
+import { Tooltip } from 'react-tippy';
 
 const Header = () => {
   const { userInfo } = useSelector((state) => state.userLogin);
@@ -23,12 +25,29 @@ const Header = () => {
       select-none customGradient flex justify-between items-end shadow-sm rounded-b-2xl'
     >
       <div className='font-black text-2xl md:text-3xl text-white p-3 md:p-4'>
-        <Link to={`${userInfo ? '/home' : '/'}`}>
-          <h1>
-            <i className='fas fa-puzzle-piece headerIcons mr-1' />
-            Leo Quiz
-          </h1>
-        </Link>
+        <Tooltip
+          title='Press to Go Home'
+          position='bottom'
+          distance='45'
+          animation='perspective'
+          theme={
+            localStorage.theme === 'dark' ||
+            (!('theme' in localStorage) &&
+              window.matchMedia('(prefers-color-scheme: dark)').matches)
+              ? 'light'
+              : 'dark'
+          }
+          hideOnClick='false'
+          offset='100'
+          animateFill='false'
+        >
+          <Link to={`${userInfo ? '/home' : '/'}`}>
+            <h1>
+              <i className='fas fa-puzzle-piece headerIcons mr-1' />
+              Leo Quiz
+            </h1>
+          </Link>
+        </Tooltip>
       </div>
 
       <div className='flex p-3 md:p-4'>

@@ -37,7 +37,7 @@ const ProfileForm = () => {
         About You <div className='inline not-italic'>👁👄👁</div>
       </div>
       <form
-        className='bg-gray-50 dark:bg-backGroundColorLight shadow-sm rounded-b-2xl px-8 pt-4 pb-8 mb-3 flex flex-col w-full'
+        className='bg-gray-50 dark:bg-backGroundColorLight shadow-sm rounded-b-2xl px-8 pt-6 pb-8 mb-3 flex flex-col w-full'
         onSubmit={handleSubmit(changePassword)}
       >
         <div>
