@@ -25,7 +25,8 @@ const Header = () => {
       select-none customGradient flex justify-between items-end shadow-sm rounded-b-2xl'
     >
       <div className='font-black text-2xl md:text-3xl text-white p-3 md:p-4'>
-        {!window.matchMedia('(display-mode: standalone)').matches ? (
+        {!window.matchMedia('(display-mode: standalone)').matches &&
+        window.matchMedia('(max-width: 640px)').matches ? (
           <Tooltip
             title='Press to Go Home'
             position='bottom-start'
