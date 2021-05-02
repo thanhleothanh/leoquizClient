@@ -31,9 +31,15 @@ const Header = () => {
           distance='45'
           animation='perspective'
           touchHold='true'
-          theme='light'
-          hideOnClick='false'
-          animateFill='false'
+          delay='150'
+          theme='transparent'
+          unmountHTMLWhenHide='true'
+          sticky='true'
+          html={
+            <div style={{ width: 160, fontWeight: '500', color: 'white' }}>
+              Press to Go Home
+            </div>
+          }
         >
           <Link to={`${userInfo ? '/home' : '/'}`}>
             <h1>
