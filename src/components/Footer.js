@@ -6,7 +6,6 @@ const Footer = () => {
       <div className='text-xs sm:text-sm lg:text-base'>
         Copyright &copy; Leo Quiz
       </div>
-      <div style={{ fontSize: '0.5rem' }}>Teacher Leo made this!</div>
     </footer>
   );
 };
