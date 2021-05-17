@@ -20,13 +20,13 @@ const QuizCard = ({ title, description, image, link, color, pointSystem }) => {
           <div
             className={`px-4 py-2 sm:text-base lg:text-xl tracking-tight font-semibold shadow-md text-${color}-900 dark:text-gray-50 flex`}
           >
-            <div className='h-full mr-3'>
+            <div className='hidden sm:inline h-full mr-2 lg:mr-3'>
               <i className='fas fa-gamepad text-sm lg:text-base lg:-mr-1' />
             </div>
             {title}
           </div>
           <div
-            className={`px-4 py-2 text-sm lg:text-base text-${color}-900 dark:text-gray-50 font-medium flex`}
+            className={`px-4 py-2 text-sm text-${color}-900 dark:text-gray-50 font-medium flex`}
           >
             <div className='hidden sm:inline h-full mr-3'>
               <i className='fas fa-directions text-sm lg:text-base' />

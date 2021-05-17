@@ -77,8 +77,7 @@ const ProfileDropdown = ({ user }) => {
         <div className='flex justify-between origin-top-right absolute right-0 w-68 md:w-44 standalone:w-44 mt-1 bg-white rounded-2xl shadow-md overflow-hidden'>
           <div className='w-2/5 bg-orange-600 dark:bg-purple-700 standalone:hidden md:hidden'>
             <div className='w-full h-full px-2 py-2 text-left text-white text-sm font-semibold'>
-              Add Leo Quiz to your Home Screen right now for a better user
-              experience
+              Add Leo Quiz to your Home Screen for a better user experience!
               <i className='fas fa-info-circle ml-1' />
             </div>
           </div>
@@ -104,7 +103,7 @@ const ProfileDropdown = ({ user }) => {
               className='buttonInDropdown w-full focus:outline-none'
               onClick={logoutHandler}
             >
-              Log out <i className='fas fa-sign-out-alt' />
+              Log Out <i className='fas fa-sign-out-alt' />
             </button>
             <button
               className='buttonInDropdown w-full focus:outline-none'

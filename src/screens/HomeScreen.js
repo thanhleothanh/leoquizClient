@@ -24,6 +24,14 @@ const HomeScreen = ({ history }) => {
         <div className='flex flex-col items-center mx-6'>
           <div className=' topHeader bg-white rounded-full px-6'>Games</div>
           <QuizCard
+            title='Space Invaders'
+            description='Play this shooting game using the Game Tickets you got from solving Quizzes!'
+            pointSystem='+3 pts/correct answer.'
+            image='/images/spaceinvaders.png'
+            link='/spaceinvaders'
+            color='lime'
+          />
+          <QuizCard
             title='Free Fall'
             description='Answer the questions in time to keep the ball falling as deep as possible!'
             pointSystem='+3 pts/correct answer.'
@@ -31,30 +39,21 @@ const HomeScreen = ({ history }) => {
             link='/freefall'
             color='rose'
           />
-          <QuizCard
-            title='Space Invaders'
-            description='Play this shooting game with the Game Tickets you got from solving Quizzes!'
-            pointSystem='+3 pts/correct answer.'
-            image='/images/spaceinvaders.png'
-            link='/spaceinvaders'
-            color='lime'
-          />
           <div className='w-full mt-8'>
             <Message type='info'>
               You have <i className='fas fa-ticket-alt' />{' '}
               {Math.floor(gameTickets / 2)} <strong>Game Ticket(s)</strong>
-              .
               <br /> Get 1 <strong>Game Ticket</strong> by finishing 2{' '}
               <strong>Quizzes</strong>
             </Message>
           </div>
         </div>
-        <div className='flex flex-col items-center mx-6 mb-5'>
+        <div className='flex flex-col items-center mx-6 mb-4'>
           <div className=' topHeader bg-white rounded-full px-6'>Quizzes</div>
 
           <QuizCard
             title='Reaction Game'
-            description='Choose the right answer out of the 2 randomly given answers as fast as possible. '
+            description='Choose the correct answer out of the 2 randomly given answers as fast as possible.'
             pointSystem='+2 pts/correct answer, -1 pt/wrong answer.'
             image='/images/reactiongame.jpg'
             link='/reactiongame'
@@ -63,7 +62,7 @@ const HomeScreen = ({ history }) => {
 
           <QuizCard
             title='Multiple Choice'
-            description='Choose the right answer out of the 4 given answers.'
+            description='Choose the right answer out of the 4 given ones.'
             pointSystem='+1 pt/correct answer, -1 pt/wrong answer.'
             image='/images/multiplechoice.png'
             link='/multiplechoice'

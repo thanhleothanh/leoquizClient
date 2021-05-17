@@ -227,7 +227,7 @@ const SpaceInvaders = ({ history }) => {
                 setTimeout(() => {
                   if (animationId) cancelAnimationFrame(animationId);
                   setEnd(true);
-                }, 1500);
+                }, 2000);
               }
             }
 
@@ -352,8 +352,8 @@ const SpaceInvaders = ({ history }) => {
             Game
           </div>
           <div className='text-base md:text-lg text-lime-800 dark:text-lime-50 text-center'>
-            Get 1 <strong className='font-bold'>Game Ticket</strong> by doing 2
-            Quizzes
+            Get 1 <strong className='font-bold'>Game Ticket</strong> by
+            finishing 2 Quizzes
           </div>
           <div className='mt-3 text-xs text-lime-800 dark:text-lime-50 text-center'>
             All credit to @Christopher Lis

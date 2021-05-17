@@ -247,7 +247,7 @@ const FreeFall = ({ history }) => {
             setTimeout(() => {
               cancelAnimationFrame(animationId);
               setEnd(true);
-            }, 3500);
+            }, 2500);
           }
         }
         particles.forEach((particle, iParticle) => {
@@ -411,19 +411,33 @@ const FreeFall = ({ history }) => {
                           : '0' + score.current}
                       </div>
 
-                      {timerRun ? (
-                        <div className='w-3/12'>
-                          <CountdownTimer
-                            color='rose'
-                            initialMinute={0}
-                            initialSeconds={timerRun * 1}
-                          />
-                        </div>
-                      ) : (
-                        <div className='bg-rose-700 text-center lg:text-lg font-bold italic font-sans text-white px-2 py-2 rounded-full'>
-                          {answered.current}
-                        </div>
-                      )}
+                      {
+                        timerRun ? (
+                          <div className='w-3/12'>
+                            <CountdownTimer
+                              color='rose'
+                              initialMinute={0}
+                              initialSeconds={timerRun * 1}
+                            />
+                          </div>
+                        ) : (
+                          <>
+                            {answered.current === 'Game Over!' ? (
+                              <div className='bg-red-600 text-center lg:text-lg font-bold italic font-sans text-white px-2 py-2 rounded-full'>
+                                {answered.current}
+                              </div>
+                            ) : (
+                              <div className='bg-lime-600 text-center lg:text-lg font-bold italic font-sans text-white px-2 py-2 rounded-full'>
+                                {answered.current}
+                              </div>
+                            )}
+                          </>
+                        )
+
+                        // <div className='bg-rose-700 text-center lg:text-lg font-bold italic font-sans text-white px-2 py-2 rounded-full'>
+                        //   {answered.current}
+                        // </div>
+                      }
                       <div className='text-right italic font-mono lg:text-lg font-bold w-5/12 text-rose-900 dark:text-rose-50'>
                         Question: {question.current + 1}/{maxQuestion.current}
                       </div>
