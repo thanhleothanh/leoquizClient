@@ -76,7 +76,7 @@ const LoginScreen = ({ history }) => {
             Don't have an account?{' '}
             <Link
               to='/signup'
-              className='underline hover:text-yellow-500 dark:hover:text-purple-400 text-lg md:text-xl'
+              className='underline hover:text-yellow-500 dark:hover:text-purple-400'
             >
               Sign up here!
             </Link>
