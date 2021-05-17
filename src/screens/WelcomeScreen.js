@@ -16,19 +16,21 @@ const WelcomeScreen = ({ history }) => {
         title='Welcome'
         description='Leo English Quiz App for Kids. A platform for kids to practice English, or just learn some new words at the very least!'
       />
-      <div className='mx-auto sm:text-center md:mx-auto lg:max-w-4xl'>
-        <div className='max-w-lg pb-7 md:mx-auto text-center lg:max-w-xl '>
-          <h2 className='text-center bg-backGroundColorLight dark:bg-backGroundColorDark text-xl lg:text-2xl italic font-sans font-bold  text-red-900 dark:text-purple-50 shadow-md rounded-t-lg py-2 '>
-            Please{' '}
+      <div className='mx-10 sm:mx-16 md:mx-24 lg:mx-40'>
+        <div className='pb-7 '>
+          <h1 className='text-left bg-backGroundColorLight dark:bg-backGroundColorDark text-3xl md:text-4xl lg:text-5xl font-bold  text-red-800 dark:text-purple-50 py-2'>
+            Leo Quiz | English Quiz App for Kids.
+          </h1>
+          <h3 className=' text-left bg-backGroundColorLight dark:bg-backGroundColorDark text-base sm:text-lg lg:text-xl font-bold  text-red-700 dark:text-purple-50'>
             <Link
               className='underline hover:text-yellow-500 dark:hover:text-purple-500'
               to='/login'
             >
-              sign in
+              Sign in
             </Link>{' '}
             to continue!
-          </h2>
-          <h2 className='text-center bg-backGroundColorLight dark:bg-backGroundColorDark text-xl lg:text-2xl italic font-sans font-bold  text-red-900 dark:text-purple-50 shadow-md rounded-b-lg py-2 '>
+          </h3>
+          <h3 className=' text-left bg-backGroundColorLight dark:bg-backGroundColorDark text-base sm:text-lg lg:text-xl font-bold  text-red-700 dark:text-purple-50'>
             Don't have an account yet?{' '}
             <Link
               className='underline hover:text-yellow-500 dark:hover:text-purple-500'
@@ -36,7 +38,7 @@ const WelcomeScreen = ({ history }) => {
             >
               Sign up here
             </Link>
-          </h2>
+          </h3>
         </div>
         <div className='mb-4 select-none'>
           <img
