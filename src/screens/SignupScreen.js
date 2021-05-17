@@ -123,7 +123,7 @@ const SignupScreen = ({ history }) => {
               to='/login'
               className='underline hover:text-yellow-500 dark:hover:text-purple-400 text-lg md:text-xl'
             >
-              Sign in
+              Sign in!
             </Link>
           </div>
         </form>
