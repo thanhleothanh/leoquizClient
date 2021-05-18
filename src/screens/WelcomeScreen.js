@@ -18,7 +18,7 @@ const WelcomeScreen = ({ history }) => {
       />
       <div className='mx-6 sm:mx-16 md:mx-24 flex flex-col lg:flex-row space-y-7 lg:space-y-0 lg:space-x-7'>
         <div className='w-full lg:w-1/3'>
-          <h1 className='text-left bg-backGroundColorLight dark:bg-backGroundColorDark text-4xl md:text-5xl font-black  text-red-800 dark:text-purple-50'>
+          <h1 className='text-left bg-backGroundColorLight dark:bg-backGroundColorDark text-4xl md:text-5xl font-black  text-red-900 dark:text-purple-50'>
             Leo Quiz | English Quiz App for Kids.
           </h1>
           <div className='flex space-x-3 mt-6 lg:mt-10'>

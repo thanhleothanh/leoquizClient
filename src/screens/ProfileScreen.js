@@ -291,7 +291,7 @@ const ProfileScreen = ({ history }) => {
                 </tbody>
               </table>
             </div>
-            <div className='mt-6'>
+            <div className='mt-3'>
               {loadingScoreboard ? (
                 <Loader
                   loader={Math.floor(Math.random() * 10 + 1)}
@@ -299,7 +299,12 @@ const ProfileScreen = ({ history }) => {
                 />
               ) : errorScoreboard ? (
                 <Alert>{errorScoreboard}</Alert>
-              ) : successScoreboard && scoreboard && scoreboard.length === 0 ? (
+              ) : userInfo &&
+                successScoreboard &&
+                scoreboard &&
+                scoreboard.findIndex(
+                  (student) => student.teacher._id === userInfo._id
+                ) === -1 ? (
                 <Message type='info'>You don't have any student</Message>
               ) : (
                 ''

@@ -3,10 +3,16 @@ import { useSelector, useDispatch } from 'react-redux';
 import QuizCard from './../components/QuizCard';
 import Meta from './../components/Meta';
 import Message from './../components/Message';
+// import { getTests } from '../actions/testActions';
 
 const HomeScreen = ({ history }) => {
   const { gameTickets } = useSelector((state) => state.userGameTickets);
   const { userInfo } = useSelector((state) => state.userLogin);
+  // const {
+  //   tests,
+  //   loading: loadingTests,
+  //   error: errorTests,
+  // } = useSelector((state) => state.tests);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -15,13 +21,14 @@ const HomeScreen = ({ history }) => {
 
   useEffect(() => {
     dispatch({ type: 'QUESTIONS_RESET' });
+    // if (tests === null) dispatch(getTests());
   }, []);
 
   return (
     <>
       <Meta title='Home' description='Leo English Quiz App for Kids | Home' />
-      <div className='grid lg:grid-cols-2 gap-8 lg:gap-0 mt-8 container mx-auto overflow-auto'>
-        <div className='flex flex-col items-center mx-6'>
+      <div className='grid lg:grid-cols-2 lg:gap-0 container mx-auto overflow-auto pb-5'>
+        <div className='flex flex-col items-center mx-6 mt-8'>
           <div className=' topHeader bg-white rounded-full px-6'>Games</div>
           <QuizCard
             title='Space Invaders'
@@ -48,7 +55,7 @@ const HomeScreen = ({ history }) => {
             </Message>
           </div>
         </div>
-        <div className='flex flex-col items-center mx-6 mb-4'>
+        <div className='flex flex-col items-center mx-6 mt-8'>
           <div className=' topHeader bg-white rounded-full px-6'>Quizzes</div>
 
           <QuizCard
@@ -78,43 +85,46 @@ const HomeScreen = ({ history }) => {
           />
         </div>
 
-        {/* <div className='flex flex-col items-center mx-8  bg-gray-100'>
-        <div className='text-xl lg:text-2xl text-red-900 font-bold px-12 py-2 rounded-full shadow-lg bg-gray-50 italic'>
-        Test
-        </div>
-        {loadingTests ? (
-          <Loader
-          className='py-5'
-          loader={Math.floor(Math.random() * 10 + 1)}
-          color={Math.floor(Math.random() * 10 + 1)}
-          />
-          ) : errorTests ? (
-            <Alert className='mt-8'>{errorTests}</Alert>
+        <div className='flex flex-col items-center mx-6 mt-8'>
+          <div className=' topHeader bg-white rounded-full px-6'>Tests</div>
+          <div className='w-full mt-8'>
+            <Message type='info'>
+              There's currently no test from any teacher on the schedule!
+            </Message>
+            {/* {loadingTests ? (
+              <Loader
+                className='py-5'
+                loader={Math.floor(Math.random() * 10 + 1)}
+                color={Math.floor(Math.random() * 10 + 1)}
+              />
+            ) : errorTests ? (
+              <Alert className='mt-8'>{errorTests}</Alert>
             ) : (
               <>
-              {tests && tests.length === 0 ? (
-                <Message type='info' className='mt-8'>
-                There are no tests from any teacher on the schedule
-                </Message>
+                {tests && tests.length === 0 ? (
+                  <Message type='info' className='mt-8'>
+                    There are no tests from any teacher on the schedule
+                  </Message>
                 ) : (
                   <>
-                {tests &&
-                  tests.map((test) => {
-                    return (
-                      <QuizCard
-                      title={test.test_name}
-                      description={test.test_description}
-                      image={`/images/${test.teacher}.jpeg`}
-                      link={test._id}
-                      color='orange'
-                      />
-                      );
-                    })}
-                    </>
-                    )}
-                    </>
-                    )}
-                  </div> */}
+                    {tests &&
+                      tests.map((test) => {
+                        return (
+                          <QuizCard
+                            title={test.test_name}
+                            description={test.test_description}
+                            image={`/images/${test.teacher}.jpeg`}
+                            link={test._id}
+                            color='orange'
+                          />
+                        );
+                      })}
+                  </>
+                )}
+              </>
+            )} */}
+          </div>
+        </div>
       </div>
     </>
   );
