@@ -18,7 +18,7 @@ const QuizCard = ({ title, description, image, link, color, pointSystem }) => {
         </div>
         <div className='w-7/12 flex flex-col'>
           <div
-            className={`px-4 py-2 sm:text-base lg:text-xl tracking-tight font-semibold shadow-md text-${color}-900 dark:text-gray-50 flex`}
+            className={`px-3 py-2 sm:text-base lg:text-xl tracking-tight font-semibold shadow-md text-${color}-900 dark:text-gray-50 flex`}
           >
             <div className='hidden sm:inline h-full mr-2 lg:mr-3'>
               <i className='fas fa-gamepad text-sm lg:text-base lg:-mr-1' />
@@ -26,7 +26,7 @@ const QuizCard = ({ title, description, image, link, color, pointSystem }) => {
             {title}
           </div>
           <div
-            className={`px-4 py-2 text-sm text-${color}-900 dark:text-gray-50 font-medium flex`}
+            className={`px-3 py-2 text-sm text-${color}-900 dark:text-gray-50 font-medium flex`}
           >
             <div className='hidden sm:inline h-full mr-3'>
               <i className='fas fa-directions text-sm lg:text-base' />
@@ -34,17 +34,14 @@ const QuizCard = ({ title, description, image, link, color, pointSystem }) => {
             {description}
           </div>
         </div>
-        <div
-          className={`w-1/6 text-2xl lg:text-3xl text-white font-bold rounded-r-3xl focus:outline-none 
-          bg-${color}-600 hover:bg-${color}-700 select-none`}
+
+        <Link
+          className={`w-1/5 text-3xl md:text-3xl lg:text-4xl text-white font-bold rounded-r-3xl focus:outline-none 
+           bg-${color}-600 hover:bg-${color}-700 select-none flex justify-center items-center`}
+          to={link}
         >
-          <Link
-            className='h-full w-full flex justify-center items-center'
-            to={link}
-          >
-            <i className='fas fa-play-circle' />
-          </Link>
-        </div>
+          <i className='fas fa-play-circle' />
+        </Link>
       </div>
     </div>
   );

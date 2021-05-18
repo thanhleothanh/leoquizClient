@@ -348,12 +348,11 @@ const SpaceInvaders = ({ history }) => {
           </div>
           <div className='text-base md:text-lg text-lime-800 dark:text-lime-50 mt-5 text-center'>
             You have {Math.floor(gameTickets / 2)}{' '}
-            <strong className='font-bold'>Game Ticket(s)</strong> to play this
-            Game
+            <strong className='font-bold'>Game Ticket(s)</strong>
           </div>
           <div className='text-base md:text-lg text-lime-800 dark:text-lime-50 text-center'>
-            Get 1 <strong className='font-bold'>Game Ticket</strong> by
-            finishing 2 Quizzes
+            Finishing 2 Quizzes = 1{' '}
+            <strong className='font-bold'>Game Ticket</strong>
           </div>
           <div className='mt-3 text-xs text-lime-800 dark:text-lime-50 text-center'>
             All credit to @Christopher Lis
