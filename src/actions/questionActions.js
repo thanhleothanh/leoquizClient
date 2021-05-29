@@ -33,7 +33,7 @@ export const getQuestions = (request) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.get(
-      `${`https://leoquizapp.herokuapp.com/api/questions/${request.preference}?type=${request.type}${additionalType}&page=${page}`}`,
+      `${`/api/questions/${request.preference}?type=${request.type}${additionalType}&page=${page}`}`,
       config
     );
 
@@ -66,7 +66,7 @@ export const postQuestion = (newQuestion) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.post(
-      `${`https://leoquizapp.herokuapp.com/api/questions`}`,
+      `${`/api/questions`}`,
       newQuestion,
       config
     );

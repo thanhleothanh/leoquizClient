@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getTests } from './../actions/testActions';
+import { getTests, postTest } from './../actions/testActions';
 import { postQuestion } from './../actions/questionActions';
 import Loader from './../components/Loader';
 import Alert from './../components/Alert';
@@ -8,14 +8,16 @@ import Meta from './../components/Meta';
 import Message from './../components/Message';
 import Modal from 'react-modal';
 import { useForm } from 'react-hook-form';
+import { Link } from 'react-router-dom';
 
-const TeacherScreen = ({ history }) => {
+const TeacherScreen = ({ history, location }) => {
   //modal state
-  const [type, setType] = useState(false);
+  const testType = useRef('multiple');
+  const questionType = useRef('');
+  const [newTestModalIsOpen, setNewTestModalIsOpen] = useState(false);
   const [reactionModalIsOpen, setReactionModalIsOpen] = useState(false);
-  const [fillintheblankModalIsOpen, setFillintheblankModalIsOpen] = useState(
-    false
-  );
+  const [fillintheblankModalIsOpen, setFillintheblankModalIsOpen] =
+    useState(false);
 
   const { userInfo } = useSelector((state) => state.userLogin);
   const {
@@ -29,8 +31,13 @@ const TeacherScreen = ({ history }) => {
     error: errorTestsTeacher,
     success: successTestsTeacher,
   } = useSelector((state) => state.tests);
+  const {
+    loading: loadingPostTest,
+    error: errorPostTest,
+    success: successPostTest,
+  } = useSelector((state) => state.postTest);
 
-  const { register, handleSubmit } = useForm(); // initialize the hook
+  const { register, handleSubmit } = useForm();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -40,22 +47,12 @@ const TeacherScreen = ({ history }) => {
   useEffect(() => {
     if (userInfo.role !== 'teacher' && userInfo.role !== 'admin') {
       history.push('/home');
+    } else {
+      if (!tests) dispatch(getTests());
+      dispatch({ type: 'GET_TEST_RESET' });
     }
-    // else {
-    //   if (!tests) dispatch(getTests());
-    // }
   }, [history, dispatch]);
 
-  //modal modal modal modal modal modal modal modal modal modal modal modal modal modal modal modal modal
-  //modal modal modal modal modal modal modal modal modal modal modal modal modal modal modal modal modal
-  //modal modal modal modal modal modal modal modal modal modal modal modal modal modal modal modal modal
-  //modal modal modal modal modal modal modal modal modal modal modal modal modal modal modal modal modal
-  //modal modal modal modal modal modal modal modal modal modal modal modal modal modal modal modal modal
-  //modal modal modal modal modal modal modal modal modal modal modal modal modal modal modal modal modal
-  //modal modal modal modal modal modal modal modal modal modal modal modal modal modal modal modal modal
-  //modal modal modal modal modal modal modal modal modal modal modal modal modal modal modal modal modal
-  //modal modal modal modal modal modal modal modal modal modal modal modal modal modal modal modal modal
-  //modal modal modal modal modal modal modal modal modal modal modal modal modal modal modal modal modal
   //modal modal modal modal modal modal modal modal modal modal modal modal modal modal modal modal modal
   //modal modal modal modal modal modal modal modal modal modal modal modal modal modal modal modal modal
   //modal modal modal modal modal modal modal modal modal modal modal modal modal modal modal modal modal
@@ -63,10 +60,11 @@ const TeacherScreen = ({ history }) => {
   const closeModal = () => {
     setReactionModalIsOpen(false);
     setFillintheblankModalIsOpen(false);
+    setNewTestModalIsOpen(false);
   };
-  // REACTION MODAL REACTION MODAL REACTION MODAL REACTION MODAL REACTION MODAL REACTION MODAL REACTION MODAL
-  // REACTION MODAL REACTION MODAL REACTION MODAL REACTION MODAL REACTION MODAL REACTION MODAL REACTION MODAL
-  // REACTION MODAL REACTION MODAL REACTION MODAL REACTION MODAL REACTION MODAL REACTION MODAL REACTION MODAL
+  // REACTION MODAL REACTION MODAL REACTION MODAL REACTION MODAL REACTION MODAL REACTION MODAL REACTION
+  // REACTION MODAL REACTION MODAL REACTION MODAL REACTION MODAL REACTION MODAL REACTION MODAL REACTION
+  // REACTION MODAL REACTION MODAL REACTION MODAL REACTION MODAL REACTION MODAL REACTION MODAL REACTION
   const postReactionHandler = (data) => {
     if (
       window.confirm(
@@ -105,6 +103,7 @@ const TeacherScreen = ({ history }) => {
               transform: 'translate(-50%, -50%)',
               maxHeight: '70%',
               maxWidth: '80%',
+              minWidth: '40%',
             },
           }}
           contentLabel='New reaction question'
@@ -122,7 +121,6 @@ const TeacherScreen = ({ history }) => {
               name='question'
               type='text'
               autoComplete='off'
-              placeholder='Question'
               required
               ref={register}
             />
@@ -133,7 +131,6 @@ const TeacherScreen = ({ history }) => {
               name='correct_answer'
               type='text'
               required
-              placeholder='Correct answer of the question'
               ref={register}
             />
             <label className='labelFieldAboutYou'>Incorrect answer</label>
@@ -141,13 +138,12 @@ const TeacherScreen = ({ history }) => {
               className='fieldAboutYou '
               name='incorrect_answer'
               type='text'
-              placeholder='Wrong answer'
               required
               ref={register}
             />
             <div className='flex items-center justify-between outline-none mt-5'>
               <button className='buttonAboutYou' type='submit'>
-                Create question (Check everything again please)
+                Create question
               </button>
             </div>
           </form>
@@ -165,11 +161,11 @@ const TeacherScreen = ({ history }) => {
       </div>
     );
   };
-  // FILLINTHEBLANK MODAL FILLINTHEBLANK MODAL FILLINTHEBLANK MODAL FILLINTHEBLANK MODAL FILLINTHEBLANK MODAL
-  // FILLINTHEBLANK MODAL FILLINTHEBLANK MODAL FILLINTHEBLANK MODAL FILLINTHEBLANK MODAL FILLINTHEBLANK MODAL
-  // FILLINTHEBLANK MODAL FILLINTHEBLANK MODAL FILLINTHEBLANK MODAL FILLINTHEBLANK MODAL FILLINTHEBLANK MODAL
+  // FILLINTHEBLANK MODAL FILLINTHEBLANK MODAL FILLINTHEBLANK MODAL FILLINTHEBLANK MODAL FILLINTHEBLANK
+  // FILLINTHEBLANK MODAL FILLINTHEBLANK MODAL FILLINTHEBLANK MODAL FILLINTHEBLANK MODAL FILLINTHEBLANK
+  // FILLINTHEBLANK MODAL FILLINTHEBLANK MODAL FILLINTHEBLANK MODAL FILLINTHEBLANK MODAL FILLINTHEBLANK
   const typeHandler = (type) => {
-    setType(type);
+    questionType.current = type;
     setFillintheblankModalIsOpen(true);
   };
 
@@ -195,10 +191,10 @@ const TeacherScreen = ({ history }) => {
               incorrect_answer: data.incorrect_answer3,
             },
           ],
-          type: type,
+          type: questionType.current,
         })
       );
-      setType('');
+      questionType.current = '';
       closeModal();
     }
   };
@@ -219,13 +215,16 @@ const TeacherScreen = ({ history }) => {
               transform: 'translate(-50%, -50%)',
               maxHeight: '70%',
               maxWidth: '80%',
+              minWidth: '40%',
             },
           }}
           contentLabel='New reaction question'
         >
           <div className='text-left font-bold text-red-900 dark:text-purple-800 text-xl lg:text-2xl py-3'>
             Create new{' '}
-            {type === 'multiple' ? 'Multiple Choice' : 'Fill in the blank'}{' '}
+            {questionType.current === 'multiple'
+              ? 'Multiple Choice'
+              : 'Fill in the blank'}{' '}
             question
           </div>
           <form
@@ -240,12 +239,11 @@ const TeacherScreen = ({ history }) => {
               type='text'
               autoComplete='off'
               required
-              placeholder='Question'
               ref={register}
             />
 
             <label className='labelFieldAboutYou'>
-              Question's Image (Google images' URL only),
+              Question's Image (use Google Images' URL only),
             </label>
             <input
               className='fieldAboutYou'
@@ -254,7 +252,6 @@ const TeacherScreen = ({ history }) => {
               type='text'
               autoComplete='off'
               ref={register}
-              placeholder='Image for the question (NOT REQUIRED)'
             />
 
             <label className='labelFieldAboutYou mt-1'>CORRECT ANSWER</label>
@@ -264,7 +261,6 @@ const TeacherScreen = ({ history }) => {
               id='correct_answer'
               type='text'
               required
-              placeholder='Correct answer of the question'
               ref={register}
             />
 
@@ -274,7 +270,6 @@ const TeacherScreen = ({ history }) => {
               name='incorrect_answer1'
               id='incorrect_answer1'
               type='text'
-              placeholder='Wrong answer 1'
               required
               ref={register}
             />
@@ -284,7 +279,6 @@ const TeacherScreen = ({ history }) => {
               name='incorrect_answer2'
               id='incorrect_answer2'
               type='text'
-              placeholder='Wrong answer 2'
               required
               ref={register}
             />
@@ -294,13 +288,139 @@ const TeacherScreen = ({ history }) => {
               name='incorrect_answer3'
               id='incorrect_answer3'
               type='text'
-              placeholder='Wrong answer 3'
               required
               ref={register}
             />
             <div className='flex items-center justify-between outline-none mt-5'>
               <button className='buttonAboutYou' type='submit'>
-                Create question (Check everything again please)
+                Create question
+              </button>
+            </div>
+          </form>
+          <div className='flex justify-end'>
+            <button
+              className='text-base rounded-lg text-white font-bold px-5 py-2 focus:outline-none
+              bg-orange-500 hover:bg-orange-700
+              dark:bg-purple-500 dark:hover:bg-purple-700'
+              onClick={closeModal}
+            >
+              Close
+            </button>
+          </div>
+        </Modal>
+      </div>
+    );
+  };
+  // NEW TEST NEW TEST NEW TEST NEW TEST NEW TEST NEW TEST NEW TEST NEW TEST NEW TEST NEW TEST
+  // NEW TEST NEW TEST NEW TEST NEW TEST NEW TEST NEW TEST NEW TEST NEW TEST NEW TEST NEW TEST
+  // NEW TEST NEW TEST NEW TEST NEW TEST NEW TEST NEW TEST NEW TEST NEW TEST NEW TEST NEW TEST
+  const postNewTestHandler = (data) => {
+    if (
+      window.confirm(
+        `Are you sure to create this new test, check the information again please?`
+      )
+    ) {
+      dispatch(
+        postTest({
+          test_name: data.test_name,
+          test_description: data.test_description,
+          questions: [],
+          type: testType.current,
+        })
+      );
+      testType.current = 'multiple';
+      closeModal();
+    }
+  };
+
+  const newTestModal = () => {
+    return (
+      <div>
+        <Modal
+          isOpen={newTestModalIsOpen}
+          onRequestClose={closeModal}
+          shouldCloseOnOverlayClick={false}
+          style={{
+            content: {
+              top: '50%',
+              left: '50%',
+              right: 'auto',
+              bottom: 'auto',
+              marginRight: '-50%',
+              transform: 'translate(-50%, -50%)',
+              maxHeight: '70%',
+              maxWidth: '80%',
+              minWidth: '40%',
+            },
+          }}
+          contentLabel='Create New Test'
+        >
+          <div className='text-left font-bold text-red-900 dark:text-purple-800 text-xl lg:text-2xl py-3'>
+            Create a Custom Test
+          </div>
+          <form
+            className='bg-white rounded-b-2xl pt-4 pb-8  flex flex-col w-full'
+            onSubmit={handleSubmit(postNewTestHandler)}
+          >
+            <label className='labelFieldAboutYou'>Test's Name</label>
+            <input
+              className='fieldAboutYou'
+              name='test_name'
+              id='test_name'
+              type='text'
+              autoComplete='off'
+              required
+              ref={register}
+            />
+
+            <label className='labelFieldAboutYou'>Test's Description</label>
+            <input
+              className='fieldAboutYou'
+              name='test_description'
+              id='test_description'
+              type='text'
+              autoComplete='off'
+              required
+              ref={register}
+            />
+
+            <label className='labelFieldAboutYou mt-1'>
+              Type of the Questions
+            </label>
+            <label className='preferences text-orange-800 dark:text-purple-800'>
+              <input
+                type='radio'
+                className='form-radio w-4 h-4 md:w-7 md:h-7'
+                name='testType'
+                value='reaction'
+                onChange={(e) => (testType.current = e.target.value)}
+              />
+              <span className='ml-2'>Reaction</span>
+            </label>
+            <label className='preferences text-orange-800 dark:text-purple-800 mt-2'>
+              <input
+                type='radio'
+                className='form-radio w-4 h-4 md:w-7 md:h-7'
+                name='testType'
+                value='multiple'
+                onChange={(e) => (testType.current = e.target.value)}
+              />
+              <span className='ml-2'>Multiple Choice</span>
+            </label>
+            <label className='preferences text-orange-800 dark:text-purple-800 mt-2'>
+              <input
+                type='radio'
+                className='form-radio w-4 h-4 md:w-7 md:h-7'
+                name='testType'
+                value='fillintheblank'
+                onChange={(e) => (testType.current = e.target.value)}
+              />
+              <span className='ml-2'>Fill In The Blank</span>
+            </label>
+
+            <div className='flex items-center justify-between outline-none mt-5'>
+              <button className='buttonAboutYou' type='submit'>
+                Create test
               </button>
             </div>
           </form>
@@ -321,9 +441,6 @@ const TeacherScreen = ({ history }) => {
   // RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER
   // RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER
   // RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER
-  // RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER
-  // RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER
-  // RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER
   return (
     <>
       <div className='flex flex-col md:items-baseline md:flex-row h-auto min-h-screen w-full mt-7 mx-auto container md:space-x-2 space-y-16 md:space-y-0'>
@@ -337,7 +454,11 @@ const TeacherScreen = ({ history }) => {
               <>
                 <div className='text-center flex justify-center'>
                   <h2 className=' topHeader bg-gray-50 dark:bg-backGroundColorLight rounded-t-2xl'>
-                    Your Test
+                    Your Test |{' '}
+                    <i
+                      className='fas fa-redo-alt hover:text-orange-400 dark:hover:text-purple-400'
+                      onClick={() => dispatch(getTests())}
+                    />
                   </h2>
                 </div>
                 <div className='flex justify-center mx-1'>
@@ -348,14 +469,42 @@ const TeacherScreen = ({ history }) => {
                           Test
                         </th>
                         <th className='tableHead py-3 w-4/12'>Description</th>
-                        <th className='tableHead py-3 w-2/12'>Type</th>
-                        <th className='tableHead py-3 w-1/12'>Active</th>
-                        <th className='tableHead py-3 w-3/12 rounded-tr-2xl'>
-                          Questions
-                        </th>
+                        <th className='tableHead py-3 w-3/12'>Type</th>
+                        <th className='tableHead py-3 w-2/12'>Active</th>
+                        <th className='tableHead py-3 w-1/12 rounded-tr-2xl'></th>
                       </tr>
                     </thead>
                     <tbody>
+                      {userInfo &&
+                        successTestsTeacher &&
+                        tests &&
+                        tests.length !== 0 &&
+                        tests.map((test) => {
+                          if (test.teacher._id === userInfo._id)
+                            return (
+                              <tr key={test._id}>
+                                <td className='tableCell'>{test.test_name}</td>
+                                <td className='tableCell'>
+                                  {test.test_description}
+                                </td>
+                                <td className='tableCell'>{test.type}</td>
+                                <td className='tableCell'>
+                                  <i
+                                    className={`fas fa-${
+                                      test.active
+                                        ? 'check text-green-500'
+                                        : 'times text-red-500'
+                                    }`}
+                                  />
+                                </td>
+                                <td className='tableCell'>
+                                  <Link to={`/tests/${test._id}`}>
+                                    <i className='text-xl md:text-3xl text-lightBlue-500 hover:text-lightBlue-700 fas fa-edit' />
+                                  </Link>
+                                </td>
+                              </tr>
+                            );
+                        })}
                       <tr>
                         <td className='tableCell rounded-bl-2xl'></td>
                         <td className='tableCell'></td>
@@ -374,16 +523,16 @@ const TeacherScreen = ({ history }) => {
                     />
                   ) : errorTestsTeacher ? (
                     <Alert>{errorTestsTeacher}</Alert>
-                  ) : successTestsTeacher && tests && tests.length === 0 ? (
-                    <Message type='info'>
-                      You haven't created any test! Don't worry, I'm working on
-                      it
-                    </Message>
                   ) : (
-                    <Message type='info'>
-                      You haven't created any test! Don't worry, I'm working on
-                      it
-                    </Message>
+                    successTestsTeacher &&
+                    tests &&
+                    tests.findIndex(
+                      (test) => test.teacher._id === userInfo._id
+                    ) === -1 && (
+                      <Message type='info'>
+                        You haven't created any test!
+                      </Message>
+                    )
                   )}
                 </div>
               </>
@@ -395,45 +544,43 @@ const TeacherScreen = ({ history }) => {
               <div className='text-left italic shadow-md font-bold text-red-800 dark:text-purple-800 text-xl lg:text-2xl w-full bg-gray-50 dark:bg-backGroundColorLight rounded-t-2xl pl-7 pt-2'>
                 Teacher's Actions <i className='fas fa-marker'></i>
               </div>
-              <div className='bg-gray-50 dark:bg-backGroundColorLight pb-7 px-7 rounded-b-2xl shadow-sm'>
+              <div className='bg-gray-50 dark:bg-backGroundColorLight pb-5 px-7 rounded-b-2xl shadow-sm'>
                 <button
                   className='buttonAboutYou  sm:text-base mt-3'
-                  type='submit'
                   onClick={() => setReactionModalIsOpen(true)}
                 >
                   Create Reaction Game question
                 </button>
                 <button
                   className='buttonAboutYou  sm:text-base mt-3'
-                  type='submit'
                   onClick={() => typeHandler('multiple')}
                 >
                   Create Multiple Choice question
                 </button>
                 <button
                   className='buttonAboutYou  sm:text-base mt-3'
-                  type='submit'
                   onClick={() => typeHandler('fillintheblank')}
                 >
                   Create Fill in the blank question
                 </button>
                 <button
-                  className='buttonAboutYou sm:text-base opacity-50 mt-3'
-                  type='submit'
-                  disabled
+                  className='buttonAboutYou sm:text-base mt-3'
+                  onClick={() => setNewTestModalIsOpen(true)}
                 >
                   Create New Test
                 </button>
                 <div className='mt-3'>
-                  {loadingPostQuestion ? (
+                  {loadingPostQuestion || loadingPostTest ? (
                     <Loader
                       loader={Math.floor(Math.random() * 10 + 1)}
                       color={Math.floor(Math.random() * 10 + 1)}
                     />
                   ) : errorPostQuestion ? (
                     <Alert>{errorPostQuestion}</Alert>
+                  ) : errorPostTest ? (
+                    <Alert>{errorPostTest}</Alert>
                   ) : (
-                    successPostQuestion && (
+                    (successPostQuestion || successPostTest) && (
                       <Message type='success'>Cool!</Message>
                     )
                   )}
@@ -444,6 +591,7 @@ const TeacherScreen = ({ history }) => {
       </div>
       {reactionModal()}
       {fillintheblankModal()}
+      {newTestModal()}
       {/* <Message type='info'>
         Teachers cần phải cẩn thận khi post Fill in the blank Question, cách
         hoạt động của hệ thống check đáp án là kiểm tra đáp áp được nhập vào với

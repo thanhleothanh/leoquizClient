@@ -3,16 +3,19 @@ import { useSelector, useDispatch } from 'react-redux';
 import QuizCard from './../components/QuizCard';
 import Meta from './../components/Meta';
 import Message from './../components/Message';
-// import { getTests } from '../actions/testActions';
+import Loader from './../components/Loader';
+import Alert from './../components/Alert';
+import { getActiveTests } from '../actions/testActions';
+import { activeTestsReducer } from '../reducers/testReducers';
 
 const HomeScreen = ({ history }) => {
   const { gameTickets } = useSelector((state) => state.userGameTickets);
   const { userInfo } = useSelector((state) => state.userLogin);
-  // const {
-  //   tests,
-  //   loading: loadingTests,
-  //   error: errorTests,
-  // } = useSelector((state) => state.tests);
+  const {
+    activeTests,
+    loading: loadingTests,
+    error: errorTests,
+  } = useSelector((state) => state.activeTests);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -21,7 +24,8 @@ const HomeScreen = ({ history }) => {
 
   useEffect(() => {
     dispatch({ type: 'QUESTIONS_RESET' });
-    // if (tests === null) dispatch(getTests());
+    dispatch({ type: 'GET_TEST_RESET' });
+    if (!activeTests) dispatch(getActiveTests());
   }, []);
 
   return (
@@ -87,13 +91,10 @@ const HomeScreen = ({ history }) => {
 
         <div className='flex flex-col items-center mx-6 mt-8'>
           <div className=' topHeader bg-white rounded-full px-6'>Tests</div>
-          <div className='w-full mt-8'>
-            <Message type='info'>
-              There's currently no test from any teacher on the schedule!
-            </Message>
-            {/* {loadingTests ? (
+          <div className='w-full'>
+            {loadingTests ? (
               <Loader
-                className='py-5'
+                className='mt-8'
                 loader={Math.floor(Math.random() * 10 + 1)}
                 color={Math.floor(Math.random() * 10 + 1)}
               />
@@ -101,16 +102,17 @@ const HomeScreen = ({ history }) => {
               <Alert className='mt-8'>{errorTests}</Alert>
             ) : (
               <>
-                {tests && tests.length === 0 ? (
+                {activeTests && activeTests.length === 0 ? (
                   <Message type='info' className='mt-8'>
-                    There are no tests from any teacher on the schedule
+                    There are no Tests from any teacher on the schedule
                   </Message>
                 ) : (
                   <>
-                    {tests &&
-                      tests.map((test) => {
+                    {activeTests &&
+                      activeTests.map((test) => {
                         return (
                           <QuizCard
+                            key={test._id}
                             title={test.test_name}
                             description={test.test_description}
                             image={`/images/${test.teacher}.jpeg`}
@@ -122,7 +124,7 @@ const HomeScreen = ({ history }) => {
                   </>
                 )}
               </>
-            )} */}
+            )}
           </div>
         </div>
       </div>

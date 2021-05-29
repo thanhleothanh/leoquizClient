@@ -65,7 +65,7 @@ const SignupScreen = ({ history }) => {
           Sign up <i className='fas fa-id-card-alt' />
         </div>
         <form
-          className='bg-white shadow-lg rounded-b-2xl px-8 pb-3 flex flex-col w-full'
+          className='bg-white dark:bg-backGroundColorLight shadow-lg rounded-b-2xl px-8 pb-3 flex flex-col w-full'
           onSubmit={handleSubmit(signupHandler)}
         >
           <div className='mt-3'>

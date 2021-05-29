@@ -65,8 +65,8 @@ const Header = () => {
       <div className='flex p-3 md:p-4'>
         {!userInfo ? (
           <Link
-            className='px-3 py-1 bg-white shadow-md rounded-full  
-          text-base sm:text-lg md:text-xl focus:outline-none font-bold 
+            className='px-4 py-1 bg-white shadow-md rounded-full  
+          text-base md:text-lg focus:outline-none font-bold 
           hover:bg-orange-700 text-orange-800 hover:text-white 
           dark:hover:bg-purple-800 dark:text-purple-800 dark:hover:text-white'
             to='/login'

@@ -5,7 +5,13 @@ import {
   questionsReducer,
   postQuestionReducer,
 } from './reducers/questionReducers';
-import { testsReducer } from './reducers/testReducers';
+import {
+  testsReducer,
+  postTestReducer,
+  getTestReducer,
+  updateTestReducer,
+  activeTestsReducer,
+} from './reducers/testReducers';
 import {
   userLoginReducer,
   userSignupReducer,
@@ -21,7 +27,13 @@ import {
 const reducer = combineReducers({
   questions: questionsReducer,
   postQuestion: postQuestionReducer,
+  //
   tests: testsReducer,
+  activeTests: activeTestsReducer,
+  postTest: postTestReducer,
+  getTest: getTestReducer,
+  updateTest: updateTestReducer,
+  //
   scoreboard: scoreboardReducer,
   userLogin: userLoginReducer,
   userSignup: userSignupReducer,

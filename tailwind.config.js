@@ -13,9 +13,9 @@ module.exports = {
         emerald: colors.emerald,
         cyan: colors.cyan,
 
-        backGroundColorLight: '#F2E8E4',
+        backGroundColorLight: '#F7F3F3',
         backGroundColorDark: '#261939',
-        backGroundColorLighterDark: '#755770',
+        backGroundColorLighterDark: '#543B51',
       },
       animation: {
         spin: 'spin 2s linear infinite',
