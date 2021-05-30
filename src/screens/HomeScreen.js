@@ -26,6 +26,7 @@ const HomeScreen = ({ history }) => {
   useEffect(() => {
     dispatch({ type: 'QUESTIONS_RESET' });
     dispatch({ type: 'GET_TEST_RESET' });
+    dispatch({ type: 'GET_TEST_RESULT_RESET' });
     if (!activeTests) dispatch(getActiveTests());
   }, []);
 
@@ -40,8 +41,8 @@ const HomeScreen = ({ history }) => {
 
           <QuizCard
             title='Reaction Game'
-            description='Choose the correct answer out of the 2 randomly given answers as fast as possible.'
-            pointSystem='+2 pts/correct answer, -1 pt/wrong answer.'
+            description='Choose the correct answer as fast as possible'
+            pointSystem='+2 pts/correct answer, -1 pt/wrong answer. '
             image='/images/reactiongame.jpg'
             link='/reactiongame'
             color='purple'
@@ -57,12 +58,23 @@ const HomeScreen = ({ history }) => {
           />
           <QuizCard
             title='Multiple Choice'
-            description='Choose the right answer out of the 4 given ones.'
+            description='Choose the right answers for the questions. '
             pointSystem='+1 pt/correct answer, -1 pt/wrong answer.'
             image='/images/multiplechoice.jpg'
             link='/multiplechoice'
             color='cyan'
           />
+          <div className='topHeader bg-white rounded-full px-6 mt-8 mb-5 hidden lg:inline'>
+            <i className='fas fa-info' />
+          </div>
+          <div className='w-full mt-3'>
+            <Message type='info'>
+              You have <i className='fas fa-ticket-alt' />{' '}
+              {Math.floor(gameTickets / 2)} <strong>Game Ticket(s)</strong>
+              <br /> Get 1 <strong>Game Ticket</strong> by finishing 2{' '}
+              <strong>Quizzes</strong>
+            </Message>
+          </div>
         </div>
         <div className='flex flex-col items-center mx-6'>
           <div className=' topHeader bg-white rounded-full px-6 mt-8 mb-5'>
@@ -70,7 +82,7 @@ const HomeScreen = ({ history }) => {
           </div>
           <QuizCard
             title='Space Invaders'
-            description='Play this shooting game using the Game Tickets you got from solving Quizzes!'
+            description='Play this shooting game! '
             pointSystem='+3 pts/correct answer.'
             image='/images/spaceinvaders.png'
             link='/spaceinvaders'
@@ -78,15 +90,12 @@ const HomeScreen = ({ history }) => {
           />
           <QuizCard
             title='Free Fall'
-            description='Answer the questions in time to keep the ball falling as deep as possible!'
+            description='Keep the ball falling! '
             pointSystem='+3 pts/correct answer.'
             image='/images/freefall.png'
             link='/freefall'
             color='emerald'
           />
-        </div>
-
-        <div className='flex flex-col items-center mx-6'>
           <div className=' topHeader bg-white rounded-full px-6 mt-8 mb-5'>
             Tests
           </div>
@@ -116,9 +125,15 @@ const HomeScreen = ({ history }) => {
                             name={test.test_name}
                             description={test.test_description}
                             type={test.type}
-                            image={`/images/test-image.jpg`}
+                            image={`/images/${test.type}-test.jpg`}
                             link={test._id}
-                            color='rose'
+                            color={
+                              test.type === 'reactiongame'
+                                ? 'yellow'
+                                : test.type === 'multiplechoice'
+                                ? 'pink'
+                                : 'red'
+                            }
                           />
                         );
                       })}
@@ -128,19 +143,8 @@ const HomeScreen = ({ history }) => {
             )}
           </div>
         </div>
-        <div className='flex flex-col items-center mx-6'>
-          <div className=' topHeader bg-white rounded-full px-6 mt-8 mb-5'>
-            <i className='fas fa-info' />
-          </div>
-          <div className='w-full mt-3'>
-            <Message type='info'>
-              You have <i className='fas fa-ticket-alt' />{' '}
-              {Math.floor(gameTickets / 2)} <strong>Game Ticket(s)</strong>
-              <br /> Get 1 <strong>Game Ticket</strong> by finishing 2{' '}
-              <strong>Quizzes</strong>
-            </Message>
-          </div>
-        </div>
+
+        <div className='flex flex-col items-center mx-6'></div>
       </div>
     </>
   );

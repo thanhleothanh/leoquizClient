@@ -62,6 +62,7 @@ const App = () => {
             <Route
               path='/tests/results/:id'
               component={TeacherTestResultScreen}
+              exact
             />
             <Route path='/' component={WelcomeScreen} exact />
           </Suspense>

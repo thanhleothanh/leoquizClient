@@ -5,7 +5,10 @@ import EndGame from './../components/EndGame';
 import Loader from './../components/Loader';
 import Meta from './../components/Meta';
 import Alert from './../components/Alert';
+import { useLocation } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
+import { getTestResult } from '../actions/testResultsActions';
+import { getTest } from '../actions/testActions';
 
 //shuffle questions fisher-yates
 const shuffle = (array) => {
@@ -47,21 +50,61 @@ const FillInTheBlank = ({ history }) => {
   const { questions, loading, error } = useSelector((state) => state.questions);
   const { userInfo } = useSelector((state) => state.userLogin);
 
+  //for the test
+  //for the test
+  const {
+    test,
+    loading: testLoading,
+    error: testError,
+  } = useSelector((state) => state.getTest);
+  const {
+    testResult,
+    loading: loadingGetTestResult,
+    error: errorGetTestResult,
+  } = useSelector((state) => state.getTestResult);
+  const location = useLocation();
+  const testID = location.pathname
+    ? location.pathname.split('/test/')[1]
+    : undefined;
+
   useEffect(() => {
+    if (testID !== undefined) dispatch(getTestResult(testID));
     if (!userInfo) history.push('/login');
   }, [userInfo, history]);
   useEffect(() => {
     if (playing && !loading && !end) {
       //if pressed PLAY button
+
       if (!shuffled.current) {
+        if (testID === undefined) {
+          //for quiz
+          shuffle(questions);
+          maxQuestion.current = questions.length;
+        } else if (test && test.questions) {
+          //for test
+          shuffle(test.questions);
+          maxQuestion.current = test.questions.length;
+        }
         shuffled.current = true;
-        maxQuestion.current = questions.length;
-        shuffle(questions);
       }
-      if (question.current === questions.length && !loading) {
+      if (
+        testID === undefined &&
+        question.current === questions.length &&
+        !loading
+      ) {
+        setEnd(true);
+      } else if (
+        testID &&
+        test &&
+        question.current === test.questions.length &&
+        !loading
+      ) {
         setEnd(true);
       } else {
-        answer1.current = questions[question.current].correct_answer;
+        answer1.current =
+          testID === undefined
+            ? questions[question.current].correct_answer
+            : test.questions[question.current].correct_answer;
         if (!triggerFirstTimeRerender) setTriggerFirstTimeRerender(true);
       }
     }
@@ -69,8 +112,13 @@ const FillInTheBlank = ({ history }) => {
 
   //pre-fectch the images
   useEffect(() => {
-    if (questions) {
+    if (testID === undefined && questions) {
       questions.map((question) => {
+        const img = new Image();
+        if (question.question_image) img.src = question.question_image;
+      });
+    } else if (test && test.questions) {
+      test.questions.map((question) => {
         const img = new Image();
         if (question.question_image) img.src = question.question_image;
       });
@@ -80,15 +128,23 @@ const FillInTheBlank = ({ history }) => {
   const playHandler = () => {
     if (!playPressed.current) {
       playPressed.current = true;
-      dispatch(
-        getQuestions({ type: 'fillintheblank', preference: preference.current })
-      );
+
+      if (testID === undefined)
+        dispatch(
+          getQuestions({
+            type: 'fillintheblank',
+            preference: preference.current,
+          })
+        );
+      else dispatch(getTest(testID));
+
       document.querySelector('.playButton').classList.add('playButtonPressed');
       setTimeout(() => {
         setPlaying(true);
       }, 2000);
     }
   };
+
   const answerHandler = (data) => {
     const submitBtn = document.getElementById('submit-btn');
     const answerForm = document.getElementById('answerForm');
@@ -144,40 +200,60 @@ const FillInTheBlank = ({ history }) => {
         title='Fill In The Blank'
         description='Leo English Quiz App for Kids | Fill in the blank Game'
       />
-      {!playing ? (
+      {loadingGetTestResult ? (
+        <></>
+      ) : errorGetTestResult ? (
+        <Alert>{errorGetTestResult}</Alert>
+      ) : !playing ? (
         <div className='w-full h-screen flex flex-col justify-center items-center'>
-          <button
-            className='playButton bg-lightBlue-600 hover:bg-lightBlue-700'
-            onClick={playHandler}
-          >
-            Play <i className='ml-3 fas fa-play' />
-          </button>
-          <div className='mt-4 flex flex-col'>
-            <label className='preferences text-lightBlue-800 dark:text-lightBlue-50'>
-              <input
-                type='radio'
-                className='form-radio w-4 h-4 md:w-7 md:h-7'
-                name='preference'
-                value='random'
-                onChange={(e) => (preference.current = e.target.value)}
-              />
-              <span className='ml-2'>Random Questions</span>
-            </label>
-            <label className='preferences text-lightBlue-800 dark:text-lightBlue-50 mt-2'>
-              <input
-                type='radio'
-                className='form-radio w-4 h-4 md:w-7 md:h-7'
-                name='preference'
-                value='newest'
-                onChange={(e) => (preference.current = e.target.value)}
-              />
-              <span className='ml-2'>New Questions</span>
-            </label>
-          </div>
-          <div className='text-base md:text-lg text-lightBlue-800 dark:text-lightBlue-50 mt-5  text-center'>
-            If a question is too hard.
-          </div>
-          <div className='text-base md:text-lg text-lightBlue-800 dark:text-lightBlue-50 text-center'>
+          {testID === undefined || (testResult && testResult.length === 0) ? (
+            <button
+              className='playButton bg-lightBlue-600 hover:bg-lightBlue-700'
+              onClick={playHandler}
+            >
+              {testID === undefined ? 'Play' : 'Go'}{' '}
+              <i className='ml-3 fas fa-play' />
+            </button>
+          ) : (
+            <>
+              <button
+                className='playButton bg-lightBlue-600 opacity-50'
+                disabled
+              >
+                {testID === undefined ? 'Play' : 'Go'}
+                <i className='ml-3 fas fa-play' />
+              </button>
+              <div className='preferences text-lightBlue-800 dark:text-lightBlue-50 mt-5'>
+                You already finished this test!
+              </div>
+            </>
+          )}
+          {testID === undefined && (
+            <div className='mt-5 flex flex-col'>
+              <label className='preferences text-lightBlue-800 dark:text-lightBlue-50'>
+                <input
+                  type='radio'
+                  className='form-radio w-4 h-4 md:w-7 md:h-7'
+                  name='preference'
+                  value='random'
+                  onChange={(e) => (preference.current = e.target.value)}
+                />
+                <span className='ml-2'>Random Questions</span>
+              </label>
+              <label className='preferences text-lightBlue-800 dark:text-lightBlue-50 mt-2'>
+                <input
+                  type='radio'
+                  className='form-radio w-4 h-4 md:w-7 md:h-7'
+                  name='preference'
+                  value='newest'
+                  onChange={(e) => (preference.current = e.target.value)}
+                />
+                <span className='ml-2'>New Questions</span>
+              </label>
+            </div>
+          )}
+          <div className='text-base text-lightBlue-800 dark:text-lightBlue-50 mt-5  text-center'>
+            If a question is too hard <br />
             Submit <strong className='font-extrabold'>-skip</strong> to skip
             that question
           </div>
@@ -190,47 +266,71 @@ const FillInTheBlank = ({ history }) => {
           history={history}
           preference={preference.current}
           type='fillintheblank'
-          questions={questions}
+          questions={testID === undefined ? questions : test.questions}
+          testID={testID}
         />
-      ) : loading ? (
+      ) : loading || testLoading ? (
         <div className='h-screen'>
           <Loader
             loader={Math.floor(Math.random() * 10) + 1}
             color={Math.floor(Math.random() * 10) + 1}
           />
         </div>
-      ) : error ? (
-        <Alert>{error}</Alert>
+      ) : error || testError ? (
+        <Alert>{error || testError}</Alert>
       ) : (
         <div className='flex justify-center lg:space-x-5 container mx-auto w-full mt-4'>
           <div className='lg:w-6/12 w-full'>
             <div className='w-full flex flex-col md:flex-row justify-center items-center px-1'>
               <div
                 className={`text-center bg-backGroundColorLight dark:bg-backGroundColorDark text-lg md:text-xl lg:text-2xl italic font-sans font-bold text-lightBlue-800 dark:text-lightBlue-50 shadow-md rounded-lg py-2 mt-2 ${
-                  question.current < maxQuestion.current &&
-                  questions[question.current] &&
-                  questions[question.current].question_image
+                  testID === undefined
+                    ? question.current < maxQuestion.current &&
+                      questions[question.current] &&
+                      questions[question.current].question_image
+                      ? 'w-full md:w-4/12'
+                      : 'w-full'
+                    : question.current < maxQuestion.current &&
+                      test.questions[question.current] &&
+                      test.questions[question.current].question_image
                     ? 'w-full md:w-4/12'
                     : 'w-full'
                 } lg:w-full`}
                 id='question'
               >
-                {question.current < maxQuestion.current &&
-                  maxQuestion.current !== 0 &&
-                  questions[question.current] &&
-                  questions[question.current].question}
+                {testID === undefined
+                  ? question.current < maxQuestion.current &&
+                    maxQuestion.current !== 0 &&
+                    questions[question.current] &&
+                    questions[question.current].question
+                  : question.current < maxQuestion.current &&
+                    maxQuestion.current !== 0 &&
+                    test.questions[question.current] &&
+                    test.questions[question.current].question}
               </div>
-              {question.current < maxQuestion.current &&
-                questions[question.current] &&
-                questions[question.current].question_image && (
-                  <div className='w-full md:w-8/12 lg:w-0 select-none mt-2 md:pl-1 lg:pl-0'>
-                    <img
-                      className='w-full object-cover overflow-hidden rounded-2xl md:max-h-96'
-                      src={questions[question.current].question_image}
-                      alt='quiz-pic'
-                    />
-                  </div>
-                )}
+              {testID === undefined
+                ? question.current < maxQuestion.current &&
+                  questions[question.current] &&
+                  questions[question.current].question_image && (
+                    <div className='w-full md:w-8/12 lg:w-0 select-none mt-2 md:pl-1 lg:pl-0'>
+                      <img
+                        className='w-full object-cover overflow-hidden rounded-2xl md:max-h-96'
+                        src={questions[question.current].question_image}
+                        alt='quiz-pic'
+                      />
+                    </div>
+                  )
+                : question.current < maxQuestion.current &&
+                  test.questions[question.current] &&
+                  test.questions[question.current].question_image && (
+                    <div className='w-full md:w-8/12 lg:w-0 select-none mt-2 md:pl-1 lg:pl-0'>
+                      <img
+                        className='w-full object-cover overflow-hidden rounded-2xl md:max-h-96'
+                        src={test.questions[question.current].question_image}
+                        alt='quiz-pic'
+                      />
+                    </div>
+                  )}
             </div>
 
             <div className='mt-6 mx-1 flex items-center bg-backGroundColorLight dark:bg-backGroundColorDark'>
@@ -287,12 +387,26 @@ const FillInTheBlank = ({ history }) => {
             </div>
           </div>
           <div className='h-screen w-0 lg:w-6/12 select-none'>
-            {question.current < maxQuestion.current &&
-            questions[question.current] &&
-            questions[question.current].question_image ? (
+            {testID === undefined ? (
+              question.current < maxQuestion.current &&
+              questions[question.current] &&
+              questions[question.current].question_image ? (
+                <img
+                  className='w-full lg:h-3/4 max-h-screen mt-2 object-cover overflow-hidden rounded-2xl'
+                  src={questions[question.current].question_image}
+                  alt='quiz-pic'
+                />
+              ) : (
+                <div className='mt-2 hidden lg:flex justify-center items-center md:w-full max-h-96 h-full bg-orange-200 dark:bg-lightBlue-900 rounded-full animate-pulse font-semibold text-lightBlue-800 dark:text-lightBlue-50'>
+                  No picture for this question!
+                </div>
+              )
+            ) : question.current < maxQuestion.current &&
+              test.questions[question.current] &&
+              test.questions[question.current].question_image ? (
               <img
                 className='w-full lg:h-3/4 max-h-screen mt-2 object-cover overflow-hidden rounded-2xl'
-                src={questions[question.current].question_image}
+                src={test.questions[question.current].question_image}
                 alt='quiz-pic'
               />
             ) : (

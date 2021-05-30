@@ -74,8 +74,14 @@ const TeacherTestScreen = ({ history, match }) => {
   //DELETE QUESTION
   //DELETE QUESTION
   const changeActiveStatus = () => {
-    setActiveStatus(!activeStatus);
-    changed.current = true;
+    if (
+      window.confirm(
+        'Are you sure to change the active status of this test! Please check everything again and make sure the test is ready!'
+      )
+    ) {
+      setActiveStatus(!activeStatus);
+      changed.current = true;
+    }
   };
 
   const updateQuestion = () => {
@@ -91,11 +97,7 @@ const TeacherTestScreen = ({ history, match }) => {
     setQuestions([...tempQuestions]);
   };
   const deleteQuestionHandler = (data) => {
-    if (
-      window.confirm(
-        `Are you sure to delete question #${data.index}, check the information again please?`
-      )
-    ) {
+    if (window.confirm(`Are you sure to delete question #${data.index}?`)) {
       deleteQuestion(data.index * 1 - 1);
       changed.current = true;
       closeModal();
@@ -167,11 +169,7 @@ const TeacherTestScreen = ({ history, match }) => {
   //REACTION GAME
   //REACTION GAME
   const postReactionHandler = (data) => {
-    if (
-      window.confirm(
-        `Are you sure to post this question, check the information again please?`
-      )
-    ) {
+    if (window.confirm(`Are you sure to post this question?`)) {
       setQuestions([
         ...questions,
         {
@@ -468,7 +466,7 @@ const TeacherTestScreen = ({ history, match }) => {
                           </tr>
                           <tr>
                             <td className='tableCell text-left'>
-                              Test is Active:
+                              Change Active status:
                             </td>
                             <td className='tableCell text-left'>
                               <i

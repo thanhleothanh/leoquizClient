@@ -68,11 +68,7 @@ const TeacherScreen = ({ history, location }) => {
   // REACTION MODAL REACTION MODAL REACTION MODAL REACTION MODAL REACTION MODAL REACTION MODAL REACTION
   // REACTION MODAL REACTION MODAL REACTION MODAL REACTION MODAL REACTION MODAL REACTION MODAL REACTION
   const postReactionHandler = (data) => {
-    if (
-      window.confirm(
-        `Are you sure to post this question, check the information again please?`
-      )
-    ) {
+    if (window.confirm(`Are you sure to post this question?`)) {
       dispatch(
         postQuestion({
           question: data.question,
@@ -172,11 +168,7 @@ const TeacherScreen = ({ history, location }) => {
   };
 
   const postFillinblankHandler = (data) => {
-    if (
-      window.confirm(
-        `Are you sure to post this question, check the information again please?`
-      )
-    ) {
+    if (window.confirm(`Are you sure to post this question?`)) {
       dispatch(
         postQuestion({
           question: data.question,
@@ -245,18 +237,19 @@ const TeacherScreen = ({ history, location }) => {
             />
 
             <label className='labelFieldAboutYou'>
-              Question's Image (use Google Images' URL only),
+              Question's Image (Copy image address, paste it here),
             </label>
             <input
               className='fieldAboutYou'
               name='question_image'
               id='question_image'
               type='text'
+              placeholder='Good to have but not required'
               autoComplete='off'
               ref={register}
             />
 
-            <label className='labelFieldAboutYou mt-1'>CORRECT ANSWER</label>
+            <label className='labelFieldAboutYou mt-2'>CORRECT ANSWER</label>
             <input
               className='fieldAboutYou '
               name='correct_answer'
@@ -520,7 +513,7 @@ const TeacherScreen = ({ history, location }) => {
                     </tbody>
                   </table>
                 </div>
-                <div className='mt-3 mx-1'>
+                <div className='my-3 mx-1'>
                   {loadingTestsTeacher ? (
                     <Loader
                       loader={Math.floor(Math.random() * 10 + 1)}
@@ -542,6 +535,13 @@ const TeacherScreen = ({ history, location }) => {
                 </div>
               </>
             )}
+          <Message type='info'>
+            Teachers, only set the active status of your tests to{' '}
+            <i className='fas fa-check text-green-500' /> when everything's
+            ready!
+            <br />
+            (When the questions are complete)
+          </Message>
         </div>
         {userInfo &&
           (userInfo.role === 'teacher' || userInfo.role === 'admin') && (
@@ -597,16 +597,6 @@ const TeacherScreen = ({ history, location }) => {
       {reactionModal()}
       {fillintheblankModal()}
       {newTestModal()}
-      {/* <Message type='info'>
-        Teachers cần phải cẩn thận khi post Fill in the blank Question, cách
-        hoạt động của hệ thống check đáp án là kiểm tra đáp áp được nhập vào với
-        đáp án trong hệ thống, trùng 100% thì mới chấp nhận. Ví dụ: đáp án của
-        câu hỏi 'This is a...' là 'cat', nếu học sinh nhập 'a cat' hoặc 'the
-        cat' thì sẽ không được hệ thống chấp nhận. Teachers hãy đặt câu hỏi sao
-        cho không khiến học sinh hiểu nhầm và nhập thừa. Ví dụ 1 câu hỏi gây học
-        sinh hiểu nhầm: 'This is...' với bức ảnh mèo bên cạnh, học sinh có thể
-        trả lời 'a cat' 'the cat'!
-      </Message> */}
     </>
   );
 };

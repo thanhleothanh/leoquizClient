@@ -15,7 +15,7 @@ module.exports = {
 
         backGroundColorLight: '#F7F3F3',
         backGroundColorDark: '#261939',
-        backGroundColorLighterDark: '#543B51',
+        backGroundColorLighterDark: '#391B4B',
       },
       animation: {
         spin: 'spin 2s linear infinite',

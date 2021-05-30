@@ -8,6 +8,7 @@ import Alert from './../components/Alert';
 import Meta from './../components/Meta';
 import { useLocation } from 'react-router-dom';
 import { getTest } from '../actions/testActions';
+import { getTestResult } from '../actions/testResultsActions';
 
 //shuffle questions fisher-yates
 const shuffle = (array) => {
@@ -56,24 +57,31 @@ const ReactionGame = ({ history }) => {
   const answer1 = useRef(0); // correct answer
   const answer2 = useRef(0); // incorrect answer
   const score = useRef(0); // current score
+
   //redux stuffs
   const dispatch = useDispatch();
   const { questions, loading, error } = useSelector((state) => state.questions);
+  const { userInfo } = useSelector((state) => state.userLogin);
+
+  //for the test
+  //for the test
   const {
     test,
     loading: testLoading,
     error: testError,
   } = useSelector((state) => state.getTest);
-  const { userInfo } = useSelector((state) => state.userLogin);
-
-  //for the test
-  //for the test
+  const {
+    testResult,
+    loading: loadingGetTestResult,
+    error: errorGetTestResult,
+  } = useSelector((state) => state.getTestResult);
   const location = useLocation();
   const testID = location.pathname
     ? location.pathname.split('/test/')[1]
     : undefined;
 
   useEffect(() => {
+    if (testID !== undefined) dispatch(getTestResult(testID));
     if (!userInfo) history.push('/login');
   }, [userInfo, history]);
 
@@ -81,6 +89,7 @@ const ReactionGame = ({ history }) => {
     //REMOVE STATE OF THE PREVIOUS QUESTION
     if (playing && !loading && !end && !error) {
       //if pressed PLAY button
+
       if (!shuffled.current) {
         if (testID === undefined) {
           //for quiz
@@ -159,11 +168,11 @@ const ReactionGame = ({ history }) => {
     if (!playPressed.current) {
       playPressed.current = true;
 
-      if (testID !== undefined) dispatch(getTest(testID));
-      else
+      if (testID === undefined)
         dispatch(
           getQuestions({ type: 'reaction', preference: preference.current })
         );
+      else dispatch(getTest(testID));
 
       document.querySelector('.playButton').classList.add('playButtonPressed');
       setTimeout(() => {
@@ -210,23 +219,40 @@ const ReactionGame = ({ history }) => {
       }, 2500);
     }
   };
+
   return (
     <div className='h-auto min-h-screen'>
       <Meta
         title='Reaction Game'
         description='Leo English Quiz App for Kids | Reaction Game'
       />
-      {!playing ? (
+      {loadingGetTestResult ? (
+        <></>
+      ) : errorGetTestResult ? (
+        <Alert>{errorGetTestResult}</Alert>
+      ) : !playing ? (
         <div className='w-full h-screen flex flex-col justify-center items-center'>
-          <button
-            className='playButton bg-purple-600 hover:bg-purple-700'
-            onClick={playHandler}
-          >
-            {testID === undefined ? 'Play' : 'Go'}
-            <i className='ml-3 fas fa-play' />
-          </button>
+          {testID === undefined || (testResult && testResult.length === 0) ? (
+            <button
+              className='playButton bg-purple-600 hover:bg-purple-700'
+              onClick={playHandler}
+            >
+              {testID === undefined ? 'Play' : 'Go'}
+              <i className='ml-3 fas fa-play' />
+            </button>
+          ) : (
+            <>
+              <button className='playButton bg-purple-600 opacity-50' disabled>
+                {testID === undefined ? 'Play' : 'Go'}
+                <i className='ml-3 fas fa-play' />
+              </button>
+              <div className='preferences text-purple-800 dark:text-purple-50 mt-5'>
+                You already finished this test!
+              </div>
+            </>
+          )}
           {testID === undefined && (
-            <div className='mt-4 flex flex-col'>
+            <div className='mt-5 flex flex-col'>
               <label className='preferences text-purple-800 dark:text-purple-50'>
                 <input
                   type='radio'

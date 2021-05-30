@@ -85,6 +85,7 @@ const ProfileScreen = ({ history }) => {
               transform: 'translate(-50%, -50%)',
               maxHeight: '70%',
               maxWidth: '80%',
+              minWidth: '40%',
             },
           }}
           contentLabel='Example Modal'
@@ -131,14 +132,11 @@ const ProfileScreen = ({ history }) => {
             />
             <div className='flex items-center justify-between outline-none mt-5'>
               <button className='buttonAboutYou' type='submit'>
-                Update (pressed only when necessary)
+                Update
               </button>
             </div>
           </form>
           <div className='flex justify-end'>
-            <div className='mr-5 text-sm text-red-900 dark:text-purple-800'>
-              Too many update requests could crash the server!
-            </div>
             <button
               className='text-base rounded-lg text-white font-bold px-5 py-2 focus:outline-none
               bg-orange-500 hover:bg-orange-700
