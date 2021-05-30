@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import { postTestResult } from '../actions/testActions';
 import { updateScore } from './../actions/userActions';
 import AnswersTable from './AnswersTable';
 
@@ -14,9 +15,10 @@ const EndGame = ({
   questions,
   game,
   freegame,
+  testID,
 }) => {
   const endScreenTailwind = `
-  hover:bg-teal-800 bg-teal-600 text-teal-50 
+  hover:bg-lightBlue-800 bg-lightBlue-600 text-lightBlue-50 
   hover:bg-rose-800 bg-rose-600 text-rose-50 
   hover:bg-orange-800 bg-orange-600 text-orange-50 
   hover:bg-lime-800 bg-lime-600 text-lime-50 
@@ -35,9 +37,16 @@ const EndGame = ({
   useEffect(() => {
     if (title === 'Congratulations!' && preference === 'newest')
       dispatch({ type: 'USER_SKIP_NEWEST', payload: type });
-    if (score !== 0) dispatch(updateScore({ score }));
+
+    if (score !== 0) {
+      dispatch(updateScore({ score }));
+    }
+    if (testID !== undefined) {
+      dispatch(postTestResult({ test: testID, score }));
+    }
+
     if (!game) {
-      if (score >= 7) dispatch({ type: 'USER_GAME_TICKETS_ADD' });
+      if (score >= 5) dispatch({ type: 'USER_GAME_TICKETS_ADD' });
     } else {
       if (freegame === undefined) dispatch({ type: 'USER_GAME_TICKETS_MINUS' });
     }

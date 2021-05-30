@@ -17,6 +17,9 @@ const FillInTheBlank = lazy(() => import('./screens/FillInTheBlank'));
 const SpaceInvaders = lazy(() => import('./screens/SpaceInvaders'));
 const FreeFall = lazy(() => import('./screens/FreeFall'));
 const TeacherTestScreen = lazy(() => import('./screens/TeacherTestScreen'));
+const TeacherTestResultScreen = lazy(() =>
+  import('./screens/TeacherTestResultScreen')
+);
 
 const App = () => {
   return (
@@ -50,12 +53,16 @@ const App = () => {
             <Route path='/scoreboard' component={Scoreboard} />
             <Route path='/profile' component={ProfileScreen} />
             <Route path='/teacher' component={TeacherScreen} />
-            <Route path='/reactiongame' component={ReactionGame} exact />
-            <Route path='/multiplechoice' component={MultipleChoice} exact />
-            <Route path='/fillintheblank' component={FillInTheBlank} exact />
+            <Route path='/reactiongame' component={ReactionGame} />
+            <Route path='/multiplechoice' component={MultipleChoice} />
+            <Route path='/fillintheblank' component={FillInTheBlank} />
             <Route path='/spaceinvaders' component={SpaceInvaders} exact />
             <Route path='/freefall' component={FreeFall} exact />
-            <Route path='/tests/:id' component={TeacherTestScreen} />
+            <Route path='/tests/:id' component={TeacherTestScreen} exact />
+            <Route
+              path='/tests/results/:id'
+              component={TeacherTestResultScreen}
+            />
             <Route path='/' component={WelcomeScreen} exact />
           </Suspense>
         </main>

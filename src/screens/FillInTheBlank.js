@@ -127,6 +127,7 @@ const FillInTheBlank = ({ history }) => {
       submitBtn.classList.remove('submitBtnFillintheblank');
       submitBtn.classList.add('disableSubmitBtnFillintheblank');
       setAnswered(!answered);
+      score.current = score.current - 1 <= 0 ? 0 : score.current - 1;
       setTimeout(() => setAnswered(false), 1000);
       setTimeout(() => {
         answerForm.disabled = false;
@@ -146,13 +147,13 @@ const FillInTheBlank = ({ history }) => {
       {!playing ? (
         <div className='w-full h-screen flex flex-col justify-center items-center'>
           <button
-            className='playButton bg-teal-600 hover:bg-teal-700'
+            className='playButton bg-lightBlue-600 hover:bg-lightBlue-700'
             onClick={playHandler}
           >
             Play <i className='ml-3 fas fa-play' />
           </button>
           <div className='mt-4 flex flex-col'>
-            <label className='preferences text-teal-800 dark:text-teal-50'>
+            <label className='preferences text-lightBlue-800 dark:text-lightBlue-50'>
               <input
                 type='radio'
                 className='form-radio w-4 h-4 md:w-7 md:h-7'
@@ -162,7 +163,7 @@ const FillInTheBlank = ({ history }) => {
               />
               <span className='ml-2'>Random Questions</span>
             </label>
-            <label className='preferences text-teal-800 dark:text-teal-50 mt-2'>
+            <label className='preferences text-lightBlue-800 dark:text-lightBlue-50 mt-2'>
               <input
                 type='radio'
                 className='form-radio w-4 h-4 md:w-7 md:h-7'
@@ -173,10 +174,10 @@ const FillInTheBlank = ({ history }) => {
               <span className='ml-2'>New Questions</span>
             </label>
           </div>
-          <div className='text-base md:text-lg text-teal-800 dark:text-teal-50 mt-5  text-center'>
+          <div className='text-base md:text-lg text-lightBlue-800 dark:text-lightBlue-50 mt-5  text-center'>
             If a question is too hard.
           </div>
-          <div className='text-base md:text-lg text-teal-800 dark:text-teal-50 text-center'>
+          <div className='text-base md:text-lg text-lightBlue-800 dark:text-lightBlue-50 text-center'>
             Submit <strong className='font-extrabold'>-skip</strong> to skip
             that question
           </div>
@@ -185,7 +186,7 @@ const FillInTheBlank = ({ history }) => {
         <EndGame
           title={endState.current}
           score={score.current}
-          color='teal'
+          color='lightBlue'
           history={history}
           preference={preference.current}
           type='fillintheblank'
@@ -205,7 +206,7 @@ const FillInTheBlank = ({ history }) => {
           <div className='lg:w-6/12 w-full'>
             <div className='w-full flex flex-col md:flex-row justify-center items-center px-1'>
               <div
-                className={`text-center bg-backGroundColorLight dark:bg-backGroundColorDark text-lg md:text-xl lg:text-2xl italic font-sans font-bold text-teal-800 dark:text-teal-50 shadow-md rounded-lg py-2 mt-2 ${
+                className={`text-center bg-backGroundColorLight dark:bg-backGroundColorDark text-lg md:text-xl lg:text-2xl italic font-sans font-bold text-lightBlue-800 dark:text-lightBlue-50 shadow-md rounded-lg py-2 mt-2 ${
                   question.current < maxQuestion.current &&
                   questions[question.current] &&
                   questions[question.current].question_image
@@ -237,7 +238,7 @@ const FillInTheBlank = ({ history }) => {
                 <form onSubmit={handleSubmit(answerHandler)} id='answerForm'>
                   <div className='flex'>
                     <input
-                      className='rounded-l-full w-full py-5 pl-8 shadow-md appearance-none font-semibold focus:ring-4 focus:ring-opacity-75 focus:ring-teal-600 focus:outline-none dark:bg-teal-900 text-teal-700 dark:text-teal-50 placeholder-teal-700 dark:placeholder-teal-50 text-sm lg:text-base'
+                      className='rounded-l-full w-full py-5 pl-8 shadow-md appearance-none font-semibold focus:ring-4 focus:ring-opacity-75 focus:ring-lightBlue-600 focus:outline-none dark:bg-lightBlue-900 text-lightBlue-700 dark:text-lightBlue-50 placeholder-lightBlue-700 dark:placeholder-lightBlue-50 text-sm lg:text-base'
                       name='answer'
                       id='answerField'
                       type='text'
@@ -256,19 +257,19 @@ const FillInTheBlank = ({ history }) => {
                   </div>
                 </form>
                 <div className='flex justify-between mt-6'>
-                  <div className='text-left italic font-mono lg:text-lg font-bold w-5/12 text-teal-800 dark:text-teal-50'>
+                  <div className='text-left italic font-mono lg:text-lg font-bold w-5/12 text-lightBlue-800 dark:text-lightBlue-50'>
                     Your Score:{' '}
                     {score.current > 9 ? score.current : '0' + score.current}
                   </div>
 
                   {answered ? (
                     !wrongAnswer.current ? (
-                      <div className='bg-emerald-600 text-center lg:text-lg font-bold italic font-sans text-white px-2 py-2 rounded-full animate-bounce w-3/12'>
+                      <div className='bg-lime-600 text-center lg:text-lg font-bold italic font-sans text-white px-2 py-2 rounded-full animate-bounce w-3/12'>
                         {answered && 'Very cool!'}
                         {/* THIS ONE! MUỐN RENDER LẠI CÁI NÀY THÌ PHẢI ĐẶT CÁI THAY ĐỔI VÀO TRONG DIV */}
                       </div>
                     ) : (
-                      <div className='bg-orange-600 text-center lg:text-lg font-bold italic font-sans text-white px-2 py-2 rounded-full animate-wiggle w-3/12'>
+                      <div className='bg-red-600 text-center lg:text-lg font-bold italic font-sans text-white px-2 py-2 rounded-full animate-wiggle w-3/12'>
                         {answered && 'Try again!'}
                         {/* THIS ONE! MUỐN RENDER LẠI CÁI NÀY THÌ PHẢI ĐẶT CÁI THAY ĐỔI VÀO TRONG DIV */}
                       </div>
@@ -278,7 +279,7 @@ const FillInTheBlank = ({ history }) => {
                       .
                     </div>
                   )}
-                  <div className='text-right italic font-mono lg:text-lg font-bold w-5/12 text-teal-800 dark:text-teal-50'>
+                  <div className='text-right italic font-mono lg:text-lg font-bold w-5/12 text-lightBlue-800 dark:text-lightBlue-50'>
                     Question: {question.current + 1}/{maxQuestion.current}
                   </div>
                 </div>
@@ -295,7 +296,7 @@ const FillInTheBlank = ({ history }) => {
                 alt='quiz-pic'
               />
             ) : (
-              <div className='mt-2 hidden lg:flex justify-center items-center md:w-full max-h-96 h-full bg-orange-200 dark:bg-teal-900 rounded-full animate-pulse font-semibold text-teal-800 dark:text-teal-50'>
+              <div className='mt-2 hidden lg:flex justify-center items-center md:w-full max-h-96 h-full bg-orange-200 dark:bg-lightBlue-900 rounded-full animate-pulse font-semibold text-lightBlue-800 dark:text-lightBlue-50'>
                 No picture for this question!
               </div>
             )}

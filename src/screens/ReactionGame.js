@@ -6,6 +6,8 @@ import CountdownTimer from './../components/CountdownTimer';
 import Loader from './../components/Loader';
 import Alert from './../components/Alert';
 import Meta from './../components/Meta';
+import { useLocation } from 'react-router-dom';
+import { getTest } from '../actions/testActions';
 
 //shuffle questions fisher-yates
 const shuffle = (array) => {
@@ -57,7 +59,19 @@ const ReactionGame = ({ history }) => {
   //redux stuffs
   const dispatch = useDispatch();
   const { questions, loading, error } = useSelector((state) => state.questions);
+  const {
+    test,
+    loading: testLoading,
+    error: testError,
+  } = useSelector((state) => state.getTest);
   const { userInfo } = useSelector((state) => state.userLogin);
+
+  //for the test
+  //for the test
+  const location = useLocation();
+  const testID = location.pathname
+    ? location.pathname.split('/test/')[1]
+    : undefined;
 
   useEffect(() => {
     if (!userInfo) history.push('/login');
@@ -68,11 +82,29 @@ const ReactionGame = ({ history }) => {
     if (playing && !loading && !end && !error) {
       //if pressed PLAY button
       if (!shuffled.current) {
-        shuffle(questions);
-        maxQuestion.current = questions.length;
+        if (testID === undefined) {
+          //for quiz
+          shuffle(questions);
+          maxQuestion.current = questions.length;
+        } else if (test && test.questions) {
+          //for test
+          shuffle(test.questions);
+          maxQuestion.current = test.questions.length;
+        }
         shuffled.current = true;
       }
-      if (question.current === questions.length && !loading) {
+      if (
+        testID === undefined &&
+        question.current === questions.length &&
+        !loading
+      ) {
+        setEnd(true);
+      } else if (
+        testID &&
+        test &&
+        question.current === test.questions.length &&
+        !loading
+      ) {
         setEnd(true);
       } else {
         remove(); //REMOVE STATE OF THE PREVIOUS QUESTION
@@ -84,12 +116,21 @@ const ReactionGame = ({ history }) => {
         answer1.current = ans1;
         answer2.current = ans2;
 
-        document.getElementById(`item-${ans1}`).classList.add('show');
-        document.getElementById(`item-${ans2}`).classList.add('show');
-        document.getElementById(`item-ans-${ans1}`).innerHTML =
-          questions[question.current].correct_answer;
-        document.getElementById(`item-ans-${ans2}`).innerHTML =
-          questions[question.current].incorrect_answers[0].incorrect_answer;
+        if (document.getElementById(`item-1`)) {
+          //cái này là để tránh lúc mà có alert error, không có item-ans1 trên màn hình mà vẫn cố mount
+          document.getElementById(`item-${ans1}`).classList.add('show');
+          document.getElementById(`item-${ans2}`).classList.add('show');
+          document.getElementById(`item-ans-${ans1}`).innerHTML =
+            testID === undefined
+              ? questions[question.current].correct_answer
+              : test.questions[question.current].correct_answer;
+          document.getElementById(`item-ans-${ans2}`).innerHTML =
+            testID === undefined
+              ? questions[question.current].incorrect_answers[0]
+                  .incorrect_answer
+              : test.questions[question.current].incorrect_answers[0]
+                  .incorrect_answer;
+        }
 
         // timer;
         const idTimeout = setTimeout(() => {
@@ -117,9 +158,13 @@ const ReactionGame = ({ history }) => {
   const playHandler = () => {
     if (!playPressed.current) {
       playPressed.current = true;
-      dispatch(
-        getQuestions({ type: 'reaction', preference: preference.current })
-      );
+
+      if (testID !== undefined) dispatch(getTest(testID));
+      else
+        dispatch(
+          getQuestions({ type: 'reaction', preference: preference.current })
+        );
+
       document.querySelector('.playButton').classList.add('playButtonPressed');
       setTimeout(() => {
         setPlaying(true);
@@ -177,30 +222,33 @@ const ReactionGame = ({ history }) => {
             className='playButton bg-purple-600 hover:bg-purple-700'
             onClick={playHandler}
           >
-            Play <i className='ml-3 fas fa-play' />
+            {testID === undefined ? 'Play' : 'Go'}
+            <i className='ml-3 fas fa-play' />
           </button>
-          <div className='mt-4 flex flex-col'>
-            <label className='preferences text-purple-800 dark:text-purple-50'>
-              <input
-                type='radio'
-                className='form-radio w-4 h-4 md:w-7 md:h-7'
-                name='preference'
-                value='random'
-                onChange={(e) => (preference.current = e.target.value)}
-              />
-              <span className='ml-2'>Random Questions</span>
-            </label>
-            <label className='preferences text-purple-800 dark:text-purple-50 mt-2'>
-              <input
-                type='radio'
-                className='form-radio w-4 h-4 md:w-7 md:h-7'
-                name='preference'
-                value='newest'
-                onChange={(e) => (preference.current = e.target.value)}
-              />
-              <span className='ml-2'>New Questions</span>
-            </label>
-          </div>
+          {testID === undefined && (
+            <div className='mt-4 flex flex-col'>
+              <label className='preferences text-purple-800 dark:text-purple-50'>
+                <input
+                  type='radio'
+                  className='form-radio w-4 h-4 md:w-7 md:h-7'
+                  name='preference'
+                  value='random'
+                  onChange={(e) => (preference.current = e.target.value)}
+                />
+                <span className='ml-2'>Random Questions</span>
+              </label>
+              <label className='preferences text-purple-800 dark:text-purple-50 mt-2'>
+                <input
+                  type='radio'
+                  className='form-radio w-4 h-4 md:w-7 md:h-7'
+                  name='preference'
+                  value='newest'
+                  onChange={(e) => (preference.current = e.target.value)}
+                />
+                <span className='ml-2'>New Questions</span>
+              </label>
+            </div>
+          )}
         </div>
       ) : end ? (
         <EndGame
@@ -210,16 +258,17 @@ const ReactionGame = ({ history }) => {
           history={history}
           preference={preference.current}
           type='reaction'
+          testID={testID}
         />
-      ) : loading ? (
+      ) : loading || testLoading ? (
         <div className='h-screen'>
           <Loader
             loader={Math.floor(Math.random() * 10) + 1}
             color={Math.floor(Math.random() * 10) + 1}
           />
         </div>
-      ) : error ? (
-        <Alert>{error}</Alert>
+      ) : error || testError ? (
+        <Alert>{error || testError}</Alert>
       ) : (
         <div className='container mx-auto mt-4'>
           <div className='flex justify-center items-center '>
@@ -227,10 +276,15 @@ const ReactionGame = ({ history }) => {
               className='text-center bg-backGroundColorLight dark:bg-backGroundColorDark text-xl lg:text-2xl italic font-sans font-bold text-purple-900 dark:text-purple-50 shadow-md rounded-lg py-2 px-3'
               id='question'
             >
-              {question.current < maxQuestion.current &&
-                maxQuestion.current !== 0 &&
-                questions[question.current] &&
-                questions[question.current].question}
+              {testID === undefined
+                ? question.current < maxQuestion.current &&
+                  maxQuestion.current !== 0 &&
+                  questions[question.current] &&
+                  questions[question.current].question
+                : question.current < maxQuestion.current &&
+                  maxQuestion.current !== 0 &&
+                  test.questions[question.current] &&
+                  test.questions[question.current].question}
             </div>
           </div>
 

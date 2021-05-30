@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  getTestTaken,
-  getScoreboard,
-  updateStar,
-} from './../actions/userActions';
+import { getScoreboard, updateStar } from './../actions/userActions';
+import { getTestResultsOfStudent } from './../actions/testResultsActions';
 import Loader from './../components/Loader';
 import Alert from './../components/Alert';
 import Meta from './../components/Meta';
@@ -31,21 +28,20 @@ const ProfileScreen = ({ history }) => {
     success: successScoreboard,
   } = useSelector((state) => state.scoreboard);
   const {
-    testTaken,
-    loading: loadingGetTestTaken,
-    error: errorGetTestTaken,
-    success: successGetTestTaken,
-  } = useSelector((state) => state.userGetTestTaken);
+    testResults,
+    loading: loadingGetTestResults,
+    error: errorGetTestResults,
+    success: successGetTestResults,
+  } = useSelector((state) => state.getTestResultsOfStudent);
 
   const dispatch = useDispatch();
   useEffect(() => {
     if (!userInfo) history.push('/login?redirect=profile');
-    // else if (testTaken === null && userInfo.role === 'student') {
-    //   dispatch(getTestTaken());
-    // }
-    else if (
-      (userInfo.role === 'teacher' || userInfo.role === 'admin') &&
-      !scoreboard
+    else if (!testResults && userInfo && userInfo.role === 'student') {
+      dispatch(getTestResultsOfStudent());
+    } else if (
+      !scoreboard &&
+      (userInfo.role === 'teacher' || userInfo.role === 'admin')
     ) {
       dispatch(getScoreboard());
     }
@@ -163,19 +159,19 @@ const ProfileScreen = ({ history }) => {
   // RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER
   // RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER
   return (
-    <div className='flex flex-col md:items-baseline md:flex-row h-auto min-h-screen w-full mt-7 mx-auto container md:space-x-2 space-y-16 md:space-y-0'>
+    <div className='flex flex-col lg:items-baseline lg:flex-row h-auto min-h-screen w-full mt-8 mx-auto container lg:space-x-2 space-y-16 lg:space-y-0'>
       <Meta
         title='About You'
         description='Leo English Quiz App for Kids | Profile'
       />
-      <div className='w-full md:w-3/5 lg:w-2/3'>
+      <div className='w-full lg:w-2/3'>
         {/* Student's Taken Test Section Student's Taken Test Section Student's Taken Test Section */}
         {/* Student's Taken Test Section Student's Taken Test Section Student's Taken Test Section */}
         {userInfo && userInfo.role === 'student' ? (
           <>
             <div className='text-center flex justify-center'>
               <h2 className=' topHeader bg-gray-50 dark:bg-backGroundColorLight rounded-t-2xl'>
-                Test Taken
+                Tests' Results
               </h2>
             </div>
             <div className='flex justify-center mx-1'>
@@ -184,14 +180,37 @@ const ProfileScreen = ({ history }) => {
                   <tr>
                     <th className='tableHead py-3 w-1/12 rounded-tl-2xl'>#</th>
                     <th className='tableHead py-3 w-2/12'>Test</th>
+                    <th className='tableHead py-3 w-5/12'>Description</th>
                     <th className='tableHead py-3 w-3/12'>By Teacher</th>
-                    <th className='tableHead py-3 w-3/12'>Taken On</th>
-                    <th className='tableHead py-3 w-3/12 rounded-tr-2xl'>
-                      Test Result
+                    <th className='tableHead py-3 w-1/12 rounded-tr-2xl'>
+                      Score
                     </th>
                   </tr>
                 </thead>
                 <tbody>
+                  {userInfo &&
+                    successGetTestResults &&
+                    testResults &&
+                    testResults.length !== 0 &&
+                    testResults.map((result, i) => {
+                      return (
+                        <tr key={result._id}>
+                          <td className='tableCell'>{i + 1}</td>
+                          <td className='tableCell'>{result.test.test_name}</td>
+                          <td className='tableCell'>
+                            {result.test.test_description}
+                          </td>
+                          <td className='tableCell'>
+                            {result.test.teacher.name[0].toUpperCase() +
+                              result.test.teacher.name.slice(1)}
+                          </td>
+                          <td className='tableCell'>
+                            {result.score}/{result.test.maxScore}
+                          </td>
+                        </tr>
+                      );
+                    })}
+
                   <tr>
                     <td className='tableCell rounded-bl-2xl'></td>
                     <td className='tableCell'></td>
@@ -203,17 +222,19 @@ const ProfileScreen = ({ history }) => {
               </table>
             </div>
             <div className='mt-3'>
-              {loadingGetTestTaken ? (
+              {loadingGetTestResults ? (
                 <Loader
                   loader={Math.floor(Math.random() * 10 + 1)}
                   color={Math.floor(Math.random() * 10 + 1)}
                 />
-              ) : errorGetTestTaken ? (
-                <Alert>{errorGetTestTaken}</Alert>
-              ) : successGetTestTaken && testTaken && testTaken.length === 0 ? (
-                <Message type='info'>You haven't taken any test</Message>
+              ) : errorGetTestResults ? (
+                <Alert>{errorGetTestResults}</Alert>
               ) : (
-                <Message type='info'>You haven't taken any test</Message>
+                successGetTestResults &&
+                testResults &&
+                testResults.length === 0 && (
+                  <Message type='info'>You haven't taken any test</Message>
+                )
               )}
             </div>
           </>
@@ -318,7 +339,7 @@ const ProfileScreen = ({ history }) => {
       {/* About you section About you section About you section About you section About you section*/}
       {/* About you section About you section About you section About you section About you section*/}
       {userInfo && (
-        <div className='w-full md:w-2/5 lg:w-1/3'>
+        <div className='w-full lg:w-1/3'>
           <ProfileForm />
         </div>
       )}

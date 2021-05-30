@@ -8,6 +8,9 @@ import {
   POST_TEST_SUCCESS,
   POST_TEST_REQUEST,
   POST_TEST_FAIL,
+  POST_TEST_RESULT_SUCCESS,
+  POST_TEST_RESULT_REQUEST,
+  POST_TEST_RESULT_FAIL,
   GET_TEST_SUCCESS,
   GET_TEST_REQUEST,
   GET_TEST_FAIL,
@@ -168,3 +171,36 @@ export const updateTest =
       });
     }
   };
+
+export const postTestResult = (newTestResult) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: POST_TEST_RESULT_REQUEST });
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+    const { data } = await axios.post(
+      `/api/testResults`,
+      newTestResult,
+      config
+    );
+
+    dispatch({ type: POST_TEST_RESULT_SUCCESS, payload: data });
+  } catch (error) {
+    const errorMessage = error.response
+      ? error.response.data.message
+      : error.response.message
+      ? error.message
+      : "There's a problem";
+
+    dispatch({
+      type: POST_TEST_RESULT_FAIL,
+      payload: errorMessage,
+    });
+  }
+};

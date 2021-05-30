@@ -17,9 +17,6 @@ import {
   USER_UPDATE_PASSWORD_SUCCESS,
   USER_UPDATE_PASSWORD_REQUEST,
   USER_UPDATE_PASSWORD_FAIL,
-  USER_GET_TESTTAKEN_FAIL,
-  USER_GET_TESTTAKEN_REQUEST,
-  USER_GET_TESTTAKEN_SUCCESS,
   GET_SCOREBOARD_FAIL,
   GET_SCOREBOARD_REQUEST,
   GET_SCOREBOARD_RESET,
@@ -96,22 +93,6 @@ export const userUpdatePasswordReducer = (state = {}, action) => {
     case USER_UPDATE_PASSWORD_SUCCESS:
       return { loading: false, success: true };
     case USER_UPDATE_PASSWORD_FAIL:
-      return { loading: false, error: action.payload };
-    default:
-      return state;
-  }
-};
-
-export const userGetTestTakenReducer = (
-  state = { testTaken: null },
-  action
-) => {
-  switch (action.type) {
-    case USER_GET_TESTTAKEN_REQUEST:
-      return { loading: true };
-    case USER_GET_TESTTAKEN_SUCCESS:
-      return { loading: false, testTaken: action.payload, success: true };
-    case USER_GET_TESTTAKEN_FAIL:
       return { loading: false, error: action.payload };
     default:
       return state;

@@ -39,7 +39,7 @@ const Scoreboard = ({ history }) => {
       ) : (
         userInfo && (
           <>
-            <div className='max-w-lg md:mx-auto text-center space-x-3 md:space-x-6 lg:space-x-12 lg:max-w-xl mt-7 flex justify-center'>
+            <div className='max-w-lg md:mx-auto text-center space-x-3 md:space-x-6 lg:space-x-12 lg:max-w-xl mt-8 flex justify-center'>
               <Loader
                 loader={Math.floor(Math.random() * 10 + 1)}
                 color={Math.floor(Math.random() * 10 + 1)}

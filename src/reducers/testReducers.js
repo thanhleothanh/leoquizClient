@@ -8,6 +8,9 @@ import {
   POST_TEST_FAIL,
   POST_TEST_REQUEST,
   POST_TEST_SUCCESS,
+  POST_TEST_RESULT_FAIL,
+  POST_TEST_RESULT_REQUEST,
+  POST_TEST_RESULT_SUCCESS,
   GET_TEST_FAIL,
   GET_TEST_REQUEST,
   GET_TEST_SUCCESS,
@@ -82,6 +85,19 @@ export const updateTestReducer = (state = {}, action) => {
       return { loading: false, error: action.payload };
     case UPDATE_TEST_RESET:
       return {};
+    default:
+      return state;
+  }
+};
+
+export const postTestResultReducer = (state = {}, action) => {
+  switch (action.type) {
+    case POST_TEST_RESULT_REQUEST:
+      return { loading: true };
+    case POST_TEST_RESULT_SUCCESS:
+      return { loading: false, testResult: action.payload, success: true };
+    case POST_TEST_RESULT_FAIL:
+      return { loading: false, error: action.payload };
     default:
       return state;
   }

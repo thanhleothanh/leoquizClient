@@ -11,13 +11,18 @@ import {
   getTestReducer,
   updateTestReducer,
   activeTestsReducer,
+  postTestResultReducer,
 } from './reducers/testReducers';
+import {
+  getTestResultReducer,
+  getTestResultsOfStudentReducer,
+  getTestResultsOfTestReducer,
+} from './reducers/testResultsReducers';
 import {
   userLoginReducer,
   userSignupReducer,
   userUpdateScoreReducer,
   userUpdatePasswordReducer,
-  userGetTestTakenReducer,
   userSkipNewestReducer,
   userUpdateStarReducer,
   userGameTicketsReducer,
@@ -33,6 +38,11 @@ const reducer = combineReducers({
   postTest: postTestReducer,
   getTest: getTestReducer,
   updateTest: updateTestReducer,
+  postTestResult: postTestResultReducer,
+  //
+  getTestResultsOfTest: getTestResultsOfTestReducer,
+  getTestResultsOfStudent: getTestResultsOfStudentReducer,
+  getTestResult: getTestResultReducer,
   //
   scoreboard: scoreboardReducer,
   userLogin: userLoginReducer,
@@ -40,7 +50,6 @@ const reducer = combineReducers({
   userUpdateScore: userUpdateScoreReducer,
   userUpdateStar: userUpdateStarReducer,
   userUpdatePassword: userUpdatePasswordReducer,
-  userGetTestTaken: userGetTestTakenReducer,
   userSkipNewest: userSkipNewestReducer,
   userGameTickets: userGameTicketsReducer,
 });

@@ -11,6 +11,7 @@ import { Link } from 'react-router-dom';
 import AnswersTable from '../components/AnswersTable';
 
 const TeacherTestScreen = ({ history, match }) => {
+  const [sendingRequest, setSendingRequest] = useState(false);
   const [questions, setQuestions] = useState([]);
   const [activeStatus, setActiveStatus] = useState(false);
   const questionType = useRef('');
@@ -60,9 +61,9 @@ const TeacherTestScreen = ({ history, match }) => {
     setDeleteQuestionModalIsOpen(false);
   };
   const addQuestion = () => {
-    if (test.type === 'reaction') setReactionModalIsOpen(true);
-    else if (test.type === 'multiple') {
-      questionType.current = 'multiple';
+    if (test.type === 'reactiongame') setReactionModalIsOpen(true);
+    else if (test.type === 'multiplechoice') {
+      questionType.current = 'multiplechoice';
       setFillintheblankModalIsOpen(true);
     } else {
       questionType.current = 'fillintheblank';
@@ -80,7 +81,8 @@ const TeacherTestScreen = ({ history, match }) => {
   const updateQuestion = () => {
     if (changed.current)
       dispatch(updateTest(match.params.id, [...questions], activeStatus));
-    history.push('/teacher');
+    setSendingRequest(true);
+    setTimeout(() => history.push('/teacher'), 1000);
   };
 
   const deleteQuestion = (index) => {
@@ -91,7 +93,7 @@ const TeacherTestScreen = ({ history, match }) => {
   const deleteQuestionHandler = (data) => {
     if (
       window.confirm(
-        `Are you sure to post this question, check the information again please?`
+        `Are you sure to delete question #${data.index}, check the information again please?`
       )
     ) {
       deleteQuestion(data.index * 1 - 1);
@@ -413,7 +415,7 @@ const TeacherTestScreen = ({ history, match }) => {
   //RENDER
   return (
     <>
-      <div className='flex flex-col md:items-baseline md:flex-row h-auto min-h-screen w-full mt-7 mx-auto container md:space-x-2 space-y-16 md:space-y-0'>
+      <div className='flex flex-col md:items-baseline md:flex-row h-auto min-h-screen w-full mt-7 mx-auto container md:space-x-2 space-y-16 md:space-y-0 px-1'>
         <Meta
           title='For Teacher'
           description='Leo English Quiz App for Kids | Teacher'
@@ -431,11 +433,11 @@ const TeacherTestScreen = ({ history, match }) => {
               {test &&
                 userInfo &&
                 (userInfo.role === 'teacher' || userInfo.role === 'admin') && (
-                  <div className='px-1 w-full md:w-2/5 lg:w-1/3'>
-                    <div className='text-left italic shadow-md font-bold text-red-800 dark:text-purple-800 text-xl lg:text-2xl w-full bg-gray-50 dark:bg-backGroundColorLight rounded-t-2xl pl-7 pt-2'>
+                  <div className='w-full md:w-2/5 lg:w-1/3'>
+                    <div className='text-left italic shadow-md font-bold text-red-800 dark:text-purple-800 text-xl lg:text-2xl w-full bg-gray-50 dark:bg-backGroundColorLight rounded-t-2xl px-7 pt-2'>
                       Test's Detail <i className='fas fa-barcode' />
                     </div>
-                    <div className='bg-gray-50 dark:bg-backGroundColorLight pb-5 pl-7 rounded-b-2xl shadow-sm'>
+                    <div className='bg-gray-50 dark:bg-backGroundColorLight pb-5 px-7 rounded-b-2xl shadow-sm'>
                       <table className='table-fixed w-full'>
                         <thead>
                           <tr>
@@ -447,7 +449,8 @@ const TeacherTestScreen = ({ history, match }) => {
                           <tr>
                             <td className='tableCell text-left'>Name:</td>
                             <td className='tableCell text-left'>
-                              {test.test_name}
+                              {test.test_name[0].toUpperCase() +
+                                test.test_name.slice(1)}
                             </td>
                           </tr>
                           <tr>
@@ -455,7 +458,8 @@ const TeacherTestScreen = ({ history, match }) => {
                               Description:
                             </td>
                             <td className='tableCell text-left'>
-                              {test.test_description}
+                              {test.test_description[0].toUpperCase() +
+                                test.test_description.slice(1)}
                             </td>
                           </tr>
                           <tr>
@@ -486,6 +490,14 @@ const TeacherTestScreen = ({ history, match }) => {
                     >
                       Save, Go back!
                     </button>
+                    <div className='mt-5'>
+                      {sendingRequest && (
+                        <Loader
+                          loader={Math.floor(Math.random() * 10 + 1)}
+                          color={Math.floor(Math.random() * 10 + 1)}
+                        />
+                      )}
+                    </div>
                   </div>
                 )}
               <div className='w-full md:w-3/5 lg:w-2/3'>

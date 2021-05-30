@@ -40,13 +40,13 @@ body {
 
 /*Free Fall game*/
 .answerTilesFreeFall {
-  @apply bg-rose-700 dark:bg-rose-700 rounded-2xl shadow-lg h-20 md:h-28 pointer-events-none select-none;
+  @apply bg-emerald-700 dark:bg-emerald-700 rounded-2xl shadow-lg h-20 md:h-28 pointer-events-none select-none;
 }
 .answersFreeFall {
   @apply h-full flex flex-col justify-center text-center text-base md:text-lg font-semibold text-gray-100;
 }
 .showFreeFall {
-  @apply bg-rose-700 dark:bg-rose-700 hover:bg-rose-600 dark:hover:bg-rose-600 rounded-2xl pointer-events-auto select-none;
+  @apply bg-emerald-700 dark:bg-emerald-700 hover:bg-emerald-600 dark:hover:bg-emerald-600 rounded-2xl pointer-events-auto select-none;
 }
 
 /*multiple choice*/
@@ -59,10 +59,10 @@ body {
 
 /*fill in the blank*/
 .submitBtnFillintheblank {
-  @apply px-3 bg-teal-600 hover:bg-teal-800 font-semibold text-base md:text-sm lg:text-base text-white rounded-r-full focus:outline-none select-none;
+  @apply px-3 bg-lightBlue-600 hover:bg-lightBlue-800 font-semibold text-base md:text-sm lg:text-base text-white rounded-r-full focus:outline-none select-none;
 }
 .disableSubmitBtnFillintheblank {
-  @apply px-3 bg-teal-600 bg-opacity-50 font-semibold text-base md:text-sm lg:text-base text-white rounded-r-full focus:outline-none select-none;
+  @apply px-3 bg-lightBlue-600 bg-opacity-50 font-semibold text-base md:text-sm lg:text-base text-white rounded-r-full focus:outline-none select-none;
 }
 
 /*answers*/
@@ -92,7 +92,15 @@ body {
   @apply text-sm md:text-base lg:text-lg text-orange-800 dark:text-purple-800 bg-gray-50 dark:bg-backGroundColorLight shadow-sm;
 }
 .tableCell {
-  @apply text-center font-medium py-2 text-xs md:text-sm lg:text-base text-orange-900 dark:text-purple-800 bg-gray-50 dark:bg-backGroundColorLight shadow-sm;
+  @apply text-center font-medium py-2 text-xs md:text-sm lg:text-base text-orange-900 dark:text-purple-800 bg-gray-50 dark:bg-backGroundColorLight;
+}
+
+/*table for TEST CARD ONLY*/
+.tableHeadTestCard {
+  @apply text-sm md:text-base lg:text-lg text-orange-800 dark:text-orange-50  bg-white dark:bg-orange-900 py-2;
+}
+.tableCellTestCard {
+  @apply font-medium py-1 text-xs md:text-sm lg:text-base text-orange-800 dark:text-orange-50 bg-white dark:bg-orange-900;
 }
 
 /**/

@@ -7,6 +7,7 @@ import Loader from './../components/Loader';
 import Alert from './../components/Alert';
 import { getActiveTests } from '../actions/testActions';
 import { activeTestsReducer } from '../reducers/testReducers';
+import TestCard from '../components/TestCard';
 
 const HomeScreen = ({ history }) => {
   const { gameTickets } = useSelector((state) => state.userGameTickets);
@@ -32,8 +33,41 @@ const HomeScreen = ({ history }) => {
     <>
       <Meta title='Home' description='Leo English Quiz App for Kids | Home' />
       <div className='grid lg:grid-cols-2 lg:gap-0 container mx-auto overflow-auto pb-5'>
-        <div className='flex flex-col items-center mx-6 mt-8'>
-          <div className=' topHeader bg-white rounded-full px-6'>Games</div>
+        <div className='flex flex-col items-center mx-6'>
+          <div className=' topHeader bg-white rounded-full px-6 mt-8 mb-5'>
+            Quizzes
+          </div>
+
+          <QuizCard
+            title='Reaction Game'
+            description='Choose the correct answer out of the 2 randomly given answers as fast as possible.'
+            pointSystem='+2 pts/correct answer, -1 pt/wrong answer.'
+            image='/images/reactiongame.jpg'
+            link='/reactiongame'
+            color='purple'
+          />
+
+          <QuizCard
+            title='Fill In The Blank'
+            description='Fill in the blank to answer the questions. '
+            pointSystem='+3 pts/correct answer.'
+            image='/images/fillintheblank.jpg'
+            link='/fillintheblank'
+            color='lightBlue'
+          />
+          <QuizCard
+            title='Multiple Choice'
+            description='Choose the right answer out of the 4 given ones.'
+            pointSystem='+1 pt/correct answer, -1 pt/wrong answer.'
+            image='/images/multiplechoice.jpg'
+            link='/multiplechoice'
+            color='cyan'
+          />
+        </div>
+        <div className='flex flex-col items-center mx-6'>
+          <div className=' topHeader bg-white rounded-full px-6 mt-8 mb-5'>
+            Games
+          </div>
           <QuizCard
             title='Space Invaders'
             description='Play this shooting game using the Game Tickets you got from solving Quizzes!'
@@ -48,49 +82,14 @@ const HomeScreen = ({ history }) => {
             pointSystem='+3 pts/correct answer.'
             image='/images/freefall.png'
             link='/freefall'
-            color='rose'
+            color='emerald'
           />
-          <div className='w-full mt-8'>
-            <Message type='info'>
-              You have <i className='fas fa-ticket-alt' />{' '}
-              {Math.floor(gameTickets / 2)} <strong>Game Ticket(s)</strong>
-              <br /> Get 1 <strong>Game Ticket</strong> by finishing 2{' '}
-              <strong>Quizzes</strong>
-            </Message>
+        </div>
+
+        <div className='flex flex-col items-center mx-6'>
+          <div className=' topHeader bg-white rounded-full px-6 mt-8 mb-5'>
+            Tests
           </div>
-        </div>
-        <div className='flex flex-col items-center mx-6 mt-8'>
-          <div className=' topHeader bg-white rounded-full px-6'>Quizzes</div>
-
-          <QuizCard
-            title='Reaction Game'
-            description='Choose the correct answer out of the 2 randomly given answers as fast as possible.'
-            pointSystem='+2 pts/correct answer, -1 pt/wrong answer.'
-            image='/images/reactiongame.jpg'
-            link='/reactiongame'
-            color='purple'
-          />
-
-          <QuizCard
-            title='Multiple Choice'
-            description='Choose the right answer out of the 4 given ones.'
-            pointSystem='+1 pt/correct answer, -1 pt/wrong answer.'
-            image='/images/multiplechoice.png'
-            link='/multiplechoice'
-            color='cyan'
-          />
-          <QuizCard
-            title='Fill In The Blank'
-            description='Fill in the blank to answer the questions. '
-            pointSystem='+3 pts/correct answer.'
-            image='/images/fillintheblank.jpg'
-            link='/fillintheblank'
-            color='teal'
-          />
-        </div>
-
-        <div className='flex flex-col items-center mx-6 mt-8'>
-          <div className=' topHeader bg-white rounded-full px-6'>Tests</div>
           <div className='w-full'>
             {loadingTests ? (
               <Loader
@@ -103,21 +102,23 @@ const HomeScreen = ({ history }) => {
             ) : (
               <>
                 {activeTests && activeTests.length === 0 ? (
-                  <Message type='info' className='mt-8'>
-                    There are no Tests from any teacher on the schedule
+                  <Message type='info' className='mt-3'>
+                    There are no Tests from any teacher on the schedule!
                   </Message>
                 ) : (
                   <>
                     {activeTests &&
                       activeTests.map((test) => {
                         return (
-                          <QuizCard
+                          <TestCard
                             key={test._id}
-                            title={test.test_name}
+                            teacher={test.teacher.name}
+                            name={test.test_name}
                             description={test.test_description}
-                            image={`/images/${test.teacher}.jpeg`}
+                            type={test.type}
+                            image={`/images/test-image.jpg`}
                             link={test._id}
-                            color='orange'
+                            color='rose'
                           />
                         );
                       })}
@@ -125,6 +126,19 @@ const HomeScreen = ({ history }) => {
                 )}
               </>
             )}
+          </div>
+        </div>
+        <div className='flex flex-col items-center mx-6'>
+          <div className=' topHeader bg-white rounded-full px-6 mt-8 mb-5'>
+            <i className='fas fa-info' />
+          </div>
+          <div className='w-full mt-3'>
+            <Message type='info'>
+              You have <i className='fas fa-ticket-alt' />{' '}
+              {Math.floor(gameTickets / 2)} <strong>Game Ticket(s)</strong>
+              <br /> Get 1 <strong>Game Ticket</strong> by finishing 2{' '}
+              <strong>Quizzes</strong>
+            </Message>
           </div>
         </div>
       </div>

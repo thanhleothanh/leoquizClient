@@ -50,6 +50,8 @@ const TeacherScreen = ({ history, location }) => {
     } else {
       if (!tests) dispatch(getTests());
       dispatch({ type: 'GET_TEST_RESET' });
+      dispatch({ type: 'GET_TEST_RESULTS_OF_TEST_RESET' });
+      dispatch({ type: 'GET_TEST_RESULTS_OF_STUDENT_RESET' });
     }
   }, [history, dispatch]);
 
@@ -392,17 +394,17 @@ const TeacherScreen = ({ history, location }) => {
                 type='radio'
                 className='form-radio w-4 h-4 md:w-7 md:h-7'
                 name='testType'
-                value='reaction'
+                value='reactiongame'
                 onChange={(e) => (testType.current = e.target.value)}
               />
-              <span className='ml-2'>Reaction</span>
+              <span className='ml-2'>Reaction Game</span>
             </label>
             <label className='preferences text-orange-800 dark:text-purple-800 mt-2'>
               <input
                 type='radio'
                 className='form-radio w-4 h-4 md:w-7 md:h-7'
                 name='testType'
-                value='multiple'
+                value='multiplechoice'
                 onChange={(e) => (testType.current = e.target.value)}
               />
               <span className='ml-2'>Multiple Choice</span>
@@ -443,18 +445,18 @@ const TeacherScreen = ({ history, location }) => {
   // RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER
   return (
     <>
-      <div className='flex flex-col md:items-baseline md:flex-row h-auto min-h-screen w-full mt-7 mx-auto container md:space-x-2 space-y-16 md:space-y-0'>
+      <div className='flex flex-col lg:items-baseline lg:flex-row h-auto min-h-screen w-full mt-8 mx-auto container lg:space-x-2 space-y-16 lg:space-y-0'>
         <Meta
           title='For Teacher'
           description='Leo English Quiz App for Kids | Teacher'
         />
-        <div className='w-full md:w-3/5 lg:w-2/3'>
+        <div className='w-full lg:w-2/3'>
           {userInfo &&
             (userInfo.role === 'teacher' || userInfo.role === 'admin') && (
               <>
                 <div className='text-center flex justify-center'>
                   <h2 className=' topHeader bg-gray-50 dark:bg-backGroundColorLight rounded-t-2xl'>
-                    Your Test |{' '}
+                    Your Tests |{' '}
                     <i
                       className='fas fa-redo-alt hover:text-orange-400 dark:hover:text-purple-400'
                       onClick={() => dispatch(getTests())}
@@ -465,13 +467,13 @@ const TeacherScreen = ({ history, location }) => {
                   <table className='table-auto w-full'>
                     <thead>
                       <tr>
-                        <th className='tableHead py-3 w-2/12 rounded-tl-2xl'>
+                        <th className='tableHead py-3 w-3/12 rounded-tl-2xl'>
                           Test
                         </th>
                         <th className='tableHead py-3 w-4/12'>Description</th>
-                        <th className='tableHead py-3 w-3/12'>Type</th>
-                        <th className='tableHead py-3 w-2/12'>Active</th>
-                        <th className='tableHead py-3 w-1/12 rounded-tr-2xl'></th>
+                        <th className='tableHead py-3 w-2/12'>Type</th>
+                        <th className='tableHead py-3 w-1/12'>Active</th>
+                        <th className='tableHead py-3 w-2/12 rounded-tr-2xl'></th>
                       </tr>
                     </thead>
                     <tbody>
@@ -499,7 +501,10 @@ const TeacherScreen = ({ history, location }) => {
                                 </td>
                                 <td className='tableCell'>
                                   <Link to={`/tests/${test._id}`}>
-                                    <i className='text-xl md:text-3xl text-lightBlue-500 hover:text-lightBlue-700 fas fa-edit' />
+                                    <i className='text-xl md:text-3xl text-lightBlue-500 hover:text-lightBlue-700 fas fa-edit' />{' '}
+                                  </Link>
+                                  <Link to={`/tests/results/${test._id}`}>
+                                    <i className='text-xl md:text-3xl text-lightBlue-500 hover:text-lightBlue-700 fas fa-poll' />
                                   </Link>
                                 </td>
                               </tr>
@@ -540,7 +545,7 @@ const TeacherScreen = ({ history, location }) => {
         </div>
         {userInfo &&
           (userInfo.role === 'teacher' || userInfo.role === 'admin') && (
-            <div className='px-1 w-full md:w-2/5 lg:w-1/3'>
+            <div className='px-1 w-full lg:w-1/3'>
               <div className='text-left italic shadow-md font-bold text-red-800 dark:text-purple-800 text-xl lg:text-2xl w-full bg-gray-50 dark:bg-backGroundColorLight rounded-t-2xl pl-7 pt-2'>
                 Teacher's Actions <i className='fas fa-marker'></i>
               </div>

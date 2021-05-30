@@ -16,14 +16,16 @@ import {
   USER_UPDATE_STAR_FAIL,
   USER_UPDATE_PASSWORD_REQUEST,
   USER_UPDATE_PASSWORD_SUCCESS,
-  USER_GET_TESTTAKEN_SUCCESS,
-  USER_GET_TESTTAKEN_FAIL,
-  USER_GET_TESTTAKEN_REQUEST,
   GET_SCOREBOARD_FAIL,
   GET_SCOREBOARD_SUCCESS,
   GET_SCOREBOARD_REQUEST,
 } from '../constants/userConstants';
 import axios from 'axios';
+import {
+  GET_TEST_RESULTS_OF_TEST_RESET,
+  GET_TEST_RESULTS_OF_STUDENT_RESET,
+  GET_TEST_RESULT_RESET,
+} from '../constants/testResultsConstants';
 
 export const login = (username, password) => async (dispatch) => {
   try {
@@ -110,6 +112,15 @@ export const signup = (username, name, password) => async (dispatch) => {
 export const logOut = () => async (dispatch) => {
   dispatch({
     type: USER_LOGOUT,
+  });
+  dispatch({
+    type: GET_TEST_RESULT_RESET,
+  });
+  dispatch({
+    type: GET_TEST_RESULTS_OF_TEST_RESET,
+  });
+  dispatch({
+    type: GET_TEST_RESULTS_OF_STUDENT_RESET,
   });
   localStorage.removeItem('userInfo');
 };
@@ -265,42 +276,6 @@ export const getScoreboard = () => async (dispatch, getState) => {
       : "There's a problem";
     dispatch({
       type: GET_SCOREBOARD_FAIL,
-      payload: errorMessage,
-    });
-  }
-};
-
-export const getTestTaken = () => async (dispatch, getState) => {
-  try {
-    dispatch({
-      type: USER_GET_TESTTAKEN_REQUEST,
-    });
-    const {
-      userLogin: { userInfo },
-    } = getState();
-
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-        authorization: `Bearer ${userInfo.token}`,
-      },
-    };
-    const { data } = await axios.get(`${`/api/users/${userInfo._id}`}`, config);
-
-    dispatch({
-      type: USER_GET_TESTTAKEN_SUCCESS,
-      payload: data,
-    });
-
-    //
-  } catch (error) {
-    const errorMessage = error.response
-      ? error.response.data.message
-      : error.response.message
-      ? error.message
-      : "There's a problem";
-    dispatch({
-      type: USER_GET_TESTTAKEN_FAIL,
       payload: errorMessage,
     });
   }

@@ -336,12 +336,12 @@ const FreeFall = ({ history }) => {
       {!playing ? (
         <div className='w-full h-screen flex flex-col justify-center items-center'>
           <button
-            className='playButton bg-rose-600 hover:bg-rose-700'
+            className='playButton bg-emerald-600 hover:bg-emerald-700'
             onClick={playHandler}
           >
             Play <i className='ml-3 fas fa-play' />
           </button>
-          <div className='text-base md:text-lg text-rose-800 dark:text-rose-50 mt-5 text-center'>
+          <div className='text-base md:text-lg text-emerald-800 dark:text-emerald-50 mt-5 text-center'>
             You can play this game without{' '}
             <strong className='font-bold'>Game Ticket(s)</strong>!
           </div>
@@ -353,7 +353,7 @@ const FreeFall = ({ history }) => {
             message='Very cool! Do some more Quizzes for more Tickets'
             history={history}
             score={score.current}
-            color='rose'
+            color='emerald'
             game={true}
             freegame={true}
           />
@@ -375,7 +375,7 @@ const FreeFall = ({ history }) => {
               <div className='mx-1 md:mx-5 mt-4'>
                 <div className='flex justify-center items-center '>
                   <div
-                    className='text-center bg-backGroundColorLight dark:bg-backGroundColorDark text-xl lg:text-2xl italic font-sans font-bold text-rose-900 dark:text-rose-50 shadow-md rounded-lg py-2 px-4'
+                    className='text-center bg-backGroundColorLight dark:bg-backGroundColorDark text-xl lg:text-2xl italic font-sans font-bold text-emerald-900 dark:text-emerald-50 shadow-md rounded-lg py-2 px-4'
                     id='question'
                   >
                     {question.current < maxQuestion.current &&
@@ -404,7 +404,7 @@ const FreeFall = ({ history }) => {
                       </li>
                     </ul>
                     <div className='flex justify-between mt-6'>
-                      <div className='text-left italic font-mono lg:text-lg font-bold w-5/12 text-rose-900 dark:text-rose-50'>
+                      <div className='text-left italic font-mono lg:text-lg font-bold w-5/12 text-emerald-900 dark:text-emerald-50'>
                         Your Score:{' '}
                         {score.current > 9
                           ? score.current
@@ -415,7 +415,7 @@ const FreeFall = ({ history }) => {
                         timerRun ? (
                           <div className='w-3/12'>
                             <CountdownTimer
-                              color='rose'
+                              color='emerald'
                               initialMinute={0}
                               initialSeconds={timerRun * 1}
                             />
@@ -434,11 +434,11 @@ const FreeFall = ({ history }) => {
                           </>
                         )
 
-                        // <div className='bg-rose-700 text-center lg:text-lg font-bold italic font-sans text-white px-2 py-2 rounded-full'>
+                        // <div className='bg-emerald-700 text-center lg:text-lg font-bold italic font-sans text-white px-2 py-2 rounded-full'>
                         //   {answered.current}
                         // </div>
                       }
-                      <div className='text-right italic font-mono lg:text-lg font-bold w-5/12 text-rose-900 dark:text-rose-50'>
+                      <div className='text-right italic font-mono lg:text-lg font-bold w-5/12 text-emerald-900 dark:text-emerald-50'>
                         Question: {question.current + 1}/{maxQuestion.current}
                       </div>
                     </div>
