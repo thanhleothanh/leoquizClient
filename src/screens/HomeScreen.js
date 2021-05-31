@@ -102,12 +102,12 @@ const HomeScreen = ({ history }) => {
           <div className='w-full'>
             {loadingTests ? (
               <Loader
-                className='mt-8'
+                className='mt-3'
                 loader={Math.floor(Math.random() * 10 + 1)}
                 color={Math.floor(Math.random() * 10 + 1)}
               />
             ) : errorTests ? (
-              <Alert className='mt-8'>{errorTests}</Alert>
+              <Alert className='mt-3'>{errorTests}</Alert>
             ) : (
               <>
                 {activeTests && activeTests.length === 0 ? (

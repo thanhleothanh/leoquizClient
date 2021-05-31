@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const textColorTailwind =
-  'text-orange-900 text-rose-900 text-lime-900 text-yellow-900 text-pink-900 text-red-900 text-indigo-900 bg-yellow-900 bg-pink-900 bg-rose-900 bg-red-900 bg-orange-900 bg-lime-900 bg-indigo-900 dark:bg-pink-900 dark:bg-yellow-900 dark:bg-red-900 dark:bg-orange-900 dark:text-pink-50 dark:bg-lime-900 dark:bg-rose-900';
+  'text-orange-900 bg-orange-900 bg-orange-600 hover:bg-orange-700 dark:bg-orange-900 bg-orange-700 text-yellow-900 bg-yellow-900 bg-yellow-600 hover:bg-yellow-700 dark:bg-yellow-900 bg-yellow-700     text-rose-900 bg-rose-900 bg-rose-600 hover:bg-rose-700 dark:bg-rose-900 bg-rose-700     text-pink-900 bg-pink-900 bg-pink-600 hover:bg-pink-700 dark:bg-pink-900 bg-pink-700';
 
 const TestCard = ({ name, description, teacher, type, image, link, color }) => {
   return (

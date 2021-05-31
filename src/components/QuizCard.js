@@ -2,7 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const textColorTailwind =
-  'text-lightBlue-900 text-emerald-900 text-lime-900 text-cyan-900 text-purple-900 text-teal-900 text-indigo-900 bg-cyan-900 bg-purple-900 bg-emerald-900 bg-teal-900 bg-lightBlue-900 bg-lime-900 bg-indigo-900 dark:bg-purple-900 dark:bg-cyan-900 dark:bg-teal-900 dark:bg-lightBlue-900 dark:text-purple-50 dark:bg-lime-900 dark:bg-emerald-900';
+  'text-teal-900 bg-teal-900 bg-teal-600 hover:bg-teal-700 dark:bg-teal-900 bg-teal-700 text-lightblue-900 bg-lightblue-900 bg-lightblue-600 hover:bg-lightblue-700 dark:bg-lightblue-900 bg-lightblue-700                                                                          text-cyan-900 bg-cyan-900 bg-cyan-600 hover:bg-cyan-700 dark:bg-cyan-900 bg-cyan-700      text-purple-900 bg-purple-900 bg-purple-600 hover:bg-purple-700 dark:bg-purple-900 bg-purple-700     text-lime-900 bg-lime-900 bg-lime-600 hover:bg-lime-700 dark:bg-lime-900 bg-lime-700  text-emerald-900 bg-emerald-900 bg-emerald-600 hover:bg-emerald-700 dark:bg-emerald-900 bg-emerald-700';
+
 const QuizCard = ({ title, description, image, link, color }) => {
   return (
     <div className='max-h-72 w-full mt-3'>
