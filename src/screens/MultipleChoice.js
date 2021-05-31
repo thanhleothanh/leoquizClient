@@ -294,7 +294,7 @@ const MultipleChoice = ({ history }) => {
           <div className='lg:w-1/2 w-full'>
             <div className='w-full flex justify-center items-center px-1'>
               <div
-                className={`text-center bg-backGroundColorLight dark:bg-backGroundColorDark text-lg md:text-xl lg:text-2xl italic font-sans font-bold  text-cyan-800 dark:text-cyan-50 shadow-md rounded-lg py-2 mt-2 ${
+                className={`text-center bg-backGroundColorLight dark:bg-backGroundColorDark text-xl lg:text-2xl italic font-sans font-bold  text-cyan-800 dark:text-cyan-50 shadow-md rounded-lg py-2 mt-2 ${
                   testID === undefined
                     ? question.current < maxQuestion.current &&
                       questions[question.current] &&

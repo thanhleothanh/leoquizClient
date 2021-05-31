@@ -283,7 +283,7 @@ const FillInTheBlank = ({ history }) => {
           <div className='lg:w-6/12 w-full'>
             <div className='w-full flex flex-col md:flex-row justify-center items-center px-1'>
               <div
-                className={`text-center bg-backGroundColorLight dark:bg-backGroundColorDark text-lg md:text-xl lg:text-2xl italic font-sans font-bold text-lightBlue-800 dark:text-lightBlue-50 shadow-md rounded-lg py-2 mt-2 ${
+                className={`text-center bg-backGroundColorLight dark:bg-backGroundColorDark text-xl lg:text-2xl italic font-sans font-bold text-lightBlue-800 dark:text-lightBlue-50 shadow-md rounded-lg py-2 mt-2 ${
                   testID === undefined
                     ? question.current < maxQuestion.current &&
                       questions[question.current] &&

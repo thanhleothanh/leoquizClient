@@ -35,7 +35,7 @@ const HomeScreen = ({ history }) => {
       <Meta title='Home' description='Leo English Quiz App for Kids | Home' />
       <div className='grid lg:grid-cols-2 lg:gap-0 container mx-auto overflow-auto pb-5'>
         <div className='flex flex-col items-center mx-6'>
-          <div className=' topHeader bg-white rounded-full px-6 mt-8 mb-5'>
+          <div className=' topHeader bg-white rounded-full mt-8 mb-5'>
             Quizzes
           </div>
 
@@ -64,7 +64,7 @@ const HomeScreen = ({ history }) => {
             link='/multiplechoice'
             color='cyan'
           />
-          <div className='topHeader bg-white rounded-full px-6 mt-8 mb-5 hidden lg:inline'>
+          <div className='topHeader bg-white rounded-full mt-8 mb-5 hidden lg:inline'>
             <i className='fas fa-info' />
           </div>
           <div className='w-full mt-3'>
@@ -77,7 +77,7 @@ const HomeScreen = ({ history }) => {
           </div>
         </div>
         <div className='flex flex-col items-center mx-6'>
-          <div className=' topHeader bg-white rounded-full px-6 mt-8 mb-5'>
+          <div className=' topHeader bg-white rounded-full mt-8 mb-5'>
             Games
           </div>
           <QuizCard
@@ -96,7 +96,7 @@ const HomeScreen = ({ history }) => {
             link='/freefall'
             color='emerald'
           />
-          <div className=' topHeader bg-white rounded-full px-6 mt-8 mb-5'>
+          <div className=' topHeader bg-white rounded-full mt-8 mb-5'>
             Tests
           </div>
           <div className='w-full'>

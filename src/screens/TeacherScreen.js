@@ -532,16 +532,16 @@ const TeacherScreen = ({ history, location }) => {
                       </Message>
                     )
                   )}
+                  <Message className='mt-3' type='info'>
+                    Teachers, only set the active status of your tests to{' '}
+                    <i className='fas fa-check text-green-500' /> when
+                    everything's ready!
+                    <br />
+                    (When the questions are complete)
+                  </Message>
                 </div>
               </>
             )}
-          <Message type='info'>
-            Teachers, only set the active status of your tests to{' '}
-            <i className='fas fa-check text-green-500' /> when everything's
-            ready!
-            <br />
-            (When the questions are complete)
-          </Message>
         </div>
         {userInfo &&
           (userInfo.role === 'teacher' || userInfo.role === 'admin') && (
