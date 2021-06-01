@@ -438,7 +438,7 @@ const TeacherScreen = ({ history, location }) => {
   // RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER
   return (
     <>
-      <div className='flex flex-col lg:items-baseline lg:flex-row h-auto min-h-screen w-full mt-8 mx-auto container lg:space-x-2 space-y-16 lg:space-y-0'>
+      <div className='flex flex-col lg:items-baseline lg:flex-row h-auto min-h-screen w-full mt-8 sm:px-10 lg:px-7 lg:space-x-2 space-y-16 lg:space-y-0'>
         <Meta
           title='For Teacher'
           description='Leo English Quiz App for Kids | Teacher'
@@ -448,7 +448,7 @@ const TeacherScreen = ({ history, location }) => {
             (userInfo.role === 'teacher' || userInfo.role === 'admin') && (
               <>
                 <div className='text-center flex justify-center'>
-                  <h2 className=' topHeader bg-gray-50 dark:bg-backGroundColorLight rounded-t-2xl'>
+                  <h2 className=' topHeader text-xl lg:text-2xl bg-gray-50 dark:bg-backGroundColorLight rounded-t-2xl'>
                     Your Tests |{' '}
                     <i
                       className='fas fa-redo-alt hover:text-orange-400 dark:hover:text-purple-400'

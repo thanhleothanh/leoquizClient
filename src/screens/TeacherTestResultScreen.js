@@ -56,7 +56,10 @@ const TeacherTestScreen = ({ history, match }) => {
 
   return (
     <>
-      <div className='flex flex-col md:items-baseline md:flex-row h-auto min-h-screen w-full mt-7 mx-auto container md:space-x-2 space-y-16 md:space-y-0 px-1'>
+      <div
+        className='flex flex-col md:items-baseline md:flex-row h-auto min-h-screen w-full mt-8 
+                   px-1 sm:px-10 md:px-1 lg:px-7 md:space-x-2 space-y-16 md:space-y-0'
+      >
         <Meta
           title='For Teacher'
           description='Leo English Quiz App for Kids | Teacher'
@@ -140,7 +143,7 @@ const TeacherTestScreen = ({ history, match }) => {
                     userInfo.role === 'admin') && (
                     <>
                       <div className='text-center flex justify-center'>
-                        <h2 className=' topHeader bg-gray-50 dark:bg-backGroundColorLight rounded-t-2xl'>
+                        <h2 className=' topHeader text-xl lg:text-2xl bg-gray-50 dark:bg-backGroundColorLight rounded-t-2xl'>
                           Results
                         </h2>
                       </div>

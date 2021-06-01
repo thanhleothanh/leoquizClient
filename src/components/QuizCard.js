@@ -19,7 +19,7 @@ const QuizCard = ({ title, description, image, link, color }) => {
         </div>
         <div className='w-7/12 flex flex-col'>
           <div
-            className={`pl-3 sm:px-3 py-2 text-base lg:text-lg font-semibold shadow-md text-${color}-900 dark:text-gray-50 flex`}
+            className={`pl-3 pr-1 sm:px-3 py-2 text-base lg:text-lg font-semibold shadow-md text-${color}-900 dark:text-gray-50 flex`}
           >
             <div className='h-full mr-2 lg:mr-3'>
               <i className='fas fa-gamepad text-xs lg:text-sm lg:-mr-1' />
@@ -27,7 +27,7 @@ const QuizCard = ({ title, description, image, link, color }) => {
             {title}
           </div>
           <div
-            className={`pl-3 sm:px-3 py-2 text-sm text-${color}-900 dark:text-gray-50 font-medium flex`}
+            className={`pl-3 pr-1 sm:px-3 py-2 text-sm text-${color}-900 dark:text-gray-50 font-medium flex`}
           >
             <div className='h-full mr-3'>
               <i className='fas fa-directions text-xs lg:text-sm' />

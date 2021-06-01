@@ -21,7 +21,7 @@ const Scoreboard = ({ history }) => {
   }, [userInfo, history, dispatch]);
 
   return (
-    <div className='flex flex-col w-full h-auto min-h-screen mx-auto container '>
+    <div className='flex flex-col w-full h-auto min-h-screen sm:px-10 lg:px-7'>
       <Meta
         title='Scoreboard'
         description='Leo English Quiz App for Kids | Scoreboard'
@@ -39,12 +39,12 @@ const Scoreboard = ({ history }) => {
       ) : (
         userInfo && (
           <>
-            <div className='max-w-lg md:mx-auto text-center space-x-3 md:space-x-6 lg:space-x-12 lg:max-w-xl mt-8 flex justify-center'>
+            <div className='max-w-lg md:mx-auto text-center space-x-3 md:space-x-6 lg:space-x-12 mt-8 flex justify-center'>
               <Loader
                 loader={Math.floor(Math.random() * 10 + 1)}
                 color={Math.floor(Math.random() * 10 + 1)}
               />
-              <h2 className=' topHeader bg-gray-50 dark:bg-backGroundColorLight rounded-t-2xl'>
+              <h2 className=' topHeader text-xl lg:text-2xl bg-gray-50 dark:bg-backGroundColorLight rounded-t-2xl'>
                 Scoreboard
               </h2>
               <Loader
@@ -53,7 +53,7 @@ const Scoreboard = ({ history }) => {
               />
             </div>
             <div className='flex justify-center mx-1'>
-              <table className='table-auto w-full lg:w-10/12'>
+              <table className='table-auto w-full'>
                 <thead>
                   <tr>
                     <th className='tableHead py-5 w-1/12 rounded-tl-2xl'>#</th>
@@ -74,11 +74,11 @@ const Scoreboard = ({ history }) => {
                         <tr key={user._id}>
                           <td className='tableCell py-2'>
                             {i === 0 ? (
-                              <i className='fas fa-hand-rock text-red-700 dark:text-teal-800 text-3xl md:text-5xl' />
+                              <i className='fas fa-hand-rock text-red-700 dark:text-teal-800 text-3xl lg:text-5xl' />
                             ) : i === 1 ? (
-                              <i className='fas fa-hand-rock text-red-500 dark:text-teal-600 text-2xl md:text-4xl' />
+                              <i className='fas fa-hand-rock text-red-500 dark:text-teal-600 text-2xl lg:text-4xl' />
                             ) : i === 2 ? (
-                              <i className='fas fa-hand-rock text-red-300 dark:text-teal-400 text-xl md:text-3xl' />
+                              <i className='fas fa-hand-rock text-red-300 dark:text-teal-400 text-xl lg:text-3xl' />
                             ) : (
                               i + 1
                             )}

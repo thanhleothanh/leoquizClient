@@ -13,7 +13,7 @@ module.exports = {
         emerald: colors.emerald,
         cyan: colors.cyan,
 
-        backGroundColorLight: '#F7F3F3',
+        backGroundColorLight: '#EFEAE6',
         backGroundColorDark: '#261939',
         backGroundColorLighterDark: '#391B4B',
       },

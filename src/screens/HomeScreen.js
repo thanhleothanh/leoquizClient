@@ -33,8 +33,8 @@ const HomeScreen = ({ history }) => {
   return (
     <>
       <Meta title='Home' description='Leo English Quiz App for Kids | Home' />
-      <div className='grid lg:grid-cols-2 lg:gap-0 container mx-auto overflow-auto pb-5'>
-        <div className='flex flex-col items-center mx-6'>
+      <div className='grid md:grid-cols-2 md:gap-0 sm:px-10 md:px-3 lg:px-7 overflow-auto pb-5'>
+        <div className='flex flex-col items-center mx-3'>
           <div className=' topHeader bg-white rounded-full mt-8 mb-5'>
             Quizzes
           </div>
@@ -64,7 +64,7 @@ const HomeScreen = ({ history }) => {
             link='/multiplechoice'
             color='cyan'
           />
-          <div className='topHeader bg-white rounded-full mt-8 mb-5 hidden lg:inline'>
+          <div className='topHeader bg-white rounded-full mt-8 mb-5 hidden md:inline'>
             <i className='fas fa-info' />
           </div>
           <div className='w-full mt-3'>
@@ -76,7 +76,7 @@ const HomeScreen = ({ history }) => {
             </Message>
           </div>
         </div>
-        <div className='flex flex-col items-center mx-6'>
+        <div className='flex flex-col items-center mx-3'>
           <div className=' topHeader bg-white rounded-full mt-8 mb-5'>
             Games
           </div>
@@ -143,8 +143,6 @@ const HomeScreen = ({ history }) => {
             )}
           </div>
         </div>
-
-        <div className='flex flex-col items-center mx-6'></div>
       </div>
     </>
   );
