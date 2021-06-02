@@ -6,7 +6,6 @@ import Message from './../components/Message';
 import Loader from './../components/Loader';
 import Alert from './../components/Alert';
 import { getActiveTests } from '../actions/testActions';
-import { activeTestsReducer } from '../reducers/testReducers';
 import TestCard from '../components/TestCard';
 
 const HomeScreen = ({ history }) => {
