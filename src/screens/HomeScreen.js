@@ -33,8 +33,8 @@ const HomeScreen = ({ history }) => {
   return (
     <>
       <Meta title='Home' description='Leo English Quiz App for Kids | Home' />
-      <div className='grid md:grid-cols-2 md:gap-0 sm:px-10 md:px-3 lg:px-7 overflow-auto pb-5'>
-        <div className='flex flex-col items-center mx-3'>
+      <div className='grid md:grid-cols-2 md:gap-5 lg:gap-9 px-6 sm:px-12 md:px-7 lg:px-20  overflow-auto pb-5'>
+        <div className='flex flex-col items-center'>
           <div className=' topHeader bg-white rounded-full mt-8 mb-5'>
             Quizzes
           </div>
@@ -47,14 +47,13 @@ const HomeScreen = ({ history }) => {
             link='/reactiongame'
             color='purple'
           />
-
           <QuizCard
             title='Fill In The Blank'
             description='Fill in the blank to answer the questions. '
             pointSystem='+3 pts/correct answer.'
             image='/images/fillintheblank.jpg'
             link='/fillintheblank'
-            color='lightBlue'
+            color='indigo'
           />
           <QuizCard
             title='Multiple Choice'
@@ -62,7 +61,7 @@ const HomeScreen = ({ history }) => {
             pointSystem='+1 pt/correct answer, -1 pt/wrong answer.'
             image='/images/multiplechoice.jpg'
             link='/multiplechoice'
-            color='cyan'
+            color='lightBlue'
           />
           <div className='topHeader bg-white rounded-full mt-8 mb-5 hidden md:inline'>
             <i className='fas fa-info' />
@@ -76,7 +75,7 @@ const HomeScreen = ({ history }) => {
             </Message>
           </div>
         </div>
-        <div className='flex flex-col items-center mx-3'>
+        <div className='flex flex-col items-center'>
           <div className=' topHeader bg-white rounded-full mt-8 mb-5'>
             Games
           </div>

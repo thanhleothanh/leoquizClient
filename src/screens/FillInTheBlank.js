@@ -101,11 +101,13 @@ const FillInTheBlank = ({ history }) => {
       ) {
         setEnd(true);
       } else {
-        answer1.current =
-          testID === undefined
-            ? questions[question.current].correct_answer
-            : test.questions[question.current].correct_answer;
-        if (!triggerFirstTimeRerender) setTriggerFirstTimeRerender(true);
+        if (questions || (test && test.questions)) {
+          answer1.current =
+            testID === undefined
+              ? questions[question.current].correct_answer
+              : test.questions[question.current].correct_answer;
+          if (!triggerFirstTimeRerender) setTriggerFirstTimeRerender(true);
+        }
       }
     }
   }, [next, playing, loading, end]);
@@ -208,7 +210,7 @@ const FillInTheBlank = ({ history }) => {
         <div className='w-full h-screen flex flex-col justify-center items-center'>
           {testID === undefined || (testResult && testResult.length === 0) ? (
             <button
-              className='playButton bg-lightBlue-600 hover:bg-lightBlue-700'
+              className='playButton bg-indigo-600 hover:bg-indigo-700'
               onClick={playHandler}
             >
               {testID === undefined ? 'Play' : 'Go'}{' '}
@@ -216,21 +218,18 @@ const FillInTheBlank = ({ history }) => {
             </button>
           ) : (
             <>
-              <button
-                className='playButton bg-lightBlue-600 opacity-50'
-                disabled
-              >
+              <button className='playButton bg-indigo-600 opacity-50' disabled>
                 {testID === undefined ? 'Play' : 'Go'}
                 <i className='ml-3 fas fa-play' />
               </button>
-              <div className='preferences text-lightBlue-800 dark:text-lightBlue-50 mt-5'>
+              <div className='preferences text-indigo-800 dark:text-indigo-50 mt-5'>
                 You already finished this test!
               </div>
             </>
           )}
           {testID === undefined && (
             <div className='mt-5 flex flex-col'>
-              <label className='preferences text-lightBlue-800 dark:text-lightBlue-50'>
+              <label className='preferences text-indigo-800 dark:text-indigo-50'>
                 <input
                   type='radio'
                   className='form-radio w-4 h-4 md:w-7 md:h-7'
@@ -240,7 +239,7 @@ const FillInTheBlank = ({ history }) => {
                 />
                 <span className='ml-2'>Random Questions</span>
               </label>
-              <label className='preferences text-lightBlue-800 dark:text-lightBlue-50 mt-2'>
+              <label className='preferences text-indigo-800 dark:text-indigo-50 mt-2'>
                 <input
                   type='radio'
                   className='form-radio w-4 h-4 md:w-7 md:h-7'
@@ -252,7 +251,7 @@ const FillInTheBlank = ({ history }) => {
               </label>
             </div>
           )}
-          <div className='text-base text-lightBlue-800 dark:text-lightBlue-50 mt-5  text-center'>
+          <div className='text-base text-indigo-800 dark:text-indigo-50 mt-5  text-center'>
             If a question is too hard <br />
             Submit <strong className='font-extrabold'>-skip</strong> to skip
             that question
@@ -262,7 +261,7 @@ const FillInTheBlank = ({ history }) => {
         <EndGame
           title={endState.current}
           score={score.current}
-          color='lightBlue'
+          color='indigo'
           history={history}
           preference={preference.current}
           type='fillintheblank'
@@ -283,7 +282,7 @@ const FillInTheBlank = ({ history }) => {
           <div className='lg:w-6/12 w-full'>
             <div className='w-full flex flex-col md:flex-row justify-center items-center px-1'>
               <div
-                className={`text-center bg-backGroundColorLight dark:bg-backGroundColorDark text-xl lg:text-2xl italic font-sans font-bold text-lightBlue-800 dark:text-lightBlue-50 shadow-md rounded-lg py-2 mt-2 ${
+                className={`text-center bg-backGroundColorLight dark:bg-backGroundColorDark text-xl lg:text-2xl italic font-sans font-bold text-indigo-800 dark:text-indigo-50 shadow-md rounded-lg py-2 mt-2 ${
                   testID === undefined
                     ? question.current < maxQuestion.current &&
                       questions[question.current] &&
@@ -338,7 +337,7 @@ const FillInTheBlank = ({ history }) => {
                 <form onSubmit={handleSubmit(answerHandler)} id='answerForm'>
                   <div className='flex'>
                     <input
-                      className='rounded-l-full w-full py-5 pl-8 shadow-md appearance-none font-semibold focus:ring-4 focus:ring-opacity-75 focus:ring-lightBlue-600 focus:outline-none dark:bg-lightBlue-900 text-lightBlue-700 dark:text-lightBlue-50 placeholder-lightBlue-700 dark:placeholder-lightBlue-50 text-sm lg:text-base'
+                      className='rounded-l-full w-full py-5 pl-8 shadow-md appearance-none font-semibold focus:ring-4 focus:ring-opacity-75 focus:ring-indigo-600 focus:outline-none dark:bg-indigo-900 text-indigo-700 dark:text-indigo-50 placeholder-indigo-700 dark:placeholder-indigo-50 text-sm lg:text-base'
                       name='answer'
                       id='answerField'
                       type='text'
@@ -357,7 +356,7 @@ const FillInTheBlank = ({ history }) => {
                   </div>
                 </form>
                 <div className='flex justify-between mt-6'>
-                  <div className='text-left italic font-mono lg:text-lg font-bold w-5/12 text-lightBlue-800 dark:text-lightBlue-50'>
+                  <div className='text-left italic font-mono lg:text-lg font-bold w-5/12 text-indigo-800 dark:text-indigo-50'>
                     Your Score:{' '}
                     {score.current > 9 ? score.current : '0' + score.current}
                   </div>
@@ -379,7 +378,7 @@ const FillInTheBlank = ({ history }) => {
                       .
                     </div>
                   )}
-                  <div className='text-right italic font-mono lg:text-lg font-bold w-5/12 text-lightBlue-800 dark:text-lightBlue-50'>
+                  <div className='text-right italic font-mono lg:text-lg font-bold w-5/12 text-indigo-800 dark:text-indigo-50'>
                     Question: {question.current + 1}/{maxQuestion.current}
                   </div>
                 </div>
@@ -397,7 +396,7 @@ const FillInTheBlank = ({ history }) => {
                   alt='quiz-pic'
                 />
               ) : (
-                <div className='mt-2 hidden lg:flex justify-center items-center md:w-full max-h-96 h-full bg-orange-200 dark:bg-lightBlue-900 rounded-full animate-pulse font-semibold text-lightBlue-800 dark:text-lightBlue-50'>
+                <div className='mt-2 hidden lg:flex justify-center items-center md:w-full max-h-96 h-full bg-orange-200 dark:bg-indigo-900 rounded-full animate-pulse font-semibold text-indigo-800 dark:text-indigo-50'>
                   No picture for this question!
                 </div>
               )
@@ -410,7 +409,7 @@ const FillInTheBlank = ({ history }) => {
                 alt='quiz-pic'
               />
             ) : (
-              <div className='mt-2 hidden lg:flex justify-center items-center md:w-full max-h-96 h-full bg-orange-200 dark:bg-lightBlue-900 rounded-full animate-pulse font-semibold text-lightBlue-800 dark:text-lightBlue-50'>
+              <div className='mt-2 hidden lg:flex justify-center items-center md:w-full max-h-96 h-full bg-orange-200 dark:bg-indigo-900 rounded-full animate-pulse font-semibold text-indigo-800 dark:text-indigo-50'>
                 No picture for this question!
               </div>
             )}

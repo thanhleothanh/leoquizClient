@@ -51,18 +51,18 @@ body {
 
 /*multiple choice*/
 .answerTilesMultipleChoice {
-  @apply rounded-2xl bg-cyan-600 shadow-xl h-16 md:h-20 lg:h-32 pointer-events-none;
+  @apply rounded-2xl bg-lightBlue-600 shadow-xl h-16 md:h-20 lg:h-32 pointer-events-none;
 }
 .showMultiple {
-  @apply hover:bg-cyan-700 rounded-2xl pointer-events-auto;
+  @apply hover:bg-lightBlue-700 rounded-2xl pointer-events-auto;
 }
 
 /*fill in the blank*/
 .submitBtnFillintheblank {
-  @apply px-3 bg-lightBlue-600 hover:bg-lightBlue-800 font-semibold text-base md:text-sm lg:text-base text-white rounded-r-full focus:outline-none select-none;
+  @apply px-3 bg-indigo-600 hover:bg-indigo-800 font-semibold text-base md:text-sm lg:text-base text-white rounded-r-full focus:outline-none select-none;
 }
 .disableSubmitBtnFillintheblank {
-  @apply px-3 bg-lightBlue-600 bg-opacity-50 font-semibold text-base md:text-sm lg:text-base text-white rounded-r-full focus:outline-none select-none;
+  @apply px-3 bg-indigo-600 bg-opacity-50 font-semibold text-base md:text-sm lg:text-base text-white rounded-r-full focus:outline-none select-none;
 }
 
 /*answers*/

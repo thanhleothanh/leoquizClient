@@ -10,6 +10,11 @@ import { useLocation } from 'react-router-dom';
 import { getTest } from '../actions/testActions';
 import { getTestResult } from '../actions/testResultsActions';
 
+//thy flow for thy test:
+//đầu tiên fetch test result với testID trên address bar, fetch ngay khi zô, useEffect
+//nếu đã có test result cho testID này nghĩa là đã làm test này rồi => GO button disabled
+//nếu chưa có thì cho bấm GO, fetch câu hỏi test
+
 const shuffle = (array) => {
   var currentIndex = array.length,
     temporaryValue,
@@ -79,9 +84,9 @@ const MultipleChoice = ({ history }) => {
     if (testID !== undefined) dispatch(getTestResult(testID));
     if (!userInfo) history.push('/login');
   }, [userInfo, history]);
+
   useEffect(() => {
     //if pressed PLAY button
-
     if (playing && !loading && !end) {
       if (!shuffled.current) {
         if (testID === undefined) {
@@ -94,6 +99,7 @@ const MultipleChoice = ({ history }) => {
           maxQuestion.current = test.questions.length;
         }
         shuffled.current = true;
+
         // timer;
         const idTimeout = setTimeout(() => {
           endState.current = 'Game Over!';
@@ -118,32 +124,40 @@ const MultipleChoice = ({ history }) => {
         clearTimeout(timerLeft.current); //clear timeout
         setEnd(true);
       } else {
-        remove(); //REMOVE STATE OF THE PREVIOUS QUESTION
+        //REMOVE STATE OF THE PREVIOUS QUESTION
+        remove();
         let ans;
         ans = Math.floor(Math.random() * 4) + 1;
         answer1.current = ans;
-        //shuffle wrong answers array
-        if (testID === undefined)
-          shuffle(questions[question.current].incorrect_answers);
-        else shuffle(test.questions[question.current].incorrect_answers);
 
-        document.getElementById(`item-ans-${ans}`).innerHTML =
-          testID === undefined
-            ? questions[question.current].correct_answer
-            : test.questions[question.current].correct_answer;
-        Array.from(document.querySelectorAll('.items')).forEach((item) =>
-          item.classList.add('showMultiple')
-        );
-
-        let j = 0;
-        for (let i = 1; i <= 4; i++) {
-          if (i === ans) continue;
-          document.getElementById(`item-ans-${i}`).innerHTML =
+        if (questions || (test && test.questions)) {
+          //cái này là để tránh lúc mà có alert error, không có item-ans1 trên màn hình mà vẫn cố mount
+          //mount correct answer
+          document.getElementById(`item-ans-${ans}`).innerHTML =
             testID === undefined
-              ? questions[question.current].incorrect_answers[j++]
-                  .incorrect_answer
-              : test.questions[question.current].incorrect_answers[j++]
-                  .incorrect_answer;
+              ? questions[question.current].correct_answer
+              : test.questions[question.current].correct_answer;
+          Array.from(document.querySelectorAll('.items')).forEach((item) =>
+            item.classList.add('showMultiple')
+          );
+
+          //shuffle wrong answers array
+          if (testID === undefined && questions)
+            shuffle(questions[question.current].incorrect_answers);
+          else if (test && test.questions)
+            shuffle(test.questions[question.current].incorrect_answers);
+
+          //mount wrong answers
+          let j = 0;
+          for (let i = 1; i <= 4; i++) {
+            if (i === ans) continue;
+            document.getElementById(`item-ans-${i}`).innerHTML =
+              testID === undefined
+                ? questions[question.current].incorrect_answers[j++]
+                    .incorrect_answer
+                : test.questions[question.current].incorrect_answers[j++]
+                    .incorrect_answer;
+          }
         }
       }
       if (!triggerFirstTimeRerender) setTriggerFirstTimeRerender(true);
@@ -228,7 +242,7 @@ const MultipleChoice = ({ history }) => {
         <div className='w-full h-screen flex flex-col justify-center items-center'>
           {testID === undefined || (testResult && testResult.length === 0) ? (
             <button
-              className='playButton bg-cyan-600 hover:bg-cyan-700'
+              className='playButton bg-lightBlue-600 hover:bg-lightBlue-700'
               onClick={playHandler}
             >
               {testID === undefined ? 'Play' : 'Go'}{' '}
@@ -236,18 +250,21 @@ const MultipleChoice = ({ history }) => {
             </button>
           ) : (
             <>
-              <button className='playButton bg-cyan-600 opacity-50' disabled>
+              <button
+                className='playButton bg-lightBlue-600 opacity-50'
+                disabled
+              >
                 {testID === undefined ? 'Play' : 'Go'}
                 <i className='ml-3 fas fa-play' />
               </button>
-              <div className='preferences text-cyan-800 dark:text-cyan-50 mt-5'>
+              <div className='preferences text-lightBlue-800 dark:text-lightBlue-50 mt-5'>
                 You already finished this test!
               </div>
             </>
           )}
           {testID === undefined && (
             <div className='mt-4 flex flex-col'>
-              <label className='preferences text-cyan-800 dark:text-cyan-50'>
+              <label className='preferences text-lightBlue-800 dark:text-lightBlue-50'>
                 <input
                   type='radio'
                   className='form-radio w-4 h-4 md:w-7 md:h-7'
@@ -257,7 +274,7 @@ const MultipleChoice = ({ history }) => {
                 />
                 <span className='ml-2'>Random Questions</span>
               </label>
-              <label className='preferences text-cyan-800 dark:text-cyan-50 mt-2'>
+              <label className='preferences text-lightBlue-800 dark:text-lightBlue-50 mt-2'>
                 <input
                   type='radio'
                   className='form-radio w-4 h-4 md:w-7 md:h-7'
@@ -274,7 +291,7 @@ const MultipleChoice = ({ history }) => {
         <EndGame
           title={endState.current}
           score={score.current}
-          color='cyan'
+          color='lightBlue'
           history={history}
           preference={preference.current}
           type='multiple'
@@ -294,7 +311,7 @@ const MultipleChoice = ({ history }) => {
           <div className='lg:w-1/2 w-full'>
             <div className='w-full flex justify-center items-center px-1'>
               <div
-                className={`text-center bg-backGroundColorLight dark:bg-backGroundColorDark text-xl lg:text-2xl italic font-sans font-bold  text-cyan-800 dark:text-cyan-50 shadow-md rounded-lg py-2 mt-2 ${
+                className={`text-center bg-backGroundColorLight dark:bg-backGroundColorDark text-xl lg:text-2xl italic font-sans font-bold  text-lightBlue-800 dark:text-lightBlue-50 shadow-md rounded-lg py-2 mt-2 ${
                   testID === undefined
                     ? question.current < maxQuestion.current &&
                       questions[question.current] &&
@@ -375,18 +392,18 @@ const MultipleChoice = ({ history }) => {
                   </li>
                 </ul>
                 <div className='flex justify-between mt-6 '>
-                  <div className='text-left italic font-mono text-base lg:text-lg font-bold w-5/12 text-cyan-800 dark:text-cyan-50'>
+                  <div className='text-left italic font-mono text-base lg:text-lg font-bold w-5/12 text-lightBlue-800 dark:text-lightBlue-50'>
                     Your Score:{' '}
                     {score.current > 9 ? score.current : '0' + score.current}
                   </div>
                   <div className='w-3/12'>
                     <CountdownTimer
-                      color='cyan'
+                      color='lightBlue'
                       initialMinute={5}
                       initialSeconds={0}
                     />
                   </div>
-                  <div className='text-right italic font-mono text-base lg:text-lg font-bold w-5/12 text-cyan-800 dark:text-cyan-50'>
+                  <div className='text-right italic font-mono text-base lg:text-lg font-bold w-5/12 text-lightBlue-800 dark:text-lightBlue-50'>
                     Question: {question.current + 1}/{maxQuestion.current}
                   </div>
                 </div>
@@ -404,7 +421,7 @@ const MultipleChoice = ({ history }) => {
                   alt='quiz-pic'
                 />
               ) : (
-                <div className='mt-4 hidden lg:flex justify-center items-center md:w-full max-h-96 h-full bg-orange-200 dark:bg-cyan-800 rounded-full animate-pulse font-semibold text-cyan-800 dark:text-cyan-50'>
+                <div className='mt-4 hidden lg:flex justify-center items-center md:w-full max-h-96 h-full bg-orange-200 dark:bg-lightBlue-800 rounded-full animate-pulse font-semibold text-lightBlue-800 dark:text-lightBlue-50'>
                   No picture for this question!
                 </div>
               )
@@ -417,7 +434,7 @@ const MultipleChoice = ({ history }) => {
                 alt='quiz-pic'
               />
             ) : (
-              <div className='mt-4 hidden lg:flex justify-center items-center md:w-full max-h-96 h-full bg-orange-200 dark:bg-cyan-800 rounded-full animate-pulse font-semibold text-cyan-800 dark:text-cyan-50'>
+              <div className='mt-4 hidden lg:flex justify-center items-center md:w-full max-h-96 h-full bg-orange-200 dark:bg-lightBlue-800 rounded-full animate-pulse font-semibold text-lightBlue-800 dark:text-lightBlue-50'>
                 No picture for this question!
               </div>
             )}

@@ -21,7 +21,7 @@ const Scoreboard = ({ history }) => {
   }, [userInfo, history, dispatch]);
 
   return (
-    <div className='flex flex-col w-full h-auto min-h-screen sm:px-10 lg:px-7'>
+    <div className='flex flex-col w-full h-auto min-h-screen sm:px-10 lg:px-24'>
       <Meta
         title='Scoreboard'
         description='Leo English Quiz App for Kids | Scoreboard'

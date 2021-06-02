@@ -8,7 +8,7 @@ const TestCard = ({ name, description, teacher, type, image, link, color }) => {
   return (
     <div className='max-h-96 w-full mt-3'>
       <div
-        className={`flex w-full min-h-full bg-white dark:bg-${color}-900 rounded-3xl shadow-lg overflow-hidden`}
+        className={`flex w-full min-h-full bg-white dark:bg-${color}-900 rounded-3xl shadow-md overflow-hidden`}
       >
         <div className='w-1/4 relative select-none'>
           <img

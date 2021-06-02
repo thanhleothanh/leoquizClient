@@ -38,6 +38,9 @@ const SpaceInvaders = ({ history }) => {
         canvas.width = canvas.offsetWidth;
         canvas.height = canvas.offsetHeight;
 
+        //class class class class class class class class class class class
+        //class class class class class class class class class class class
+        //class class class class class class class class class class class
         class Player {
           constructor(x, y, radius, color) {
             this.x = x;
@@ -119,9 +122,7 @@ const SpaceInvaders = ({ history }) => {
             this.alpha -= 0.01;
           }
         }
-        //class class class class class class class class class class class
-        //class class class class class class class class class class class
-        //class class class class class class class class class class class
+
         const w = canvas.width / 2;
         const h = canvas.height / 2;
 

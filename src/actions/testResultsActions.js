@@ -26,7 +26,7 @@ export const getTestResultsOfTest = (testID) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.get(
-      `https://leoquizapp.herokuapp.com/api/testResults/teacher/${testID}`,
+      `/api/testResults/teacher/${testID}`,
       config
     );
     dispatch({ type: GET_TEST_RESULTS_OF_TEST_SUCCESS, payload: data });
@@ -58,10 +58,7 @@ export const getTestResultsOfStudent = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(
-      `https://leoquizapp.herokuapp.com/api/testResults/student`,
-      config
-    );
+    const { data } = await axios.get(`/api/testResults/student`, config);
     dispatch({ type: GET_TEST_RESULTS_OF_STUDENT_SUCCESS, payload: data });
   } catch (error) {
     const errorMessage = error.response
@@ -91,10 +88,7 @@ export const getTestResult = (testID) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(
-      `https://leoquizapp.herokuapp.com/api/testResults/${testID}`,
-      config
-    );
+    const { data } = await axios.get(`/api/testResults/${testID}`, config);
     dispatch({ type: GET_TEST_RESULT_SUCCESS, payload: data });
   } catch (error) {
     const errorMessage = error.response

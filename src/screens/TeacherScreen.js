@@ -10,7 +10,7 @@ import Modal from 'react-modal';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 
-const TeacherScreen = ({ history, location }) => {
+const TeacherScreen = ({ history }) => {
   //modal state
   const testType = useRef('multiple');
   const questionType = useRef('');
@@ -37,7 +37,7 @@ const TeacherScreen = ({ history, location }) => {
     success: successPostTest,
   } = useSelector((state) => state.postTest);
 
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, reset } = useForm();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -63,6 +63,7 @@ const TeacherScreen = ({ history, location }) => {
     setReactionModalIsOpen(false);
     setFillintheblankModalIsOpen(false);
     setNewTestModalIsOpen(false);
+    reset();
   };
   // REACTION MODAL REACTION MODAL REACTION MODAL REACTION MODAL REACTION MODAL REACTION MODAL REACTION
   // REACTION MODAL REACTION MODAL REACTION MODAL REACTION MODAL REACTION MODAL REACTION MODAL REACTION
@@ -128,6 +129,7 @@ const TeacherScreen = ({ history, location }) => {
               className='fieldAboutYou '
               name='correct_answer'
               type='text'
+              autoComplete='off'
               required
               ref={register}
             />
@@ -136,6 +138,7 @@ const TeacherScreen = ({ history, location }) => {
               className='fieldAboutYou '
               name='incorrect_answer'
               type='text'
+              autoComplete='off'
               required
               ref={register}
             />
@@ -255,6 +258,7 @@ const TeacherScreen = ({ history, location }) => {
               name='correct_answer'
               id='correct_answer'
               type='text'
+              autoComplete='off'
               required
               ref={register}
             />
@@ -265,6 +269,7 @@ const TeacherScreen = ({ history, location }) => {
               name='incorrect_answer1'
               id='incorrect_answer1'
               type='text'
+              autoComplete='off'
               required
               ref={register}
             />
@@ -274,6 +279,7 @@ const TeacherScreen = ({ history, location }) => {
               name='incorrect_answer2'
               id='incorrect_answer2'
               type='text'
+              autoComplete='off'
               required
               ref={register}
             />
@@ -283,6 +289,7 @@ const TeacherScreen = ({ history, location }) => {
               name='incorrect_answer3'
               id='incorrect_answer3'
               type='text'
+              autoComplete='off'
               required
               ref={register}
             />
@@ -532,13 +539,6 @@ const TeacherScreen = ({ history, location }) => {
                       </Message>
                     )
                   )}
-                  <Message className='mt-3' type='info'>
-                    Teachers, only set the active status of your tests to{' '}
-                    <i className='fas fa-check text-green-500' /> when
-                    everything's ready!
-                    <br />
-                    (When the questions are complete)
-                  </Message>
                 </div>
               </>
             )}

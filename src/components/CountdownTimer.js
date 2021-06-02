@@ -10,10 +10,9 @@ const CountdownTimer = ({ initialMinute, initialSeconds, color }) => {
   bg-orange-100 bg-orange-700 bg-orange-600 dark:bg-orange-800 bg-orange-200 text-orange-800 dark:text-orange-50
   bg-indigo-100 bg-indigo-700 bg-indigo-600 dark:bg-indigo-800 bg-indigo-200 text-indigo-800 dark:text-indigo-50
   bg-purple-100 bg-purple-700 bg-purple-600 dark:bg-purple-800 bg-purple-200 text-purple-800 dark:text-purple-50
-  bg-rose-100 bg-rose-700 bg-rose-600 dark:bg-rose-800 bg-rose-200 text-rose-800 dark:text-rose-50
   bg-cyan-100 bg-cyan-700 bg-cyan-600 dark:bg-cyan-800 bg-cyan-200 text-cyan-800 dark:text-cyan-50
-  bg-teal-100 bg-teal-700 bg-teal-600 dark:bg-teal-800 bg-teal-200 text-teal-800 dark:text-teal-50
-  bg-lime-100 bg-lime-700 bg-lime-600 dark:bg-lime-800 bg-lime-200 text-lime-800 dark:text-lime-50
+  bg-emerald-100 bg-emerald-700 bg-emerald-600 dark:bg-emerald-800 bg-emerald-200 text-emerald-800 dark:text-emerald-50
+  bg-lime-100 bg-lime-700 bg-lime-600 dark:bg-lime-800 bg-lime-200 text-lime-800 dark:text-lime-50 bg-lightBlue-100 bg-lightBlue-700 bg-lightBlue-600 dark:bg-lightBlue-800 bg-lightBlue-200 text-lightBlue-800 dark:text-lightBlue-50
   `;
 
   useEffect(() => {

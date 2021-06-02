@@ -25,6 +25,7 @@ const shuffle = (array) => {
   }
   return array;
 };
+//REMOVE STATE OF THE PREVIOUS QUESTION
 const remove = () => {
   const allItems = document.querySelectorAll('.items');
   Array.from(allItems).forEach((e) => {
@@ -39,12 +40,12 @@ const remove = () => {
 };
 
 const ReactionGame = ({ history }) => {
+  //game related
   //state
   const [playing, setPlaying] = useState(false);
   const [end, setEnd] = useState(false);
   const [next, setNext] = useState(true); //next question
   const [timerRun, setTimerRun] = useState(0);
-  //game related
   //no rerendering
   const playPressed = useRef(false);
   const endState = useRef('Congratulations!');
@@ -63,7 +64,6 @@ const ReactionGame = ({ history }) => {
   const { questions, loading, error } = useSelector((state) => state.questions);
   const { userInfo } = useSelector((state) => state.userLogin);
 
-  //for the test
   //for the test
   const {
     test,
@@ -86,7 +86,6 @@ const ReactionGame = ({ history }) => {
   }, [userInfo, history]);
 
   useEffect(() => {
-    //REMOVE STATE OF THE PREVIOUS QUESTION
     if (playing && !loading && !end && !error) {
       //if pressed PLAY button
 
@@ -102,6 +101,8 @@ const ReactionGame = ({ history }) => {
         }
         shuffled.current = true;
       }
+
+      //check if reached the end of the questions
       if (
         testID === undefined &&
         question.current === questions.length &&
@@ -115,7 +116,9 @@ const ReactionGame = ({ history }) => {
         !loading
       ) {
         setEnd(true);
-      } else {
+      }
+      //else next questions
+      else {
         remove(); //REMOVE STATE OF THE PREVIOUS QUESTION
         let ans1, ans2;
         ans1 = Math.floor(Math.random() * 9) + 1;
@@ -125,7 +128,7 @@ const ReactionGame = ({ history }) => {
         answer1.current = ans1;
         answer2.current = ans2;
 
-        if (document.getElementById(`item-1`)) {
+        if (questions || (test && test.questions)) {
           //cái này là để tránh lúc mà có alert error, không có item-ans1 trên màn hình mà vẫn cố mount
           document.getElementById(`item-${ans1}`).classList.add('show');
           document.getElementById(`item-${ans2}`).classList.add('show');
@@ -139,17 +142,17 @@ const ReactionGame = ({ history }) => {
                   .incorrect_answer
               : test.questions[question.current].incorrect_answers[0]
                   .incorrect_answer;
-        }
 
-        // timer;
-        const idTimeout = setTimeout(() => {
-          endState.current = 'Game Over!';
-          setEnd(true);
-        }, 15000);
-        timerLeft.current = idTimeout;
-        setTimerRun(15);
-        // THIS ONE TRICKS THE RERENDER OF QUESTION, TIMER, QUESTION/QUESTIONS, POINTS
-        // !IMPORTANT
+          // timer;
+          const idTimeout = setTimeout(() => {
+            endState.current = 'Game Over!';
+            setEnd(true);
+          }, 15000);
+          timerLeft.current = idTimeout;
+          setTimerRun(15);
+          // THIS ONE TRICKS THE RERENDER OF QUESTION, TIMER, QUESTION/QUESTIONS, POINTS
+          // !IMPORTANT
+        }
       }
     }
   }, [next, playing, loading, end, error, questions]);

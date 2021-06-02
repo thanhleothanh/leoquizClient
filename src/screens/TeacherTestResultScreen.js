@@ -1,12 +1,9 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getTest, updateTest } from './../actions/testActions';
+import { getTest } from './../actions/testActions';
 import Loader from './../components/Loader';
 import Alert from './../components/Alert';
 import Meta from './../components/Meta';
-import Message from './../components/Message';
-import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
 import { getTestResultsOfTest } from '../actions/testResultsActions';
 
 const TeacherTestScreen = ({ history, match }) => {

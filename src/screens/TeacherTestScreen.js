@@ -3,11 +3,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getTest, updateTest } from './../actions/testActions';
 import Loader from './../components/Loader';
 import Alert from './../components/Alert';
-import Meta from './../components/Meta';
 import Message from './../components/Message';
+import Meta from './../components/Meta';
 import Modal from 'react-modal';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
 import AnswersTable from '../components/AnswersTable';
 
 const TeacherTestScreen = ({ history, match }) => {
@@ -31,7 +30,7 @@ const TeacherTestScreen = ({ history, match }) => {
     success: successGetTest,
   } = useSelector((state) => state.getTest);
 
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, reset } = useForm();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -59,6 +58,7 @@ const TeacherTestScreen = ({ history, match }) => {
     setReactionModalIsOpen(false);
     setFillintheblankModalIsOpen(false);
     setDeleteQuestionModalIsOpen(false);
+    reset();
   };
   const addQuestion = () => {
     if (test.type === 'reactiongame') setReactionModalIsOpen(true);
@@ -408,9 +408,9 @@ const TeacherTestScreen = ({ history, match }) => {
       </div>
     );
   };
-  //RENDER
-  //RENDER
-  //RENDER
+  //RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER
+  //RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER
+  //RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER
   return (
     <>
       <div
@@ -485,6 +485,13 @@ const TeacherTestScreen = ({ history, match }) => {
                         </tbody>
                       </table>
                     </div>
+                    <Message className='mt-3' type='info'>
+                      Teachers, only set the active status of your tests to{' '}
+                      <i className='fas fa-check text-green-500' /> when
+                      everything's ready!
+                      <br />
+                      (When the questions are complete)
+                    </Message>
                     <button
                       className='buttonAboutYou mt-3 rounded-2xl'
                       onClick={() => updateQuestion()}
