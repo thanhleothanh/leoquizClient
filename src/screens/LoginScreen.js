@@ -21,7 +21,7 @@ const LoginScreen = ({ history }) => {
 
   //ANIMATION
   const transition = useTransition(animation, {
-    from: { opacity: 0, scale: 0.97 },
+    from: { opacity: 0, scale: 0.99 },
     enter: { opacity: 1, scale: 1 },
   });
 
@@ -55,7 +55,7 @@ const LoginScreen = ({ history }) => {
                 Login <i className='fas fa-fingerprint' />
               </div>
               <form
-                className='bg-white dark:bg-backGroundColorLight shadow-lg rounded-b-2xl px-8 pb-3 flex flex-col w-full'
+                className='bg-white dark:bg-gray-50 shadow-lg rounded-b-2xl px-8 pb-3 flex flex-col w-full'
                 onSubmit={handleSubmit(loginHandler)}
                 id='loginForm'
               >

@@ -83,8 +83,8 @@ const MultipleChoice = ({ history }) => {
 
   //ANIMATION
   const transition = useTransition(playing, {
-    from: { opacity: 0, y: -300, x: -200 },
-    enter: { opacity: 1, y: 0, x: 0 },
+    from: { opacity: 0, x: -200 },
+    enter: { opacity: 1, x: 0 },
   });
 
   useEffect(() => {

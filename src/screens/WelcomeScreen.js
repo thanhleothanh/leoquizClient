@@ -14,7 +14,7 @@ const WelcomeScreen = ({ history }) => {
 
   //ANIMATION
   const transition = useTransition(animation, {
-    from: { opacity: 0, scale: 0.97 },
+    from: { opacity: 0, scale: 0.99 },
     enter: { opacity: 1, scale: 1 },
   });
 

@@ -109,7 +109,7 @@ const ProfileDropdown = ({ user }) => {
               className='buttonInDropdown w-full focus:outline-none'
               onClick={changeThemeHandler}
             >
-              Change Theme <i className='fas fa-adjust' />
+              Change Theme <i className='fas fa-lightbulb' />
             </button>
           </div>
         </div>

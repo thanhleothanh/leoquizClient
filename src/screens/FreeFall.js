@@ -372,7 +372,7 @@ const FreeFall = ({ history }) => {
               style={style}
               className='flex flex-col md:flex-row container mx-auto w-full'
             >
-              <div className='w-full md:w-2/5 md:h-screen mt-1 select-none md:mt-4'>
+              <div className='w-full md:w-2/5 md:h-screen mt-1 select-none md:mt-6'>
                 <canvas className='w-full h-68 md:h-3/4 lg:h-2/3 px-1 rounded-3xl overflow-hidden'></canvas>
               </div>
               <div className='w-full md:w-3/5 h-auto bg-backGroundColorLight dark:bg-backGroundColorDark'>
@@ -387,7 +387,7 @@ const FreeFall = ({ history }) => {
                   <div className='mx-1 md:mx-5 mt-4'>
                     <div className='flex justify-center items-center '>
                       <div
-                        className='text-center bg-backGroundColorLight dark:bg-backGroundColorDark text-xl lg:text-2xl italic font-sans font-bold text-emerald-900 dark:text-emerald-50 shadow-md rounded-lg py-2 px-4'
+                        className='text-center bg-backGroundColorLight dark:bg-backGroundColorDark text-xl lg:text-2xl italic font-sans font-bold text-emerald-900 dark:text-emerald-50 shadow-md rounded-lg py-2 px-4 mt-2'
                         id='question'
                       >
                         {question.current < maxQuestion.current &&

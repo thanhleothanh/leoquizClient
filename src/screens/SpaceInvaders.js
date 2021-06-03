@@ -382,7 +382,7 @@ const SpaceInvaders = ({ history }) => {
               style={style}
               className='flex flex-col h-screen container mx-auto w-full'
             >
-              <div className='w-full h-3/4 mt-1 select-none md:mt-4'>
+              <div className='w-full h-3/4 mt-1 select-none md:mt-6'>
                 <canvas className='w-full h-full rounded-3xl px-1 overflow-hidden'></canvas>
               </div>
               <div className='flex justify-between mt-3 mx-1 select-none'>

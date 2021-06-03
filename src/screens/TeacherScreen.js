@@ -452,13 +452,13 @@ const TeacherScreen = ({ history }) => {
   // RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER
   return (
     <div>
+      <Meta
+        title='For Teacher'
+        description='Leo English Quiz App for Kids | Teacher'
+      />
       {transition((style) => (
         <animated.div style={style}>
           <div className='flex flex-col lg:items-baseline lg:flex-row h-auto min-h-screen w-full mt-8 sm:px-10 lg:px-7 lg:space-x-2 space-y-16 lg:space-y-0'>
-            <Meta
-              title='For Teacher'
-              description='Leo English Quiz App for Kids | Teacher'
-            />
             <div className='w-full lg:w-2/3'>
               {userInfo &&
                 (userInfo.role === 'teacher' || userInfo.role === 'admin') && (
@@ -487,6 +487,7 @@ const TeacherScreen = ({ history }) => {
                             <th className='tableHead py-3 w-2/12 rounded-tr-2xl'></th>
                           </tr>
                         </thead>
+
                         <tbody>
                           {userInfo &&
                             successTestsTeacher &&

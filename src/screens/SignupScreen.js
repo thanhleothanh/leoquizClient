@@ -24,7 +24,7 @@ const SignupScreen = ({ history }) => {
 
   //ANIMATION
   const transition = useTransition(animation, {
-    from: { opacity: 0, scale: 0.97 },
+    from: { opacity: 0, scale: 0.99 },
     enter: { opacity: 1, scale: 1 },
   });
 
@@ -79,7 +79,7 @@ const SignupScreen = ({ history }) => {
                 Sign up <i className='fas fa-id-card-alt' />
               </div>
               <form
-                className='bg-white dark:bg-backGroundColorLight shadow-lg rounded-b-2xl px-8 pb-3 flex flex-col w-full'
+                className='bg-white dark:bg-gray-50 shadow-lg rounded-b-2xl px-8 pb-3 flex flex-col w-full'
                 onSubmit={handleSubmit(signupHandler)}
               >
                 <div className='mt-3'>
