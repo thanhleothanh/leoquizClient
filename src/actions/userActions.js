@@ -38,7 +38,7 @@ export const login = (username, password) => async (dispatch) => {
       },
     };
     const { data } = await axios.post(
-      `${`/api/users/login`}`,
+      `${`https://leoquizapp.herokuapp.com/api/users/login`}`,
       { username, password },
       config
     );
@@ -74,7 +74,7 @@ export const signup = (username, name, password) => async (dispatch) => {
       },
     };
     const { data } = await axios.post(
-      `${`/api/users/signup`}`,
+      `${`https://leoquizapp.herokuapp.com/api/users/signup`}`,
       { username, name, password },
       config
     );
@@ -141,7 +141,7 @@ export const updateScore = (score) => async (dispatch, getState) => {
       },
     };
     const { data } = await axios.patch(
-      `${`/api/users/${userInfo._id}`}`,
+      `${`https://leoquizapp.herokuapp.com/api/users/${userInfo._id}`}`,
       score,
       config
     );
@@ -181,7 +181,7 @@ export const updateStar = (star, studentId) => async (dispatch, getState) => {
       },
     };
     const { data } = await axios.patch(
-      `${`/api/users/students/${studentId}`}`,
+      `${`https://leoquizapp.herokuapp.com/api/users/students/${studentId}`}`,
       star,
       config
     );
@@ -221,7 +221,7 @@ export const updatePassword = (password) => async (dispatch, getState) => {
       },
     };
     const { data } = await axios.patch(
-      `${`/api/users/${userInfo._id}/changePassword`}`,
+      `${`https://leoquizapp.herokuapp.com/api/users/${userInfo._id}/changePassword`}`,
       password,
       config
     );
@@ -260,7 +260,10 @@ export const getScoreboard = () => async (dispatch, getState) => {
         authorization: `Bearer ${userInfo.token}`,
       },
     };
-    const { data } = await axios.get(`${`/api/users`}`, config);
+    const { data } = await axios.get(
+      `${`https://leoquizapp.herokuapp.com/api/users`}`,
+      config
+    );
 
     dispatch({
       type: GET_SCOREBOARD_SUCCESS,
