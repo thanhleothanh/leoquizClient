@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useTransition, animated } from 'react-spring';
 import { getQuestions } from './../actions/questionActions';
 import { useDispatch, useSelector } from 'react-redux';
 import EndGame from './../components/EndGame';
@@ -79,6 +80,12 @@ const MultipleChoice = ({ history }) => {
   const testID = location.pathname
     ? location.pathname.split('/test/')[1]
     : undefined;
+
+  //ANIMATION
+  const transition = useTransition(playing, {
+    from: { opacity: 0, y: -300, x: -200 },
+    enter: { opacity: 1, y: 0, x: 0 },
+  });
 
   useEffect(() => {
     if (testID !== undefined) dispatch(getTestResult(testID));
@@ -307,138 +314,149 @@ const MultipleChoice = ({ history }) => {
       ) : error || testError ? (
         <Alert>{error || testError}</Alert>
       ) : (
-        <div className='flex justify-center lg:space-x-5 container mx-auto w-full mt-4'>
-          <div className='lg:w-1/2 w-full'>
-            <div className='w-full flex justify-center items-center px-1'>
-              <div
-                className={`text-center bg-backGroundColorLight dark:bg-backGroundColorDark text-xl lg:text-2xl italic font-sans font-bold  text-lightBlue-800 dark:text-lightBlue-50 shadow-md rounded-lg py-2 mt-2 ${
-                  testID === undefined
+        <div>
+          {transition((style) => (
+            <animated.div
+              style={style}
+              className='flex justify-center lg:space-x-5 container mx-auto w-full mt-4'
+            >
+              <div className='lg:w-1/2 w-full'>
+                <div className='w-full flex justify-center items-center px-1'>
+                  <div
+                    className={`text-center bg-backGroundColorLight dark:bg-backGroundColorDark text-xl lg:text-2xl italic font-sans font-bold  text-lightBlue-800 dark:text-lightBlue-50 shadow-md rounded-lg py-2 mt-2 ${
+                      testID === undefined
+                        ? question.current < maxQuestion.current &&
+                          questions[question.current] &&
+                          questions[question.current].question_image
+                          ? 'w-3/12'
+                          : 'w-full'
+                        : question.current < maxQuestion.current &&
+                          test.questions[question.current] &&
+                          test.questions[question.current].question_image
+                        ? 'w-3/12'
+                        : 'w-full'
+                    } lg:w-full`}
+                    id='question'
+                  >
+                    {testID === undefined
+                      ? question.current < maxQuestion.current &&
+                        maxQuestion.current !== 0 &&
+                        questions[question.current].question
+                      : question.current < maxQuestion.current &&
+                        maxQuestion.current !== 0 &&
+                        test.questions[question.current].question}
+                  </div>
+                  {testID === undefined
                     ? question.current < maxQuestion.current &&
                       questions[question.current] &&
-                      questions[question.current].question_image
-                      ? 'w-3/12'
-                      : 'w-full'
+                      questions[question.current].question_image && (
+                        <div className='w-9/12 lg:w-0 select-none mt-2 pl-1 lg:pl-0'>
+                          <img
+                            className='w-full object-cover overflow-hidden rounded-2xl max-h-96'
+                            src={questions[question.current].question_image}
+                            alt='quiz-pic'
+                          />
+                        </div>
+                      )
                     : question.current < maxQuestion.current &&
                       test.questions[question.current] &&
-                      test.questions[question.current].question_image
-                    ? 'w-3/12'
-                    : 'w-full'
-                } lg:w-full`}
-                id='question'
-              >
-                {testID === undefined
-                  ? question.current < maxQuestion.current &&
-                    maxQuestion.current !== 0 &&
-                    questions[question.current].question
-                  : question.current < maxQuestion.current &&
-                    maxQuestion.current !== 0 &&
-                    test.questions[question.current].question}
+                      test.questions[question.current].question_image && (
+                        <div className='w-9/12 lg:w-0 select-none mt-2 pl-1 lg:pl-0'>
+                          <img
+                            className='w-full object-cover overflow-hidden rounded-2xl max-h-96'
+                            src={
+                              test.questions[question.current].question_image
+                            }
+                            alt='quiz-pic'
+                          />
+                        </div>
+                      )}
+                </div>
+
+                <div className='mt-6 mx-1 flex items-center bg-backGroundColorLight dark:bg-backGroundColorDark'>
+                  <div className='flex-1 max-w-2xl mx-auto'>
+                    <ul className='grid grid-cols-1 md:grid-cols-2 gap-1 md:gap-2 question-answer-container'>
+                      <li
+                        className=' answerTilesMultipleChoice items'
+                        id='item-1'
+                        onClick={() => clickHandler(1)}
+                      >
+                        <div id='item-ans-1' className='answers'></div>
+                      </li>
+                      <li
+                        className='answerTilesMultipleChoice items'
+                        id='item-2'
+                        onClick={() => clickHandler(2)}
+                      >
+                        <div id='item-ans-2' className='answers'></div>
+                      </li>
+                      <li
+                        className=' answerTilesMultipleChoice items'
+                        id='item-3'
+                        onClick={() => clickHandler(3)}
+                      >
+                        <div id='item-ans-3' className='answers'></div>
+                      </li>
+                      <li
+                        className=' answerTilesMultipleChoice items'
+                        id='item-4'
+                        onClick={() => clickHandler(4)}
+                      >
+                        <div id='item-ans-4' className='answers'></div>
+                      </li>
+                    </ul>
+                    <div className='flex justify-between mt-6 '>
+                      <div className='text-left italic font-mono text-base lg:text-lg font-bold w-5/12 text-lightBlue-800 dark:text-lightBlue-50'>
+                        Your Score:{' '}
+                        {score.current > 9
+                          ? score.current
+                          : '0' + score.current}
+                      </div>
+                      <div className='w-3/12'>
+                        <CountdownTimer
+                          color='lightBlue'
+                          initialMinute={5}
+                          initialSeconds={0}
+                        />
+                      </div>
+                      <div className='text-right italic font-mono text-base lg:text-lg font-bold w-5/12 text-lightBlue-800 dark:text-lightBlue-50'>
+                        Question: {question.current + 1}/{maxQuestion.current}
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-              {testID === undefined
-                ? question.current < maxQuestion.current &&
+              <div className='h-screen w-0 lg:w-1/2 select-none'>
+                {testID === undefined ? (
+                  question.current < maxQuestion.current &&
                   questions[question.current] &&
-                  questions[question.current].question_image && (
-                    <div className='w-9/12 lg:w-0 select-none mt-2 pl-1 lg:pl-0'>
-                      <img
-                        className='w-full object-cover overflow-hidden rounded-2xl max-h-96'
-                        src={questions[question.current].question_image}
-                        alt='quiz-pic'
-                      />
+                  questions[question.current].question_image ? (
+                    <img
+                      className='w-full lg:h-3/4 max-h-screen mt-2 object-cover overflow-hidden rounded-2xl'
+                      src={questions[question.current].question_image}
+                      alt='quiz-pic'
+                    />
+                  ) : (
+                    <div className='mt-4 hidden lg:flex justify-center items-center md:w-full max-h-96 h-full bg-orange-200 dark:bg-lightBlue-800 rounded-full animate-pulse font-semibold text-lightBlue-800 dark:text-lightBlue-50'>
+                      No picture for this question!
                     </div>
                   )
-                : question.current < maxQuestion.current &&
+                ) : question.current < maxQuestion.current &&
                   test.questions[question.current] &&
-                  test.questions[question.current].question_image && (
-                    <div className='w-9/12 lg:w-0 select-none mt-2 pl-1 lg:pl-0'>
-                      <img
-                        className='w-full object-cover overflow-hidden rounded-2xl max-h-96'
-                        src={test.questions[question.current].question_image}
-                        alt='quiz-pic'
-                      />
-                    </div>
-                  )}
-            </div>
-
-            <div className='mt-6 mx-1 flex items-center bg-backGroundColorLight dark:bg-backGroundColorDark'>
-              <div className='flex-1 max-w-2xl mx-auto'>
-                <ul className='grid grid-cols-1 md:grid-cols-2 gap-1 md:gap-2 question-answer-container'>
-                  <li
-                    className=' answerTilesMultipleChoice items'
-                    id='item-1'
-                    onClick={() => clickHandler(1)}
-                  >
-                    <div id='item-ans-1' className='answers'></div>
-                  </li>
-                  <li
-                    className='answerTilesMultipleChoice items'
-                    id='item-2'
-                    onClick={() => clickHandler(2)}
-                  >
-                    <div id='item-ans-2' className='answers'></div>
-                  </li>
-                  <li
-                    className=' answerTilesMultipleChoice items'
-                    id='item-3'
-                    onClick={() => clickHandler(3)}
-                  >
-                    <div id='item-ans-3' className='answers'></div>
-                  </li>
-                  <li
-                    className=' answerTilesMultipleChoice items'
-                    id='item-4'
-                    onClick={() => clickHandler(4)}
-                  >
-                    <div id='item-ans-4' className='answers'></div>
-                  </li>
-                </ul>
-                <div className='flex justify-between mt-6 '>
-                  <div className='text-left italic font-mono text-base lg:text-lg font-bold w-5/12 text-lightBlue-800 dark:text-lightBlue-50'>
-                    Your Score:{' '}
-                    {score.current > 9 ? score.current : '0' + score.current}
+                  test.questions[question.current].question_image ? (
+                  <img
+                    className='w-full lg:h-3/4 max-h-screen mt-2 object-cover overflow-hidden rounded-2xl'
+                    src={test.questions[question.current].question_image}
+                    alt='quiz-pic'
+                  />
+                ) : (
+                  <div className='mt-4 hidden lg:flex justify-center items-center md:w-full max-h-96 h-full bg-orange-200 dark:bg-lightBlue-800 rounded-full animate-pulse font-semibold text-lightBlue-800 dark:text-lightBlue-50'>
+                    No picture for this question!
                   </div>
-                  <div className='w-3/12'>
-                    <CountdownTimer
-                      color='lightBlue'
-                      initialMinute={5}
-                      initialSeconds={0}
-                    />
-                  </div>
-                  <div className='text-right italic font-mono text-base lg:text-lg font-bold w-5/12 text-lightBlue-800 dark:text-lightBlue-50'>
-                    Question: {question.current + 1}/{maxQuestion.current}
-                  </div>
-                </div>
+                )}
               </div>
-            </div>
-          </div>
-          <div className='h-screen w-0 lg:w-1/2 select-none'>
-            {testID === undefined ? (
-              question.current < maxQuestion.current &&
-              questions[question.current] &&
-              questions[question.current].question_image ? (
-                <img
-                  className='w-full lg:h-3/4 max-h-screen mt-2 object-cover overflow-hidden rounded-2xl'
-                  src={questions[question.current].question_image}
-                  alt='quiz-pic'
-                />
-              ) : (
-                <div className='mt-4 hidden lg:flex justify-center items-center md:w-full max-h-96 h-full bg-orange-200 dark:bg-lightBlue-800 rounded-full animate-pulse font-semibold text-lightBlue-800 dark:text-lightBlue-50'>
-                  No picture for this question!
-                </div>
-              )
-            ) : question.current < maxQuestion.current &&
-              test.questions[question.current] &&
-              test.questions[question.current].question_image ? (
-              <img
-                className='w-full lg:h-3/4 max-h-screen mt-2 object-cover overflow-hidden rounded-2xl'
-                src={test.questions[question.current].question_image}
-                alt='quiz-pic'
-              />
-            ) : (
-              <div className='mt-4 hidden lg:flex justify-center items-center md:w-full max-h-96 h-full bg-orange-200 dark:bg-lightBlue-800 rounded-full animate-pulse font-semibold text-lightBlue-800 dark:text-lightBlue-50'>
-                No picture for this question!
-              </div>
-            )}
-          </div>
+            </animated.div>
+          ))}
         </div>
       )}
     </div>

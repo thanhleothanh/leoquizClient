@@ -35,7 +35,6 @@ const Header = () => {
             distance='45'
             animation='perspective'
             touchHold='true'
-            delay='150'
             theme='transparent'
             unmountHTMLWhenHide='true'
             sticky='true'

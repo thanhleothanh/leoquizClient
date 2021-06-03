@@ -67,10 +67,10 @@ const ProfileDropdown = ({ user }) => {
 
       <Transition
         show={show}
-        enter='transition ease-out duration-75 transform'
+        enter='transition transform'
         enterFrom='opacity-0 scale-100'
         enterTo='opacity-100 scale-100'
-        leave='transition ease-in duration-75 transform'
+        leave='transition transform'
         leaveFrom='opacity-100 scale-100'
         leaveTo='opacity-0 scale-100'
       >

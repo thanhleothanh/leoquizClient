@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
+import { useTransition, animated } from 'react-spring';
 import { useSelector } from 'react-redux';
 import CountdownTimer from '../components/CountdownTimer';
 import EndGame from '../components/EndGame';
@@ -18,6 +19,12 @@ const SpaceInvaders = ({ history }) => {
 
   const { userInfo } = useSelector((state) => state.userLogin);
   const { gameTickets } = useSelector((state) => state.userGameTickets);
+
+  //ANIMATION
+  const transition = useTransition(playing, {
+    from: { opacity: 0, y: 200, scale: 0.8 },
+    enter: { opacity: 1, y: 0, scale: 1 },
+  });
 
   useEffect(() => {
     let animationId;
@@ -370,24 +377,31 @@ const SpaceInvaders = ({ history }) => {
         />
       ) : (
         <>
-          <div className='w-full h-4/5 mt-1 select-none'>
-            <canvas className='w-full h-full rounded-3xl px-1 overflow-hidden'></canvas>
-          </div>
-          <div className='flex justify-between mt-3 mx-1 select-none'>
-            <div className='text-left italic font-mono text-base lg:text-lg font-bold w-1/2 text-lime-800 dark:text-lime-50'>
-              Your Score: {score > 9 ? score : '0' + score}
-            </div>
-
-            {
-              <div className='w-1/2'>
-                <CountdownTimer
-                  color='lime'
-                  initialMinute={4}
-                  initialSeconds={0}
-                />
+          {transition((style) => (
+            <animated.div
+              style={style}
+              className='flex flex-col h-screen container mx-auto w-full'
+            >
+              <div className='w-full h-3/4 mt-1 select-none md:mt-4'>
+                <canvas className='w-full h-full rounded-3xl px-1 overflow-hidden'></canvas>
               </div>
-            }
-          </div>
+              <div className='flex justify-between mt-3 mx-1 select-none'>
+                <div className='text-left italic font-mono text-base lg:text-lg font-bold w-1/2 text-lime-800 dark:text-lime-50'>
+                  Your Score: {score > 9 ? score : '0' + score}
+                </div>
+
+                {
+                  <div className='w-1/2'>
+                    <CountdownTimer
+                      color='lime'
+                      initialMinute={4}
+                      initialSeconds={0}
+                    />
+                  </div>
+                }
+              </div>
+            </animated.div>
+          ))}
         </>
       )}
     </div>

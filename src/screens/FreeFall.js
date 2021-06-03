@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
+import { useTransition, animated } from 'react-spring';
 import { useSelector, useDispatch } from 'react-redux';
 import CountdownTimer from '../components/CountdownTimer';
 import EndGame from '../components/EndGame';
@@ -45,6 +46,12 @@ const FreeFall = ({ history }) => {
   const dispatch = useDispatch();
   const { questions, loading, error } = useSelector((state) => state.questions);
   const { userInfo } = useSelector((state) => state.userLogin);
+
+  //ANIMATION
+  const transition = useTransition(playing, {
+    from: { opacity: 0, y: -200, scale: 0.8 },
+    enter: { opacity: 1, y: 0, scale: 1 },
+  });
 
   useEffect(() => {
     if (!userInfo) history.push('/login');
@@ -360,93 +367,107 @@ const FreeFall = ({ history }) => {
         </div>
       ) : (
         <>
-          <div className='w-full md:w-2/5 md:h-screen mt-1 select-none'>
-            <canvas className='w-full h-96 md:h-4/5 px-1 rounded-3xl overflow-hidden'></canvas>
-          </div>
-          <div className='w-full md:w-3/5 h-auto bg-backGroundColorLight dark:bg-backGroundColorDark'>
-            {loading ? (
-              <div className='mt-3'>
-                <Loader
-                  loader={Math.floor(Math.random() * 10 + 1)}
-                  color={Math.floor(Math.random() * 10 + 1)}
-                />
+          {transition((style) => (
+            <animated.div
+              style={style}
+              className='flex flex-col md:flex-row container mx-auto w-full'
+            >
+              <div className='w-full md:w-2/5 md:h-screen mt-1 select-none md:mt-4'>
+                <canvas className='w-full h-68 md:h-3/4 lg:h-2/3 px-1 rounded-3xl overflow-hidden'></canvas>
               </div>
-            ) : (
-              <div className='mx-1 md:mx-5 mt-4'>
-                <div className='flex justify-center items-center '>
-                  <div
-                    className='text-center bg-backGroundColorLight dark:bg-backGroundColorDark text-xl lg:text-2xl italic font-sans font-bold text-emerald-900 dark:text-emerald-50 shadow-md rounded-lg py-2 px-4'
-                    id='question'
-                  >
-                    {question.current < maxQuestion.current &&
-                      maxQuestion.current !== 0 &&
-                      questions[question.current] &&
-                      questions[question.current].question}
+              <div className='w-full md:w-3/5 h-auto bg-backGroundColorLight dark:bg-backGroundColorDark'>
+                {loading ? (
+                  <div className='mt-3'>
+                    <Loader
+                      loader={Math.floor(Math.random() * 10 + 1)}
+                      color={Math.floor(Math.random() * 10 + 1)}
+                    />
                   </div>
-                </div>
-
-                <div className='mt-4 flex items-center bg-backGroundColorLight dark:bg-backGroundColorDark'>
-                  <div className='flex-1 max-w-2xl mx-auto'>
-                    <ul className='grid grid-cols-1 lg:grid-cols-2 gap-1 md:gap-2 question-answer-container'>
-                      <li
-                        className='answerTilesFreeFall items'
-                        id='item-1'
-                        onClick={() => clickHandler(1)}
+                ) : (
+                  <div className='mx-1 md:mx-5 mt-4'>
+                    <div className='flex justify-center items-center '>
+                      <div
+                        className='text-center bg-backGroundColorLight dark:bg-backGroundColorDark text-xl lg:text-2xl italic font-sans font-bold text-emerald-900 dark:text-emerald-50 shadow-md rounded-lg py-2 px-4'
+                        id='question'
                       >
-                        <div id='item-ans-1' className='answersFreeFall'></div>
-                      </li>
-                      <li
-                        className='answerTilesFreeFall items'
-                        id='item-2'
-                        onClick={() => clickHandler(2)}
-                      >
-                        <div id='item-ans-2' className='answersFreeFall'></div>
-                      </li>
-                    </ul>
-                    <div className='flex justify-between mt-6'>
-                      <div className='text-left italic font-mono lg:text-lg font-bold w-5/12 text-emerald-900 dark:text-emerald-50'>
-                        Your Score:{' '}
-                        {score.current > 9
-                          ? score.current
-                          : '0' + score.current}
+                        {question.current < maxQuestion.current &&
+                          maxQuestion.current !== 0 &&
+                          questions[question.current] &&
+                          questions[question.current].question}
                       </div>
+                    </div>
 
-                      {
-                        timerRun ? (
-                          <div className='w-3/12'>
-                            <CountdownTimer
-                              color='emerald'
-                              initialMinute={0}
-                              initialSeconds={timerRun * 1}
-                            />
+                    <div className='mt-4 flex items-center bg-backGroundColorLight dark:bg-backGroundColorDark'>
+                      <div className='flex-1 max-w-2xl mx-auto'>
+                        <ul className='grid grid-cols-1 lg:grid-cols-2 gap-1 md:gap-2 question-answer-container'>
+                          <li
+                            className='answerTilesFreeFall items'
+                            id='item-1'
+                            onClick={() => clickHandler(1)}
+                          >
+                            <div
+                              id='item-ans-1'
+                              className='answersFreeFall'
+                            ></div>
+                          </li>
+                          <li
+                            className='answerTilesFreeFall items'
+                            id='item-2'
+                            onClick={() => clickHandler(2)}
+                          >
+                            <div
+                              id='item-ans-2'
+                              className='answersFreeFall'
+                            ></div>
+                          </li>
+                        </ul>
+                        <div className='flex justify-between mt-6'>
+                          <div className='text-left italic font-mono lg:text-lg font-bold w-5/12 text-emerald-900 dark:text-emerald-50'>
+                            Your Score:{' '}
+                            {score.current > 9
+                              ? score.current
+                              : '0' + score.current}
                           </div>
-                        ) : (
-                          <>
-                            {answered.current === 'Game Over!' ? (
-                              <div className='bg-red-600 text-center lg:text-lg font-bold italic font-sans text-white px-2 py-2 rounded-full'>
-                                {answered.current}
+
+                          {
+                            timerRun ? (
+                              <div className='w-3/12'>
+                                <CountdownTimer
+                                  color='emerald'
+                                  initialMinute={0}
+                                  initialSeconds={timerRun * 1}
+                                />
                               </div>
                             ) : (
-                              <div className='bg-lime-600 text-center lg:text-lg font-bold italic font-sans text-white px-2 py-2 rounded-full'>
-                                {answered.current}
-                              </div>
-                            )}
-                          </>
-                        )
+                              <>
+                                {answered.current === 'Game Over!' ? (
+                                  <div className='bg-red-600 text-center lg:text-lg font-bold italic font-sans text-white px-2 py-2 rounded-full'>
+                                    {answered.current}
+                                  </div>
+                                ) : (
+                                  <div className='bg-lime-600 text-center lg:text-lg font-bold italic font-sans text-white px-2 py-2 rounded-full'>
+                                    {answered.current}
+                                  </div>
+                                )}
+                              </>
+                            )
 
-                        // <div className='bg-emerald-700 text-center lg:text-lg font-bold italic font-sans text-white px-2 py-2 rounded-full'>
-                        //   {answered.current}
-                        // </div>
-                      }
-                      <div className='text-right italic font-mono lg:text-lg font-bold w-5/12 text-emerald-900 dark:text-emerald-50'>
-                        Question: {question.current + 1}/{maxQuestion.current}
+                            // <div className='bg-emerald-700 text-center lg:text-lg font-bold italic font-sans text-white px-2 py-2 rounded-full'>
+                            //   {answered.current}
+                            // </div>
+                          }
+                          <div className='text-right italic font-mono lg:text-lg font-bold w-5/12 text-emerald-900 dark:text-emerald-50'>
+                            Question: {question.current + 1}/
+                            {maxQuestion.current}
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
+                )}
               </div>
-            )}
-          </div>
+            </animated.div>
+          ))}
         </>
       )}
     </div>

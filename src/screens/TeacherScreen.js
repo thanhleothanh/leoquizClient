@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
+import { useTransition, animated } from 'react-spring';
 import { useSelector, useDispatch } from 'react-redux';
 import { getTests, postTest } from './../actions/testActions';
 import { postQuestion } from './../actions/questionActions';
@@ -11,6 +12,7 @@ import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 
 const TeacherScreen = ({ history }) => {
+  const [animation] = useState(false);
   //modal state
   const testType = useRef('multiple');
   const questionType = useRef('');
@@ -55,6 +57,11 @@ const TeacherScreen = ({ history }) => {
     }
   }, [history, dispatch]);
 
+  //ANIMATION
+  const transition = useTransition(animation, {
+    from: { opacity: 0, scale: 0.98 },
+    enter: { opacity: 1, scale: 1 },
+  });
   //modal modal modal modal modal modal modal modal modal modal modal modal modal modal modal modal modal
   //modal modal modal modal modal modal modal modal modal modal modal modal modal modal modal modal modal
   //modal modal modal modal modal modal modal modal modal modal modal modal modal modal modal modal modal
@@ -444,160 +451,168 @@ const TeacherScreen = ({ history }) => {
   // RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER
   // RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER
   return (
-    <>
-      <div className='flex flex-col lg:items-baseline lg:flex-row h-auto min-h-screen w-full mt-8 sm:px-10 lg:px-7 lg:space-x-2 space-y-16 lg:space-y-0'>
-        <Meta
-          title='For Teacher'
-          description='Leo English Quiz App for Kids | Teacher'
-        />
-        <div className='w-full lg:w-2/3'>
-          {userInfo &&
-            (userInfo.role === 'teacher' || userInfo.role === 'admin') && (
-              <>
-                <div className='text-center flex justify-center'>
-                  <h2 className=' topHeader text-xl lg:text-2xl bg-gray-50 dark:bg-backGroundColorLight rounded-t-2xl'>
-                    Your Tests |{' '}
-                    <i
-                      className='fas fa-redo-alt hover:text-orange-400 dark:hover:text-purple-400'
-                      onClick={() => dispatch(getTests())}
-                    />
-                  </h2>
-                </div>
-                <div className='flex justify-center mx-1'>
-                  <table className='table-auto w-full'>
-                    <thead>
-                      <tr>
-                        <th className='tableHead py-3 w-3/12 rounded-tl-2xl'>
-                          Test
-                        </th>
-                        <th className='tableHead py-3 w-4/12'>Description</th>
-                        <th className='tableHead py-3 w-2/12'>Type</th>
-                        <th className='tableHead py-3 w-1/12'>Active</th>
-                        <th className='tableHead py-3 w-2/12 rounded-tr-2xl'></th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {userInfo &&
+    <div>
+      {transition((style) => (
+        <animated.div style={style}>
+          <div className='flex flex-col lg:items-baseline lg:flex-row h-auto min-h-screen w-full mt-8 sm:px-10 lg:px-7 lg:space-x-2 space-y-16 lg:space-y-0'>
+            <Meta
+              title='For Teacher'
+              description='Leo English Quiz App for Kids | Teacher'
+            />
+            <div className='w-full lg:w-2/3'>
+              {userInfo &&
+                (userInfo.role === 'teacher' || userInfo.role === 'admin') && (
+                  <>
+                    <div className='text-center flex justify-center'>
+                      <h2 className=' topHeader text-xl lg:text-2xl bg-gray-50 dark:bg-backGroundColorLight rounded-t-2xl'>
+                        Your Tests |{' '}
+                        <i
+                          className='fas fa-redo-alt hover:text-orange-400 dark:hover:text-purple-400'
+                          onClick={() => dispatch(getTests())}
+                        />
+                      </h2>
+                    </div>
+                    <div className='flex justify-center mx-1'>
+                      <table className='table-auto w-full'>
+                        <thead>
+                          <tr>
+                            <th className='tableHead py-3 w-3/12 rounded-tl-2xl'>
+                              Test
+                            </th>
+                            <th className='tableHead py-3 w-4/12'>
+                              Description
+                            </th>
+                            <th className='tableHead py-3 w-2/12'>Type</th>
+                            <th className='tableHead py-3 w-1/12'>Active</th>
+                            <th className='tableHead py-3 w-2/12 rounded-tr-2xl'></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {userInfo &&
+                            successTestsTeacher &&
+                            tests &&
+                            tests.length !== 0 &&
+                            tests.map((test) => {
+                              if (test.teacher._id === userInfo._id)
+                                return (
+                                  <tr key={test._id}>
+                                    <td className='tableCell'>
+                                      {test.test_name}
+                                    </td>
+                                    <td className='tableCell'>
+                                      {test.test_description}
+                                    </td>
+                                    <td className='tableCell'>{test.type}</td>
+                                    <td className='tableCell'>
+                                      <i
+                                        className={`fas fa-${
+                                          test.active
+                                            ? 'check text-green-500'
+                                            : 'times text-red-500'
+                                        }`}
+                                      />
+                                    </td>
+                                    <td className='tableCell'>
+                                      <Link to={`/tests/${test._id}`}>
+                                        <i className='text-xl md:text-3xl text-lightBlue-500 hover:text-lightBlue-700 fas fa-edit' />{' '}
+                                      </Link>
+                                      <Link to={`/tests/results/${test._id}`}>
+                                        <i className='text-xl md:text-3xl text-lightBlue-500 hover:text-lightBlue-700 fas fa-poll' />
+                                      </Link>
+                                    </td>
+                                  </tr>
+                                );
+                            })}
+                          <tr>
+                            <td className='tableCell rounded-bl-2xl'></td>
+                            <td className='tableCell'></td>
+                            <td className='tableCell'></td>
+                            <td className='tableCell'></td>
+                            <td className='tableCell rounded-br-2xl'></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <div className='my-3 mx-1'>
+                      {loadingTestsTeacher ? (
+                        <Loader
+                          loader={Math.floor(Math.random() * 10 + 1)}
+                          color={Math.floor(Math.random() * 10 + 1)}
+                        />
+                      ) : errorTestsTeacher ? (
+                        <Alert>{errorTestsTeacher}</Alert>
+                      ) : (
                         successTestsTeacher &&
                         tests &&
-                        tests.length !== 0 &&
-                        tests.map((test) => {
-                          if (test.teacher._id === userInfo._id)
-                            return (
-                              <tr key={test._id}>
-                                <td className='tableCell'>{test.test_name}</td>
-                                <td className='tableCell'>
-                                  {test.test_description}
-                                </td>
-                                <td className='tableCell'>{test.type}</td>
-                                <td className='tableCell'>
-                                  <i
-                                    className={`fas fa-${
-                                      test.active
-                                        ? 'check text-green-500'
-                                        : 'times text-red-500'
-                                    }`}
-                                  />
-                                </td>
-                                <td className='tableCell'>
-                                  <Link to={`/tests/${test._id}`}>
-                                    <i className='text-xl md:text-3xl text-lightBlue-500 hover:text-lightBlue-700 fas fa-edit' />{' '}
-                                  </Link>
-                                  <Link to={`/tests/results/${test._id}`}>
-                                    <i className='text-xl md:text-3xl text-lightBlue-500 hover:text-lightBlue-700 fas fa-poll' />
-                                  </Link>
-                                </td>
-                              </tr>
-                            );
-                        })}
-                      <tr>
-                        <td className='tableCell rounded-bl-2xl'></td>
-                        <td className='tableCell'></td>
-                        <td className='tableCell'></td>
-                        <td className='tableCell'></td>
-                        <td className='tableCell rounded-br-2xl'></td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-                <div className='my-3 mx-1'>
-                  {loadingTestsTeacher ? (
-                    <Loader
-                      loader={Math.floor(Math.random() * 10 + 1)}
-                      color={Math.floor(Math.random() * 10 + 1)}
-                    />
-                  ) : errorTestsTeacher ? (
-                    <Alert>{errorTestsTeacher}</Alert>
-                  ) : (
-                    successTestsTeacher &&
-                    tests &&
-                    tests.findIndex(
-                      (test) => test.teacher._id === userInfo._id
-                    ) === -1 && (
-                      <Message type='info'>
-                        You haven't created any test!
-                      </Message>
-                    )
-                  )}
-                </div>
-              </>
-            )}
-        </div>
-        {userInfo &&
-          (userInfo.role === 'teacher' || userInfo.role === 'admin') && (
-            <div className='px-1 w-full lg:w-1/3'>
-              <div className='text-left italic shadow-md font-bold text-red-800 dark:text-purple-800 text-xl lg:text-2xl w-full bg-gray-50 dark:bg-backGroundColorLight rounded-t-2xl pl-7 pt-2'>
-                Teacher's Actions <i className='fas fa-marker'></i>
-              </div>
-              <div className='bg-gray-50 dark:bg-backGroundColorLight pb-5 px-7 rounded-b-2xl shadow-sm'>
-                <button
-                  className='buttonAboutYou  sm:text-base mt-3'
-                  onClick={() => setReactionModalIsOpen(true)}
-                >
-                  Create Reaction Game question
-                </button>
-                <button
-                  className='buttonAboutYou  sm:text-base mt-3'
-                  onClick={() => typeHandler('multiple')}
-                >
-                  Create Multiple Choice question
-                </button>
-                <button
-                  className='buttonAboutYou  sm:text-base mt-3'
-                  onClick={() => typeHandler('fillintheblank')}
-                >
-                  Create Fill in the blank question
-                </button>
-                <button
-                  className='buttonAboutYou sm:text-base mt-3'
-                  onClick={() => setNewTestModalIsOpen(true)}
-                >
-                  Create New Test
-                </button>
-                <div className='mt-3'>
-                  {loadingPostQuestion || loadingPostTest ? (
-                    <Loader
-                      loader={Math.floor(Math.random() * 10 + 1)}
-                      color={Math.floor(Math.random() * 10 + 1)}
-                    />
-                  ) : errorPostQuestion ? (
-                    <Alert>{errorPostQuestion}</Alert>
-                  ) : errorPostTest ? (
-                    <Alert>{errorPostTest}</Alert>
-                  ) : (
-                    (successPostQuestion || successPostTest) && (
-                      <Message type='success'>Cool!</Message>
-                    )
-                  )}
-                </div>
-              </div>
+                        tests.findIndex(
+                          (test) => test.teacher._id === userInfo._id
+                        ) === -1 && (
+                          <Message type='info'>
+                            You haven't created any test!
+                          </Message>
+                        )
+                      )}
+                    </div>
+                  </>
+                )}
             </div>
-          )}
-      </div>
-      {reactionModal()}
-      {fillintheblankModal()}
-      {newTestModal()}
-    </>
+            {userInfo &&
+              (userInfo.role === 'teacher' || userInfo.role === 'admin') && (
+                <div className='px-1 w-full lg:w-1/3'>
+                  <div className='text-left italic shadow-md font-bold text-red-800 dark:text-purple-800 text-xl lg:text-2xl w-full bg-gray-50 dark:bg-backGroundColorLight rounded-t-2xl pl-7 pt-2'>
+                    Teacher's Actions <i className='fas fa-marker'></i>
+                  </div>
+                  <div className='bg-gray-50 dark:bg-backGroundColorLight pb-5 px-7 rounded-b-2xl shadow-sm'>
+                    <button
+                      className='buttonAboutYou  sm:text-base mt-3'
+                      onClick={() => setReactionModalIsOpen(true)}
+                    >
+                      Create Reaction Game question
+                    </button>
+                    <button
+                      className='buttonAboutYou  sm:text-base mt-3'
+                      onClick={() => typeHandler('multiple')}
+                    >
+                      Create Multiple Choice question
+                    </button>
+                    <button
+                      className='buttonAboutYou  sm:text-base mt-3'
+                      onClick={() => typeHandler('fillintheblank')}
+                    >
+                      Create Fill in the blank question
+                    </button>
+                    <button
+                      className='buttonAboutYou sm:text-base mt-3'
+                      onClick={() => setNewTestModalIsOpen(true)}
+                    >
+                      Create New Test
+                    </button>
+                    <div className='mt-3'>
+                      {loadingPostQuestion || loadingPostTest ? (
+                        <Loader
+                          loader={Math.floor(Math.random() * 10 + 1)}
+                          color={Math.floor(Math.random() * 10 + 1)}
+                        />
+                      ) : errorPostQuestion ? (
+                        <Alert>{errorPostQuestion}</Alert>
+                      ) : errorPostTest ? (
+                        <Alert>{errorPostTest}</Alert>
+                      ) : (
+                        (successPostQuestion || successPostTest) && (
+                          <Message type='success'>Cool!</Message>
+                        )
+                      )}
+                    </div>
+                  </div>
+                </div>
+              )}
+          </div>
+          {reactionModal()}
+          {fillintheblankModal()}
+          {newTestModal()}
+        </animated.div>
+      ))}
+    </div>
   );
 };
 

@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
+import { useTransition, animated } from 'react-spring';
 import { useSelector, useDispatch } from 'react-redux';
 import { getTest, updateTest } from './../actions/testActions';
 import Loader from './../components/Loader';
@@ -10,6 +11,7 @@ import { useForm } from 'react-hook-form';
 import AnswersTable from '../components/AnswersTable';
 
 const TeacherTestScreen = ({ history, match }) => {
+  const [animation] = useState(false);
   const [sendingRequest, setSendingRequest] = useState(false);
   const [questions, setQuestions] = useState([]);
   const [activeStatus, setActiveStatus] = useState(false);
@@ -51,6 +53,12 @@ const TeacherTestScreen = ({ history, match }) => {
     }
   }, [history, successGetTest]);
 
+  //ANIMATION
+  const transition = useTransition(animation, {
+    from: { opacity: 0 },
+    enter: { opacity: 1 },
+  });
+
   //ON THE SCREEN ON THE SCREEN ON THE SCREEN ON THE SCREEN ON THE SCREEN
   //ON THE SCREEN ON THE SCREEN ON THE SCREEN ON THE SCREEN ON THE SCREEN
   //ON THE SCREEN ON THE SCREEN ON THE SCREEN ON THE SCREEN ON THE SCREEN
@@ -84,7 +92,7 @@ const TeacherTestScreen = ({ history, match }) => {
     }
   };
 
-  const updateQuestion = () => {
+  const updateTestQuestions = () => {
     if (changed.current)
       dispatch(updateTest(match.params.id, [...questions], activeStatus));
     setSendingRequest(true);
@@ -413,14 +421,14 @@ const TeacherTestScreen = ({ history, match }) => {
   //RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER RENDER
   return (
     <>
+      <Meta
+        title='For Teacher'
+        description='Leo English Quiz App for Kids | Teacher'
+      />
       <div
         className='flex flex-col md:items-baseline md:flex-row h-auto min-h-screen w-full mt-8 
                    px-1 sm:px-10 md:px-1 lg:px-7 md:space-x-2 space-y-16 md:space-y-0'
       >
-        <Meta
-          title='For Teacher'
-          description='Leo English Quiz App for Kids | Teacher'
-        />
         {loadingGetTest ? (
           <Loader
             loader={Math.floor(Math.random() * 10 + 1)}
@@ -494,7 +502,7 @@ const TeacherTestScreen = ({ history, match }) => {
                     </Message>
                     <button
                       className='buttonAboutYou mt-3 rounded-2xl'
-                      onClick={() => updateQuestion()}
+                      onClick={() => updateTestQuestions()}
                     >
                       Save, Go back!
                     </button>

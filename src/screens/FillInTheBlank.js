@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useTransition, animated } from 'react-spring';
 import { getQuestions } from './../actions/questionActions';
 import { useDispatch, useSelector } from 'react-redux';
 import EndGame from './../components/EndGame';
@@ -66,6 +67,12 @@ const FillInTheBlank = ({ history }) => {
   const testID = location.pathname
     ? location.pathname.split('/test/')[1]
     : undefined;
+
+  //ANIMATION
+  const transition = useTransition(playing, {
+    from: { opacity: 0, y: 300, x: -200 },
+    enter: { opacity: 1, y: 0, x: 0 },
+  });
 
   useEffect(() => {
     if (testID !== undefined) dispatch(getTestResult(testID));
@@ -278,142 +285,156 @@ const FillInTheBlank = ({ history }) => {
       ) : error || testError ? (
         <Alert>{error || testError}</Alert>
       ) : (
-        <div className='flex justify-center lg:space-x-5 container mx-auto w-full mt-4'>
-          <div className='lg:w-6/12 w-full'>
-            <div className='w-full flex flex-col md:flex-row justify-center items-center px-1'>
-              <div
-                className={`text-center bg-backGroundColorLight dark:bg-backGroundColorDark text-xl lg:text-2xl italic font-sans font-bold text-indigo-800 dark:text-indigo-50 shadow-md rounded-lg py-2 mt-2 ${
-                  testID === undefined
+        <div>
+          {transition((style) => (
+            <animated.div
+              style={style}
+              className='flex justify-center lg:space-x-5 container mx-auto w-full mt-4'
+            >
+              <div className='lg:w-6/12 w-full'>
+                <div className='w-full flex flex-col md:flex-row justify-center items-center px-1'>
+                  <div
+                    className={`text-center bg-backGroundColorLight dark:bg-backGroundColorDark text-xl lg:text-2xl italic font-sans font-bold text-indigo-800 dark:text-indigo-50 shadow-md rounded-lg py-2 mt-2 ${
+                      testID === undefined
+                        ? question.current < maxQuestion.current &&
+                          questions[question.current] &&
+                          questions[question.current].question_image
+                          ? 'w-full md:w-4/12'
+                          : 'w-full'
+                        : question.current < maxQuestion.current &&
+                          test.questions[question.current] &&
+                          test.questions[question.current].question_image
+                        ? 'w-full md:w-4/12'
+                        : 'w-full'
+                    } lg:w-full`}
+                    id='question'
+                  >
+                    {testID === undefined
+                      ? question.current < maxQuestion.current &&
+                        maxQuestion.current !== 0 &&
+                        questions[question.current] &&
+                        questions[question.current].question
+                      : question.current < maxQuestion.current &&
+                        maxQuestion.current !== 0 &&
+                        test.questions[question.current] &&
+                        test.questions[question.current].question}
+                  </div>
+                  {testID === undefined
                     ? question.current < maxQuestion.current &&
                       questions[question.current] &&
-                      questions[question.current].question_image
-                      ? 'w-full md:w-4/12'
-                      : 'w-full'
+                      questions[question.current].question_image && (
+                        <div className='w-full md:w-8/12 lg:w-0 select-none mt-2 md:pl-1 lg:pl-0'>
+                          <img
+                            className='w-full object-cover overflow-hidden rounded-2xl md:max-h-96'
+                            src={questions[question.current].question_image}
+                            alt='quiz-pic'
+                          />
+                        </div>
+                      )
                     : question.current < maxQuestion.current &&
                       test.questions[question.current] &&
-                      test.questions[question.current].question_image
-                    ? 'w-full md:w-4/12'
-                    : 'w-full'
-                } lg:w-full`}
-                id='question'
-              >
-                {testID === undefined
-                  ? question.current < maxQuestion.current &&
-                    maxQuestion.current !== 0 &&
-                    questions[question.current] &&
-                    questions[question.current].question
-                  : question.current < maxQuestion.current &&
-                    maxQuestion.current !== 0 &&
-                    test.questions[question.current] &&
-                    test.questions[question.current].question}
+                      test.questions[question.current].question_image && (
+                        <div className='w-full md:w-8/12 lg:w-0 select-none mt-2 md:pl-1 lg:pl-0'>
+                          <img
+                            className='w-full object-cover overflow-hidden rounded-2xl md:max-h-96'
+                            src={
+                              test.questions[question.current].question_image
+                            }
+                            alt='quiz-pic'
+                          />
+                        </div>
+                      )}
+                </div>
+
+                <div className='mt-6 mx-1 flex items-center bg-backGroundColorLight dark:bg-backGroundColorDark'>
+                  <div className='flex-1 max-w-2xl mx-auto'>
+                    <form
+                      onSubmit={handleSubmit(answerHandler)}
+                      id='answerForm'
+                    >
+                      <div className='flex'>
+                        <input
+                          className='rounded-l-full w-full py-5 pl-8 shadow-md appearance-none font-semibold focus:ring-4 focus:ring-opacity-75 focus:ring-indigo-600 focus:outline-none dark:bg-indigo-900 text-indigo-700 dark:text-indigo-50 placeholder-indigo-700 dark:placeholder-indigo-50 text-sm lg:text-base'
+                          name='answer'
+                          id='answerField'
+                          type='text'
+                          required
+                          autoComplete='off'
+                          ref={register}
+                          placeholder='Your answer (-skip to skip)'
+                        />
+                        <button
+                          className='submitBtnFillintheblank'
+                          id='submit-btn'
+                          type='submit'
+                        >
+                          Submit
+                        </button>
+                      </div>
+                    </form>
+                    <div className='flex justify-between mt-6'>
+                      <div className='text-left italic font-mono lg:text-lg font-bold w-5/12 text-indigo-800 dark:text-indigo-50'>
+                        Your Score:{' '}
+                        {score.current > 9
+                          ? score.current
+                          : '0' + score.current}
+                      </div>
+
+                      {answered ? (
+                        !wrongAnswer.current ? (
+                          <div className='bg-lime-600 text-center lg:text-lg font-bold italic font-sans text-white px-2 py-2 rounded-full animate-bounce w-3/12'>
+                            {answered && 'Very cool!'}
+                            {/* THIS ONE! MUỐN RENDER LẠI CÁI NÀY THÌ PHẢI ĐẶT CÁI THAY ĐỔI VÀO TRONG DIV */}
+                          </div>
+                        ) : (
+                          <div className='bg-red-600 text-center lg:text-lg font-bold italic font-sans text-white px-2 py-2 rounded-full animate-wiggle w-3/12'>
+                            {answered && 'Try again!'}
+                            {/* THIS ONE! MUỐN RENDER LẠI CÁI NÀY THÌ PHẢI ĐẶT CÁI THAY ĐỔI VÀO TRONG DIV */}
+                          </div>
+                        )
+                      ) : (
+                        <div className='py-2 text-gray-100 dark:text-gray-900 w-3/12'>
+                          .
+                        </div>
+                      )}
+                      <div className='text-right italic font-mono lg:text-lg font-bold w-5/12 text-indigo-800 dark:text-indigo-50'>
+                        Question: {question.current + 1}/{maxQuestion.current}
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-              {testID === undefined
-                ? question.current < maxQuestion.current &&
+              <div className='h-screen w-0 lg:w-6/12 select-none'>
+                {testID === undefined ? (
+                  question.current < maxQuestion.current &&
                   questions[question.current] &&
-                  questions[question.current].question_image && (
-                    <div className='w-full md:w-8/12 lg:w-0 select-none mt-2 md:pl-1 lg:pl-0'>
-                      <img
-                        className='w-full object-cover overflow-hidden rounded-2xl md:max-h-96'
-                        src={questions[question.current].question_image}
-                        alt='quiz-pic'
-                      />
+                  questions[question.current].question_image ? (
+                    <img
+                      className='w-full lg:h-3/4 max-h-screen mt-2 object-cover overflow-hidden rounded-2xl'
+                      src={questions[question.current].question_image}
+                      alt='quiz-pic'
+                    />
+                  ) : (
+                    <div className='mt-2 hidden lg:flex justify-center items-center md:w-full max-h-96 h-full bg-orange-200 dark:bg-indigo-900 rounded-full animate-pulse font-semibold text-indigo-800 dark:text-indigo-50'>
+                      No picture for this question!
                     </div>
                   )
-                : question.current < maxQuestion.current &&
+                ) : question.current < maxQuestion.current &&
                   test.questions[question.current] &&
-                  test.questions[question.current].question_image && (
-                    <div className='w-full md:w-8/12 lg:w-0 select-none mt-2 md:pl-1 lg:pl-0'>
-                      <img
-                        className='w-full object-cover overflow-hidden rounded-2xl md:max-h-96'
-                        src={test.questions[question.current].question_image}
-                        alt='quiz-pic'
-                      />
-                    </div>
-                  )}
-            </div>
-
-            <div className='mt-6 mx-1 flex items-center bg-backGroundColorLight dark:bg-backGroundColorDark'>
-              <div className='flex-1 max-w-2xl mx-auto'>
-                <form onSubmit={handleSubmit(answerHandler)} id='answerForm'>
-                  <div className='flex'>
-                    <input
-                      className='rounded-l-full w-full py-5 pl-8 shadow-md appearance-none font-semibold focus:ring-4 focus:ring-opacity-75 focus:ring-indigo-600 focus:outline-none dark:bg-indigo-900 text-indigo-700 dark:text-indigo-50 placeholder-indigo-700 dark:placeholder-indigo-50 text-sm lg:text-base'
-                      name='answer'
-                      id='answerField'
-                      type='text'
-                      required
-                      autoComplete='off'
-                      ref={register}
-                      placeholder='Your answer (-skip to skip)'
-                    />
-                    <button
-                      className='submitBtnFillintheblank'
-                      id='submit-btn'
-                      type='submit'
-                    >
-                      Submit
-                    </button>
+                  test.questions[question.current].question_image ? (
+                  <img
+                    className='w-full lg:h-3/4 max-h-screen mt-2 object-cover overflow-hidden rounded-2xl'
+                    src={test.questions[question.current].question_image}
+                    alt='quiz-pic'
+                  />
+                ) : (
+                  <div className='mt-2 hidden lg:flex justify-center items-center md:w-full max-h-96 h-full bg-orange-200 dark:bg-indigo-900 rounded-full animate-pulse font-semibold text-indigo-800 dark:text-indigo-50'>
+                    No picture for this question!
                   </div>
-                </form>
-                <div className='flex justify-between mt-6'>
-                  <div className='text-left italic font-mono lg:text-lg font-bold w-5/12 text-indigo-800 dark:text-indigo-50'>
-                    Your Score:{' '}
-                    {score.current > 9 ? score.current : '0' + score.current}
-                  </div>
-
-                  {answered ? (
-                    !wrongAnswer.current ? (
-                      <div className='bg-lime-600 text-center lg:text-lg font-bold italic font-sans text-white px-2 py-2 rounded-full animate-bounce w-3/12'>
-                        {answered && 'Very cool!'}
-                        {/* THIS ONE! MUỐN RENDER LẠI CÁI NÀY THÌ PHẢI ĐẶT CÁI THAY ĐỔI VÀO TRONG DIV */}
-                      </div>
-                    ) : (
-                      <div className='bg-red-600 text-center lg:text-lg font-bold italic font-sans text-white px-2 py-2 rounded-full animate-wiggle w-3/12'>
-                        {answered && 'Try again!'}
-                        {/* THIS ONE! MUỐN RENDER LẠI CÁI NÀY THÌ PHẢI ĐẶT CÁI THAY ĐỔI VÀO TRONG DIV */}
-                      </div>
-                    )
-                  ) : (
-                    <div className='py-2 text-gray-100 dark:text-gray-900 w-3/12'>
-                      .
-                    </div>
-                  )}
-                  <div className='text-right italic font-mono lg:text-lg font-bold w-5/12 text-indigo-800 dark:text-indigo-50'>
-                    Question: {question.current + 1}/{maxQuestion.current}
-                  </div>
-                </div>
+                )}
               </div>
-            </div>
-          </div>
-          <div className='h-screen w-0 lg:w-6/12 select-none'>
-            {testID === undefined ? (
-              question.current < maxQuestion.current &&
-              questions[question.current] &&
-              questions[question.current].question_image ? (
-                <img
-                  className='w-full lg:h-3/4 max-h-screen mt-2 object-cover overflow-hidden rounded-2xl'
-                  src={questions[question.current].question_image}
-                  alt='quiz-pic'
-                />
-              ) : (
-                <div className='mt-2 hidden lg:flex justify-center items-center md:w-full max-h-96 h-full bg-orange-200 dark:bg-indigo-900 rounded-full animate-pulse font-semibold text-indigo-800 dark:text-indigo-50'>
-                  No picture for this question!
-                </div>
-              )
-            ) : question.current < maxQuestion.current &&
-              test.questions[question.current] &&
-              test.questions[question.current].question_image ? (
-              <img
-                className='w-full lg:h-3/4 max-h-screen mt-2 object-cover overflow-hidden rounded-2xl'
-                src={test.questions[question.current].question_image}
-                alt='quiz-pic'
-              />
-            ) : (
-              <div className='mt-2 hidden lg:flex justify-center items-center md:w-full max-h-96 h-full bg-orange-200 dark:bg-indigo-900 rounded-full animate-pulse font-semibold text-indigo-800 dark:text-indigo-50'>
-                No picture for this question!
-              </div>
-            )}
-          </div>
+            </animated.div>
+          ))}
         </div>
       )}
     </div>

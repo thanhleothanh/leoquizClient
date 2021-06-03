@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useTransition, animated } from 'react-spring';
 import { useSelector, useDispatch } from 'react-redux';
 import QuizCard from './../components/QuizCard';
 import Meta from './../components/Meta';
@@ -9,6 +10,7 @@ import { getActiveTests } from '../actions/testActions';
 import TestCard from '../components/TestCard';
 
 const HomeScreen = ({ history }) => {
+  const [animation] = useState(false);
   const { gameTickets } = useSelector((state) => state.userGameTickets);
   const { userInfo } = useSelector((state) => state.userLogin);
   const {
@@ -17,6 +19,12 @@ const HomeScreen = ({ history }) => {
     error: errorTests,
   } = useSelector((state) => state.activeTests);
   const dispatch = useDispatch();
+
+  //ANIMATION
+  const transition = useTransition(animation, {
+    from: { opacity: 0 },
+    enter: { opacity: 1 },
+  });
 
   useEffect(() => {
     if (!userInfo) history.push('/login');
@@ -32,115 +40,122 @@ const HomeScreen = ({ history }) => {
   return (
     <>
       <Meta title='Home' description='Leo English Quiz App for Kids | Home' />
-      <div className='grid md:grid-cols-2 md:gap-5 lg:gap-9 px-6 sm:px-12 md:px-7 lg:px-20  overflow-auto pb-5'>
-        <div className='flex flex-col items-center'>
-          <div className=' topHeader bg-white rounded-full mt-8 mb-5'>
-            Quizzes
-          </div>
+      <div>
+        {transition((style) => (
+          <animated.div
+            style={style}
+            className='grid md:grid-cols-2 md:gap-5 lg:gap-9 px-6 sm:px-12 md:px-7 lg:px-20  overflow-auto pb-5'
+          >
+            <div className='flex flex-col items-center'>
+              <div className=' topHeader bg-white rounded-full mt-8 mb-5'>
+                Quizzes
+              </div>
 
-          <QuizCard
-            title='Reaction Game'
-            description='Choose the correct answer as fast as possible'
-            pointSystem='+2 pts/correct answer, -1 pt/wrong answer. '
-            image='/images/reactiongame.jpg'
-            link='/reactiongame'
-            color='purple'
-          />
-          <QuizCard
-            title='Fill In The Blank'
-            description='Fill in the blank to answer the questions. '
-            pointSystem='+3 pts/correct answer.'
-            image='/images/fillintheblank.jpg'
-            link='/fillintheblank'
-            color='indigo'
-          />
-          <QuizCard
-            title='Multiple Choice'
-            description='Choose the right answers for the questions. '
-            pointSystem='+1 pt/correct answer, -1 pt/wrong answer.'
-            image='/images/multiplechoice.jpg'
-            link='/multiplechoice'
-            color='lightBlue'
-          />
-          <div className='topHeader bg-white rounded-full mt-8 mb-5 hidden md:inline'>
-            <i className='fas fa-info' />
-          </div>
-          <div className='w-full mt-3'>
-            <Message type='info'>
-              You have <i className='fas fa-ticket-alt' />{' '}
-              {Math.floor(gameTickets / 2)} <strong>Game Ticket(s)</strong>
-              <br /> Get 1 <strong>Game Ticket</strong> by finishing 2{' '}
-              <strong>Quizzes</strong>
-            </Message>
-          </div>
-        </div>
-        <div className='flex flex-col items-center'>
-          <div className=' topHeader bg-white rounded-full mt-8 mb-5'>
-            Games
-          </div>
-          <QuizCard
-            title='Space Invaders'
-            description='Play this shooting game! '
-            pointSystem='+3 pts/correct answer.'
-            image='/images/spaceinvaders.png'
-            link='/spaceinvaders'
-            color='lime'
-          />
-          <QuizCard
-            title='Free Fall'
-            description='Keep the ball falling! '
-            pointSystem='+3 pts/correct answer.'
-            image='/images/freefall.png'
-            link='/freefall'
-            color='emerald'
-          />
-          <div className=' topHeader bg-white rounded-full mt-8 mb-5'>
-            Tests
-          </div>
-          <div className='w-full'>
-            {loadingTests ? (
-              <Loader
-                className='mt-3'
-                loader={Math.floor(Math.random() * 10 + 1)}
-                color={Math.floor(Math.random() * 10 + 1)}
+              <QuizCard
+                title='Reaction Game'
+                description='Choose the correct answer as fast as possible'
+                pointSystem='+2 pts/correct answer, -1 pt/wrong answer. '
+                image='/images/reactiongame.jpg'
+                link='/reactiongame'
+                color='purple'
               />
-            ) : errorTests ? (
-              <Alert className='mt-3'>{errorTests}</Alert>
-            ) : (
-              <>
-                {activeTests && activeTests.length === 0 ? (
-                  <Message type='info' className='mt-3'>
-                    There are no Tests from any teacher on the schedule!
-                  </Message>
+              <QuizCard
+                title='Fill In The Blank'
+                description='Fill in the blank to answer the questions. '
+                pointSystem='+3 pts/correct answer.'
+                image='/images/fillintheblank.jpg'
+                link='/fillintheblank'
+                color='indigo'
+              />
+              <QuizCard
+                title='Multiple Choice'
+                description='Choose the right answers for the questions. '
+                pointSystem='+1 pt/correct answer, -1 pt/wrong answer.'
+                image='/images/multiplechoice.jpg'
+                link='/multiplechoice'
+                color='lightBlue'
+              />
+              <div className='topHeader bg-white rounded-full mt-8 mb-5 hidden md:inline'>
+                <i className='fas fa-info' />
+              </div>
+              <div className='w-full mt-3'>
+                <Message type='info'>
+                  You have <i className='fas fa-ticket-alt' />{' '}
+                  {Math.floor(gameTickets / 2)} <strong>Game Ticket(s)</strong>
+                  <br /> Get 1 <strong>Game Ticket</strong> by finishing 2{' '}
+                  <strong>Quizzes</strong>
+                </Message>
+              </div>
+            </div>
+            <div className='flex flex-col items-center'>
+              <div className=' topHeader bg-white rounded-full mt-8 mb-5'>
+                Games
+              </div>
+              <QuizCard
+                title='Space Invaders'
+                description='Play this shooting game! '
+                pointSystem='+3 pts/correct answer.'
+                image='/images/spaceinvaders.png'
+                link='/spaceinvaders'
+                color='lime'
+              />
+              <QuizCard
+                title='Free Fall'
+                description='Keep the ball falling! '
+                pointSystem='+3 pts/correct answer.'
+                image='/images/freefall.png'
+                link='/freefall'
+                color='emerald'
+              />
+              <div className=' topHeader bg-white rounded-full mt-8 mb-5'>
+                Tests
+              </div>
+              <div className='w-full'>
+                {loadingTests ? (
+                  <Loader
+                    className='mt-3'
+                    loader={Math.floor(Math.random() * 10 + 1)}
+                    color={Math.floor(Math.random() * 10 + 1)}
+                  />
+                ) : errorTests ? (
+                  <Alert className='mt-3'>{errorTests}</Alert>
                 ) : (
                   <>
-                    {activeTests &&
-                      activeTests.map((test) => {
-                        return (
-                          <TestCard
-                            key={test._id}
-                            teacher={test.teacher.name}
-                            name={test.test_name}
-                            description={test.test_description}
-                            type={test.type}
-                            image={`/images/${test.type}-test.jpg`}
-                            link={test._id}
-                            color={
-                              test.type === 'reactiongame'
-                                ? 'yellow'
-                                : test.type === 'multiplechoice'
-                                ? 'pink'
-                                : 'red'
-                            }
-                          />
-                        );
-                      })}
+                    {activeTests && activeTests.length === 0 ? (
+                      <Message type='info' className='mt-3'>
+                        There are no Tests from any teacher on the schedule!
+                      </Message>
+                    ) : (
+                      <>
+                        {activeTests &&
+                          activeTests.map((test) => {
+                            return (
+                              <TestCard
+                                key={test._id}
+                                teacher={test.teacher.name}
+                                name={test.test_name}
+                                description={test.test_description}
+                                type={test.type}
+                                image={`/images/${test.type}-test.jpg`}
+                                link={test._id}
+                                color={
+                                  test.type === 'reactiongame'
+                                    ? 'yellow'
+                                    : test.type === 'multiplechoice'
+                                    ? 'pink'
+                                    : 'red'
+                                }
+                              />
+                            );
+                          })}
+                      </>
+                    )}
                   </>
                 )}
-              </>
-            )}
-          </div>
-        </div>
+              </div>
+            </div>
+          </animated.div>
+        ))}
       </div>
     </>
   );

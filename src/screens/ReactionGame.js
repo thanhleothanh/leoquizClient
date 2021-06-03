@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useTransition, animated } from 'react-spring';
 import { getQuestions } from './../actions/questionActions';
 import { useDispatch, useSelector } from 'react-redux';
 import EndGame from './../components/EndGame';
@@ -79,6 +80,12 @@ const ReactionGame = ({ history }) => {
   const testID = location.pathname
     ? location.pathname.split('/test/')[1]
     : undefined;
+
+  //ANIMATION
+  const transition = useTransition(playing, {
+    from: { opacity: 0, x: -200 },
+    enter: { opacity: 1, x: 0 },
+  });
 
   useEffect(() => {
     if (testID !== undefined) dispatch(getTestResult(testID));
@@ -299,124 +306,128 @@ const ReactionGame = ({ history }) => {
       ) : error || testError ? (
         <Alert>{error || testError}</Alert>
       ) : (
-        <div className='container mx-auto mt-4'>
-          <div className='flex justify-center items-center '>
-            <div
-              className='text-center bg-backGroundColorLight dark:bg-backGroundColorDark text-xl lg:text-2xl italic font-sans font-bold text-purple-900 dark:text-purple-50 shadow-md rounded-lg py-2 px-3'
-              id='question'
-            >
-              {testID === undefined
-                ? question.current < maxQuestion.current &&
-                  maxQuestion.current !== 0 &&
-                  questions[question.current] &&
-                  questions[question.current].question
-                : question.current < maxQuestion.current &&
-                  maxQuestion.current !== 0 &&
-                  test.questions[question.current] &&
-                  test.questions[question.current].question}
-            </div>
-          </div>
-
-          <div className='mt-4 mx-1 flex items-center bg-backGroundColorLight dark:bg-backGroundColorDark'>
-            <div className='flex-1 max-w-2xl mx-auto'>
-              <ul className='grid grid-cols-2 md:grid-cols-3 gap-1 md:gap-2 question-answer-container'>
-                <li
-                  className='answerTiles items'
-                  id='item-1'
-                  onClick={() => clickHandler(1)}
+        <div>
+          {transition((style) => (
+            <animated.div style={style} className='container mx-auto mt-4'>
+              <div className='flex justify-center items-center '>
+                <div
+                  className='text-center bg-backGroundColorLight dark:bg-backGroundColorDark text-xl lg:text-2xl italic font-sans font-bold text-purple-900 dark:text-purple-50 shadow-md rounded-lg py-2 px-3'
+                  id='question'
                 >
-                  <div id='item-ans-1' className='answers'></div>
-                </li>
-                <li
-                  className='answerTiles items'
-                  id='item-2'
-                  onClick={() => clickHandler(2)}
-                >
-                  <div id='item-ans-2' className='answers'></div>
-                </li>
-                <li
-                  className='answerTiles items'
-                  id='item-3'
-                  onClick={() => clickHandler(3)}
-                >
-                  <div id='item-ans-3' className='answers'></div>
-                </li>
-                <li
-                  className='answerTiles items'
-                  id='item-4'
-                  onClick={() => clickHandler(4)}
-                >
-                  <div id='item-ans-4' className='answers'></div>
-                </li>
-                <li
-                  className='answerTiles items'
-                  id='item-5'
-                  onClick={() => clickHandler(5)}
-                >
-                  <div id='item-ans-5' className='answers'></div>
-                </li>
-                <li
-                  className='answerTiles items'
-                  id='item-6'
-                  onClick={() => clickHandler(6)}
-                >
-                  <div id='item-ans-6' className='answers'></div>
-                </li>
-                <li
-                  className='answerTiles items'
-                  id='item-7'
-                  onClick={() => clickHandler(7)}
-                >
-                  <div id='item-ans-7' className='answers'></div>
-                </li>
-                <li
-                  className='answerTiles items'
-                  id='item-8'
-                  onClick={() => clickHandler(8)}
-                >
-                  <div id='item-ans-8' className='answers'></div>
-                </li>
-                <li
-                  className='answerTiles items'
-                  id='item-9'
-                  onClick={() => clickHandler(9)}
-                >
-                  <div id='item-ans-9' className='answers'></div>
-                </li>
-                <li className='answerTiles items md:hidden' id='item-10'>
-                  <div id='item-ans-10' className='answers'></div>
-                </li>
-              </ul>
-              <div className='flex justify-between mt-6'>
-                <div className='text-left italic font-mono lg:text-lg font-bold w-5/12 text-purple-900 dark:text-purple-50'>
-                  Your Score:{' '}
-                  {score.current > 9 ? score.current : '0' + score.current}
-                </div>
-
-                {timerRun ? (
-                  <div className='w-3/12'>
-                    <CountdownTimer
-                      color='purple'
-                      initialMinute={0}
-                      initialSeconds={timerRun * 1}
-                    />
-                  </div>
-                ) : (
-                  <div className='flex flex-col'>
-                    <div className='bg-purple-700 text-center lg:text-lg font-bold italic font-sans text-white px-2 py-2 rounded-full'>
-                      {answered.current}
-                    </div>
-                    <div className='py-2 text-gray-100 dark:text-gray-900 w-2/12'>
-                      .
-                    </div>
-                  </div>
-                )}
-                <div className='text-right italic font-mono lg:text-lg font-bold w-5/12 text-purple-900 dark:text-purple-50'>
-                  Question: {question.current + 1}/{maxQuestion.current}
+                  {testID === undefined
+                    ? question.current < maxQuestion.current &&
+                      maxQuestion.current !== 0 &&
+                      questions[question.current] &&
+                      questions[question.current].question
+                    : question.current < maxQuestion.current &&
+                      maxQuestion.current !== 0 &&
+                      test.questions[question.current] &&
+                      test.questions[question.current].question}
                 </div>
               </div>
-            </div>
-          </div>
+
+              <div className='mt-4 mx-1 flex items-center bg-backGroundColorLight dark:bg-backGroundColorDark'>
+                <div className='flex-1 max-w-2xl mx-auto'>
+                  <ul className='grid grid-cols-2 md:grid-cols-3 gap-1 md:gap-2 question-answer-container'>
+                    <li
+                      className='answerTiles items'
+                      id='item-1'
+                      onClick={() => clickHandler(1)}
+                    >
+                      <div id='item-ans-1' className='answers'></div>
+                    </li>
+                    <li
+                      className='answerTiles items'
+                      id='item-2'
+                      onClick={() => clickHandler(2)}
+                    >
+                      <div id='item-ans-2' className='answers'></div>
+                    </li>
+                    <li
+                      className='answerTiles items'
+                      id='item-3'
+                      onClick={() => clickHandler(3)}
+                    >
+                      <div id='item-ans-3' className='answers'></div>
+                    </li>
+                    <li
+                      className='answerTiles items'
+                      id='item-4'
+                      onClick={() => clickHandler(4)}
+                    >
+                      <div id='item-ans-4' className='answers'></div>
+                    </li>
+                    <li
+                      className='answerTiles items'
+                      id='item-5'
+                      onClick={() => clickHandler(5)}
+                    >
+                      <div id='item-ans-5' className='answers'></div>
+                    </li>
+                    <li
+                      className='answerTiles items'
+                      id='item-6'
+                      onClick={() => clickHandler(6)}
+                    >
+                      <div id='item-ans-6' className='answers'></div>
+                    </li>
+                    <li
+                      className='answerTiles items'
+                      id='item-7'
+                      onClick={() => clickHandler(7)}
+                    >
+                      <div id='item-ans-7' className='answers'></div>
+                    </li>
+                    <li
+                      className='answerTiles items'
+                      id='item-8'
+                      onClick={() => clickHandler(8)}
+                    >
+                      <div id='item-ans-8' className='answers'></div>
+                    </li>
+                    <li
+                      className='answerTiles items'
+                      id='item-9'
+                      onClick={() => clickHandler(9)}
+                    >
+                      <div id='item-ans-9' className='answers'></div>
+                    </li>
+                    <li className='answerTiles items md:hidden' id='item-10'>
+                      <div id='item-ans-10' className='answers'></div>
+                    </li>
+                  </ul>
+                  <div className='flex justify-between mt-6'>
+                    <div className='text-left italic font-mono lg:text-lg font-bold w-5/12 text-purple-900 dark:text-purple-50'>
+                      Your Score:{' '}
+                      {score.current > 9 ? score.current : '0' + score.current}
+                    </div>
+
+                    {timerRun ? (
+                      <div className='w-3/12'>
+                        <CountdownTimer
+                          color='purple'
+                          initialMinute={0}
+                          initialSeconds={timerRun * 1}
+                        />
+                      </div>
+                    ) : (
+                      <div className='flex flex-col'>
+                        <div className='bg-purple-700 text-center lg:text-lg font-bold italic font-sans text-white px-2 py-2 rounded-full'>
+                          {answered.current}
+                        </div>
+                        <div className='py-2 text-gray-100 dark:text-gray-900 w-2/12'>
+                          .
+                        </div>
+                      </div>
+                    )}
+                    <div className='text-right italic font-mono lg:text-lg font-bold w-5/12 text-purple-900 dark:text-purple-50'>
+                      Question: {question.current + 1}/{maxQuestion.current}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </animated.div>
+          ))}
         </div>
       )}
     </div>
