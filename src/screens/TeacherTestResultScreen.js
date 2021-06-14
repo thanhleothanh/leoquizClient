@@ -109,9 +109,7 @@ const TeacherTestScreen = ({ history, match }) => {
                             <td className='tableCell text-left'>{test.type}</td>
                           </tr>
                           <tr>
-                            <td className='tableCell text-left'>
-                              Test is Active:
-                            </td>
+                            <td className='tableCell text-left'>Active:</td>
                             <td className='tableCell text-left'>
                               <i
                                 className={`text-2xl md:text-3xl fas fa-${

@@ -123,7 +123,7 @@ const HomeScreen = ({ history }) => {
                   <>
                     {activeTests && activeTests.length === 0 ? (
                       <Message type='info' className='mt-3'>
-                        There are no Tests from any teacher on the schedule!
+                        There is no test from any teacher on the schedule!
                       </Message>
                     ) : (
                       <>
