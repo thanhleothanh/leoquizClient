@@ -560,7 +560,7 @@ const TeacherScreen = ({ history }) => {
             {userInfo &&
               (userInfo.role === 'teacher' || userInfo.role === 'admin') && (
                 <div className='px-1 w-full lg:w-1/3'>
-                  <div className='text-left italic shadow-md font-bold text-red-800 dark:text-purple-800 text-xl lg:text-2xl w-full bg-gray-50 dark:bg-backGroundColorLight rounded-t-2xl pl-7 pt-2'>
+                  <div className='text-left shadow-md font-bold text-red-800 dark:text-purple-800 text-xl lg:text-2xl w-full bg-gray-50 dark:bg-backGroundColorLight rounded-t-2xl pl-7 pt-2'>
                     Teacher's Actions <i className='fas fa-marker'></i>
                   </div>
                   <div className='bg-gray-50 dark:bg-backGroundColorLight pb-5 px-7 rounded-b-2xl shadow-sm'>

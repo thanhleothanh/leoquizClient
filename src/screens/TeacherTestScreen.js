@@ -443,7 +443,7 @@ const TeacherTestScreen = ({ history, match }) => {
                 userInfo &&
                 (userInfo.role === 'teacher' || userInfo.role === 'admin') && (
                   <div className='w-full md:w-2/5 lg:w-1/3'>
-                    <div className='text-left italic shadow-md font-bold text-red-800 dark:text-purple-800 text-xl lg:text-2xl w-full bg-gray-50 dark:bg-backGroundColorLight rounded-t-2xl px-7 pt-2'>
+                    <div className='text-left shadow-md font-bold text-red-800 dark:text-purple-800 text-xl lg:text-2xl w-full bg-gray-50 dark:bg-backGroundColorLight rounded-t-2xl px-7 pt-2'>
                       Test's Detail <i className='fas fa-barcode' />
                     </div>
                     <div className='bg-gray-50 dark:bg-backGroundColorLight pb-5 px-7 rounded-b-2xl shadow-sm'>

@@ -33,8 +33,8 @@ const ProfileForm = () => {
   };
   return (
     <div className='mx-1'>
-      <div className='text-left italic font-bold text-red-800 dark:text-purple-800 text-xl lg:text-2xl w-full  bg-gray-50 dark:bg-backGroundColorLight rounded-t-2xl pl-7 pt-2 shadow-md'>
-        About You <div className='inline not-italic'>👁👄👁</div>
+      <div className='text-left font-bold text-red-800 dark:text-purple-800 text-xl lg:text-2xl w-full  bg-gray-50 dark:bg-backGroundColorLight rounded-t-2xl pl-7 pt-2 shadow-md'>
+        About You <div className='inline'>👁👄👁</div>
       </div>
       <form
         className='bg-gray-50 dark:bg-backGroundColorLight shadow-sm rounded-b-2xl px-8 pt-6 pb-8 mb-3 flex flex-col w-full'
