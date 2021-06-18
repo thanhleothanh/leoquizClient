@@ -108,7 +108,11 @@ const HomeScreen = ({ history }) => {
                 color='emerald'
               />
               <div className=' topHeader bg-white rounded-full mt-8 mb-5'>
-                Tests
+                Tests <span>|</span>{' '}
+                <i
+                  className='fas fa-redo-alt hover:text-orange-400 dark:hover:text-purple-400'
+                  onClick={() => dispatch(getActiveTests())}
+                />
               </div>
               <div className='w-full'>
                 {loadingTests ? (

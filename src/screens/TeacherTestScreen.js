@@ -523,12 +523,12 @@ const TeacherTestScreen = ({ history, match }) => {
                     <>
                       <div className='text-center flex justify-center'>
                         <h2 className=' topHeader text-xl lg:text-2xl bg-gray-50 dark:bg-backGroundColorLight rounded-t-2xl'>
-                          Questions |{' '}
+                          Questions <span>|</span>{' '}
                           <i
                             className='fas fa-plus text-lime-500 hover:text-lime-700'
                             onClick={addQuestion}
                           />{' '}
-                          |{' '}
+                          <span>|</span>{' '}
                           <i
                             className='fas fa-trash text-rose-500 hover:text-rose-700'
                             onClick={() => setDeleteQuestionModalIsOpen(true)}

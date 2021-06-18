@@ -465,7 +465,7 @@ const TeacherScreen = ({ history }) => {
                   <>
                     <div className='text-center flex justify-center'>
                       <h2 className=' topHeader text-xl lg:text-2xl bg-gray-50 dark:bg-backGroundColorLight rounded-t-2xl'>
-                        Your Tests |{' '}
+                        Your Tests <span>|</span>{' '}
                         <i
                           className='fas fa-redo-alt hover:text-orange-400 dark:hover:text-purple-400'
                           onClick={() => dispatch(getTests())}
