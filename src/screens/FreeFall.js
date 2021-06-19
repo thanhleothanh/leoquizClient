@@ -387,7 +387,8 @@ const FreeFall = ({ history }) => {
                   <div className='mx-1 md:mx-5 mt-4'>
                     <div className='flex justify-center items-center '>
                       <div
-                        className='text-center bg-backGroundColorLight dark:bg-backGroundColorDark text-xl lg:text-2xl italic font-sans font-bold text-emerald-900 dark:text-emerald-50 shadow-md rounded-lg py-2 px-4 mt-2'
+                        className='text-center bg-backGroundColorLight dark:bg-backGroundColorDark 
+                        text-lg sm:text-xl lg:text-2xl italic font-sans font-bold text-emerald-900 dark:text-emerald-50 shadow-sm rounded-lg py-2 px-4 mt-2'
                         id='question'
                       >
                         {question.current < maxQuestion.current &&

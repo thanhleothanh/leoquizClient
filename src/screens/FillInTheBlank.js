@@ -294,7 +294,7 @@ const FillInTheBlank = ({ history }) => {
               <div className='lg:w-6/12 w-full'>
                 <div className='w-full flex flex-col md:flex-row justify-center items-center px-1'>
                   <div
-                    className={`text-center bg-backGroundColorLight dark:bg-backGroundColorDark text-xl lg:text-2xl italic font-sans font-bold text-indigo-800 dark:text-indigo-50 shadow-md rounded-lg py-2 mt-2 ${
+                    className={`text-center bg-backGroundColorLight dark:bg-backGroundColorDark text-lg sm:text-xl lg:text-2xl italic font-sans font-bold text-indigo-800 dark:text-indigo-50 shadow-sm rounded-lg py-2 mt-2 lg:mr-0 md:mr-1 ${
                       testID === undefined
                         ? question.current < maxQuestion.current &&
                           questions[question.current] &&
@@ -319,31 +319,37 @@ const FillInTheBlank = ({ history }) => {
                         test.questions[question.current] &&
                         test.questions[question.current].question}
                   </div>
-                  {testID === undefined
-                    ? question.current < maxQuestion.current &&
-                      questions[question.current] &&
-                      questions[question.current].question_image && (
-                        <div className='w-full md:w-8/12 lg:w-0 select-none mt-2 md:pl-1 lg:pl-0'>
-                          <img
-                            className='w-full object-cover overflow-hidden rounded-2xl md:max-h-96'
-                            src={questions[question.current].question_image}
-                            alt='quiz-pic'
-                          />
-                        </div>
-                      )
-                    : question.current < maxQuestion.current &&
-                      test.questions[question.current] &&
-                      test.questions[question.current].question_image && (
-                        <div className='w-full md:w-8/12 lg:w-0 select-none mt-2 md:pl-1 lg:pl-0'>
-                          <img
-                            className='w-full object-cover overflow-hidden rounded-2xl md:max-h-96'
-                            src={
-                              test.questions[question.current].question_image
-                            }
-                            alt='quiz-pic'
-                          />
-                        </div>
-                      )}
+                  {testID === undefined ? (
+                    question.current < maxQuestion.current &&
+                    questions[question.current] &&
+                    questions[question.current].question_image ? (
+                      <div className='w-full md:w-8/12 lg:w-0 select-none mt-2'>
+                        <img
+                          className='w-full object-cover overflow-hidden rounded-2xl md:max-h-96'
+                          src={questions[question.current].question_image}
+                          alt='quiz-pic'
+                        />
+                      </div>
+                    ) : (
+                      <div className='mt-4 flex lg:hidden justify-center items-center w-full h-48 bg-orange-200 dark:bg-indigo-900 rounded-full opacity-50 font-semibold text-indigo-800 dark:text-indigo-50 text-sm'>
+                        No picture for this question!
+                      </div>
+                    )
+                  ) : question.current < maxQuestion.current &&
+                    test.questions[question.current] &&
+                    test.questions[question.current].question_image ? (
+                    <div className='w-full md:w-8/12 lg:w-0 select-none mt-2'>
+                      <img
+                        className='w-full object-cover overflow-hidden rounded-2xl md:max-h-96'
+                        src={test.questions[question.current].question_image}
+                        alt='quiz-pic'
+                      />
+                    </div>
+                  ) : (
+                    <div className='mt-4 flex lg:hidden justify-center items-center w-full h-48 bg-orange-200 dark:bg-indigo-900 rounded-full opacity-50 font-semibold text-indigo-800 dark:text-indigo-50 text-sm'>
+                      No picture for this question!
+                    </div>
+                  )}
                 </div>
 
                 <div className='mt-6 mx-1 flex items-center bg-backGroundColorLight dark:bg-backGroundColorDark'>

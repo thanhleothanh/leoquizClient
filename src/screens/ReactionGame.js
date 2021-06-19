@@ -311,7 +311,8 @@ const ReactionGame = ({ history }) => {
             <animated.div style={style} className='container mx-auto mt-4'>
               <div className='flex justify-center items-center '>
                 <div
-                  className='text-center bg-backGroundColorLight dark:bg-backGroundColorDark text-xl lg:text-2xl italic font-sans font-bold text-purple-900 dark:text-purple-50 shadow-md rounded-lg py-2 px-3 mt-2'
+                  className='text-center bg-backGroundColorLight dark:bg-backGroundColorDark
+                  text-lg sm:text-xl lg:text-2xl italic font-sans font-bold text-purple-900 dark:text-purple-50 shadow-sm rounded-lg py-2 px-3 mt-2'
                   id='question'
                 >
                   {testID === undefined

@@ -323,18 +323,18 @@ const MultipleChoice = ({ history }) => {
               <div className='lg:w-1/2 w-full'>
                 <div className='w-full flex justify-center items-center px-1'>
                   <div
-                    className={`text-center bg-backGroundColorLight dark:bg-backGroundColorDark text-xl lg:text-2xl italic font-sans font-bold  text-lightBlue-800 dark:text-lightBlue-50 shadow-md rounded-lg py-2 mt-2 ${
+                    className={`text-center bg-backGroundColorLight dark:bg-backGroundColorDark text-lg sm:text-xl lg:text-2xl italic font-sans font-bold  text-lightBlue-800 dark:text-lightBlue-50 shadow-sm rounded-lg py-2 mt-2 lg:mr-0 ${
                       testID === undefined
                         ? question.current < maxQuestion.current &&
                           questions[question.current] &&
                           questions[question.current].question_image
-                          ? 'w-3/12'
-                          : 'w-full'
+                          ? 'w-4/12 mr-1'
+                          : 'w-full mr-0'
                         : question.current < maxQuestion.current &&
                           test.questions[question.current] &&
                           test.questions[question.current].question_image
-                        ? 'w-3/12'
-                        : 'w-full'
+                        ? 'w-4/12 mr-1'
+                        : 'w-full mr-0'
                     } lg:w-full`}
                     id='question'
                   >
@@ -350,7 +350,7 @@ const MultipleChoice = ({ history }) => {
                     ? question.current < maxQuestion.current &&
                       questions[question.current] &&
                       questions[question.current].question_image && (
-                        <div className='w-9/12 lg:w-0 select-none mt-2 pl-1 lg:pl-0'>
+                        <div className='w-9/12 lg:w-0 select-none mt-2'>
                           <img
                             className='w-full object-cover overflow-hidden rounded-2xl max-h-96'
                             src={questions[question.current].question_image}
@@ -361,7 +361,7 @@ const MultipleChoice = ({ history }) => {
                     : question.current < maxQuestion.current &&
                       test.questions[question.current] &&
                       test.questions[question.current].question_image && (
-                        <div className='w-9/12 lg:w-0 select-none mt-2 pl-1 lg:pl-0'>
+                        <div className='w-9/12 lg:w-0 select-none mt-2'>
                           <img
                             className='w-full object-cover overflow-hidden rounded-2xl max-h-96'
                             src={
