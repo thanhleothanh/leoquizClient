@@ -53,24 +53,21 @@ const HomeScreen = ({ history }) => {
 
               <QuizCard
                 title='Reaction Game'
-                description='Choose the correct answer as fast as possible'
-                pointSystem='+2 pts/correct answer, -1 pt/wrong answer. '
+                description='Choose the correct answers as fast as possible'
                 image='/images/reactiongame.jpg'
                 link='/reactiongame'
                 color='purple'
               />
               <QuizCard
                 title='Fill In The Blank'
-                description='Fill in the blank to answer the questions. '
-                pointSystem='+3 pts/correct answer.'
+                description='Fill in the blank to answer the quizzes. '
                 image='/images/fillintheblank.jpg'
                 link='/fillintheblank'
                 color='indigo'
               />
               <QuizCard
                 title='Multiple Choice'
-                description='Choose the right answers for the questions. '
-                pointSystem='+1 pt/correct answer, -1 pt/wrong answer.'
+                description='Choose the right answers for the quizzes. '
                 image='/images/multiplechoice.jpg'
                 link='/multiplechoice'
                 color='lightBlue'
@@ -94,7 +91,6 @@ const HomeScreen = ({ history }) => {
               <QuizCard
                 title='Space Invaders'
                 description='Play this shooting game! '
-                pointSystem='+3 pts/correct answer.'
                 image='/images/spaceinvaders.png'
                 link='/spaceinvaders'
                 color='lime'
@@ -102,7 +98,6 @@ const HomeScreen = ({ history }) => {
               <QuizCard
                 title='Free Fall'
                 description='Keep the ball falling! '
-                pointSystem='+3 pts/correct answer.'
                 image='/images/freefall.png'
                 link='/freefall'
                 color='emerald'

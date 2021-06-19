@@ -244,7 +244,7 @@ const FillInTheBlank = ({ history }) => {
                   value='random'
                   onChange={(e) => (preference.current = e.target.value)}
                 />
-                <span className='ml-2'>Random Questions</span>
+                <span className='ml-2'>Random Quizzes</span>
               </label>
               <label className='preferences text-indigo-800 dark:text-indigo-50 mt-2'>
                 <input
@@ -254,14 +254,13 @@ const FillInTheBlank = ({ history }) => {
                   value='newest'
                   onChange={(e) => (preference.current = e.target.value)}
                 />
-                <span className='ml-2'>New Questions</span>
+                <span className='ml-2'>New Quizzes</span>
               </label>
             </div>
           )}
           <div className='text-base text-indigo-800 dark:text-indigo-50 mt-5  text-center'>
-            If a question is too hard <br />
-            Submit <strong className='font-extrabold'>-skip</strong> to skip
-            that question
+            If a quiz is too hard <br />
+            Submit <strong className='font-extrabold'>-skip</strong> to skip it
           </div>
         </div>
       ) : end ? (
@@ -323,7 +322,7 @@ const FillInTheBlank = ({ history }) => {
                     question.current < maxQuestion.current &&
                     questions[question.current] &&
                     questions[question.current].question_image ? (
-                      <div className='w-full md:w-8/12 lg:w-0 select-none mt-2'>
+                      <div className='w-full md:w-8/12 lg:w-0 select-none mt-4'>
                         <img
                           className='w-full object-cover overflow-hidden rounded-2xl md:max-h-96'
                           src={questions[question.current].question_image}
@@ -338,7 +337,7 @@ const FillInTheBlank = ({ history }) => {
                   ) : question.current < maxQuestion.current &&
                     test.questions[question.current] &&
                     test.questions[question.current].question_image ? (
-                    <div className='w-full md:w-8/12 lg:w-0 select-none mt-2'>
+                    <div className='w-full md:w-8/12 lg:w-0 select-none mt-4'>
                       <img
                         className='w-full object-cover overflow-hidden rounded-2xl md:max-h-96'
                         src={test.questions[question.current].question_image}
@@ -380,7 +379,7 @@ const FillInTheBlank = ({ history }) => {
                     </form>
                     <div className='flex justify-between mt-6'>
                       <div className='text-left italic font-mono lg:text-lg font-bold w-5/12 text-indigo-800 dark:text-indigo-50'>
-                        Your Score:{' '}
+                        Score:{' '}
                         {score.current > 9
                           ? score.current
                           : '0' + score.current}
@@ -404,7 +403,7 @@ const FillInTheBlank = ({ history }) => {
                         </div>
                       )}
                       <div className='text-right italic font-mono lg:text-lg font-bold w-5/12 text-indigo-800 dark:text-indigo-50'>
-                        Question: {question.current + 1}/{maxQuestion.current}
+                        Quiz: {question.current + 1}/{maxQuestion.current}
                       </div>
                     </div>
                   </div>

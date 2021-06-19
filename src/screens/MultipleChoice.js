@@ -279,7 +279,7 @@ const MultipleChoice = ({ history }) => {
                   value='random'
                   onChange={(e) => (preference.current = e.target.value)}
                 />
-                <span className='ml-2'>Random Questions</span>
+                <span className='ml-2'>Random Quizzes</span>
               </label>
               <label className='preferences text-lightBlue-800 dark:text-lightBlue-50 mt-2'>
                 <input
@@ -289,7 +289,7 @@ const MultipleChoice = ({ history }) => {
                   value='newest'
                   onChange={(e) => (preference.current = e.target.value)}
                 />
-                <span className='ml-2'>New Questions</span>
+                <span className='ml-2'>New Quizzes</span>
               </label>
             </div>
           )}
@@ -407,7 +407,7 @@ const MultipleChoice = ({ history }) => {
                     </ul>
                     <div className='flex justify-between mt-6 '>
                       <div className='text-left italic font-mono text-base lg:text-lg font-bold w-5/12 text-lightBlue-800 dark:text-lightBlue-50'>
-                        Your Score:{' '}
+                        Score:{' '}
                         {score.current > 9
                           ? score.current
                           : '0' + score.current}
@@ -420,7 +420,7 @@ const MultipleChoice = ({ history }) => {
                         />
                       </div>
                       <div className='text-right italic font-mono text-base lg:text-lg font-bold w-5/12 text-lightBlue-800 dark:text-lightBlue-50'>
-                        Question: {question.current + 1}/{maxQuestion.current}
+                        Quiz: {question.current + 1}/{maxQuestion.current}
                       </div>
                     </div>
                   </div>

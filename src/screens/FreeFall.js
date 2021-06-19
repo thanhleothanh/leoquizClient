@@ -424,7 +424,7 @@ const FreeFall = ({ history }) => {
                         </ul>
                         <div className='flex justify-between mt-6'>
                           <div className='text-left italic font-mono lg:text-lg font-bold w-5/12 text-emerald-900 dark:text-emerald-50'>
-                            Your Score:{' '}
+                            Score:{' '}
                             {score.current > 9
                               ? score.current
                               : '0' + score.current}
@@ -458,8 +458,7 @@ const FreeFall = ({ history }) => {
                             // </div>
                           }
                           <div className='text-right italic font-mono lg:text-lg font-bold w-5/12 text-emerald-900 dark:text-emerald-50'>
-                            Question: {question.current + 1}/
-                            {maxQuestion.current}
+                            Quiz: {question.current + 1}/{maxQuestion.current}
                           </div>
                         </div>
                       </div>

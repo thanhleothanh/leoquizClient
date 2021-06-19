@@ -387,7 +387,7 @@ const SpaceInvaders = ({ history }) => {
               </div>
               <div className='flex justify-between mt-3 mx-1 select-none'>
                 <div className='text-left italic font-mono text-base lg:text-lg font-bold w-1/2 text-lime-800 dark:text-lime-50'>
-                  Your Score: {score > 9 ? score : '0' + score}
+                  Score: {score > 9 ? score : '0' + score}
                 </div>
 
                 {
