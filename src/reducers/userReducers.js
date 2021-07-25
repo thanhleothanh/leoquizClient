@@ -126,7 +126,7 @@ export const userGameTicketsReducer = (state = { gameTickets: 0 }, action) => {
       return { ...state };
     case USER_GAME_TICKETS_MINUS:
       state.gameTickets =
-        state.gameTickets - 2 <= 0 ? 0 : state.gameTickets - 2;
+        state.gameTickets - 1 <= 0 ? 0 : state.gameTickets - 1;
       localStorage.setItem('gameTickets', state.gameTickets);
       return { ...state };
     default:

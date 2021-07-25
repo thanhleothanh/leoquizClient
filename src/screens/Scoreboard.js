@@ -137,7 +137,6 @@ const Scoreboard = ({ history }) => {
           </animated.div>
         ))}
       </>
-      )
     </div>
   );
 };

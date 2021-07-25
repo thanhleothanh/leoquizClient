@@ -320,7 +320,7 @@ const SpaceInvaders = ({ history }) => {
       />
       {!playing ? (
         <div className='w-full h-screen flex flex-col justify-center items-center'>
-          {gameTickets >= 2 || (userInfo && userInfo.role) !== 'student' ? (
+          {gameTickets >= 1 || (userInfo && userInfo.role) !== 'student' ? (
             <button
               className='playButton bg-lime-600 hover:bg-lime-700'
               onClick={playHandler}
@@ -355,11 +355,11 @@ const SpaceInvaders = ({ history }) => {
             </label>
           </div>
           <div className='text-base md:text-lg text-lime-800 dark:text-lime-50 mt-5 text-center'>
-            You have {Math.floor(gameTickets / 2)}{' '}
+            You have {Math.floor(gameTickets)}{' '}
             <strong className='font-bold'>Game Ticket(s)</strong>
           </div>
           <div className='text-base md:text-lg text-lime-800 dark:text-lime-50 text-center'>
-            Finishing 2 Quizzes = 1{' '}
+            Finishing 1 Quizzes = 1{' '}
             <strong className='font-bold'>Game Ticket</strong>
           </div>
           <div className='mt-3 text-xs text-lime-800 dark:text-lime-50 text-center'>

@@ -47,7 +47,7 @@ const HomeScreen = ({ history }) => {
             className='grid md:grid-cols-2 md:gap-5 lg:gap-9 px-6 sm:px-12 md:px-7 lg:px-20  overflow-auto pb-5'
           >
             <div className='flex flex-col items-center'>
-              <div className=' topHeader bg-white rounded-full mt-8 mb-5'>
+              <div className=' topHeader bg-white rounded-full mt-8 mb-5 select-none'>
                 Quizzes
               </div>
 
@@ -72,20 +72,20 @@ const HomeScreen = ({ history }) => {
                 link='/multiplechoice'
                 color='lightBlue'
               />
-              <div className='topHeader bg-white rounded-full mt-8 mb-5 hidden md:inline'>
+              <div className='topHeader bg-white rounded-full mt-8 mb-5 hidden md:inline select-none'>
                 <i className='fas fa-info' />
               </div>
               <div className='w-full mt-3'>
                 <Message type='info'>
                   You have <i className='fas fa-ticket-alt' />{' '}
-                  {Math.floor(gameTickets / 2)} <strong>Game Ticket(s)</strong>
-                  <br /> Get 1 <strong>Game Ticket</strong> by finishing 2{' '}
+                  {Math.floor(gameTickets)} <strong>Game Ticket(s)</strong>
+                  <br /> Get 1 <strong>Game Ticket</strong> by finishing 1{' '}
                   <strong>Quizzes</strong>
                 </Message>
               </div>
             </div>
             <div className='flex flex-col items-center'>
-              <div className=' topHeader bg-white rounded-full mt-8 mb-5'>
+              <div className=' topHeader bg-white rounded-full mt-8 mb-5 select-none'>
                 Games
               </div>
               <QuizCard
@@ -102,8 +102,8 @@ const HomeScreen = ({ history }) => {
                 link='/freefall'
                 color='emerald'
               />
-              <div className=' topHeader bg-white rounded-full mt-8 mb-5'>
-                Tests <span>|</span>{' '}
+              <div className=' topHeader bg-white rounded-full mt-8 mb-5 select-none'>
+                Tests |{' '}
                 <i
                   className='fas fa-redo-alt hover:text-orange-400 dark:hover:text-purple-400'
                   onClick={() => dispatch(getActiveTests())}

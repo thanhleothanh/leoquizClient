@@ -46,7 +46,7 @@ const EndGame = ({
     }
 
     if (!game) {
-      if (score >= 5) dispatch({ type: 'USER_GAME_TICKETS_ADD' });
+      if (score >= 10) dispatch({ type: 'USER_GAME_TICKETS_ADD' });
     } else {
       if (freegame === undefined) dispatch({ type: 'USER_GAME_TICKETS_MINUS' });
     }
