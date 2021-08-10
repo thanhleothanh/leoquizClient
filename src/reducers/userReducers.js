@@ -21,6 +21,10 @@ import {
   GET_SCOREBOARD_REQUEST,
   GET_SCOREBOARD_RESET,
   GET_SCOREBOARD_SUCCESS,
+  GET_STUDENTS_FAIL,
+  GET_STUDENTS_REQUEST,
+  GET_STUDENTS_RESET,
+  GET_STUDENTS_SUCCESS,
   USER_SKIP_NEWEST,
   USER_GAME_TICKETS_ADD,
   USER_GAME_TICKETS_MINUS,
@@ -144,6 +148,21 @@ export const scoreboardReducer = (state = { scoreboard: null }, action) => {
       return { loading: false, error: action.payload };
     case GET_SCOREBOARD_RESET:
       return { scoreboard: null };
+    default:
+      return state;
+  }
+};
+
+export const getStudentsReducer = (state = { students: null }, action) => {
+  switch (action.type) {
+    case GET_STUDENTS_REQUEST:
+      return { loading: true };
+    case GET_STUDENTS_SUCCESS:
+      return { loading: false, students: action.payload, success: true };
+    case GET_STUDENTS_FAIL:
+      return { loading: false, error: action.payload };
+    case GET_STUDENTS_RESET:
+      return { students: null };
     default:
       return state;
   }

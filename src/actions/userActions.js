@@ -19,6 +19,9 @@ import {
   GET_SCOREBOARD_FAIL,
   GET_SCOREBOARD_SUCCESS,
   GET_SCOREBOARD_REQUEST,
+  GET_STUDENTS_FAIL,
+  GET_STUDENTS_SUCCESS,
+  GET_STUDENTS_REQUEST,
 } from '../constants/userConstants';
 import axios from 'axios';
 import {
@@ -279,6 +282,45 @@ export const getScoreboard = () => async (dispatch, getState) => {
       : "There's a problem";
     dispatch({
       type: GET_SCOREBOARD_FAIL,
+      payload: errorMessage,
+    });
+  }
+};
+
+export const getYourStudents = () => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: GET_STUDENTS_REQUEST,
+    });
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+    const { data } = await axios.get(
+      `${`https://leoquizapp.herokuapp.com/api/users/students/`}`,
+      config
+    );
+
+    dispatch({
+      type: GET_STUDENTS_SUCCESS,
+      payload: data,
+    });
+
+    //
+  } catch (error) {
+    const errorMessage = error.response
+      ? error.response.data.message
+      : error.response.message
+      ? error.message
+      : "There's a problem";
+    dispatch({
+      type: GET_STUDENTS_FAIL,
       payload: errorMessage,
     });
   }

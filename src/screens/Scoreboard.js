@@ -59,11 +59,11 @@ const Scoreboard = ({ history }) => {
                         #
                       </th>
                       <th className='tableHead py-5 w-2/12'>Score</th>
-                      <th className='tableHead py-5 w-2/12'>Quiz Taken</th>
+                      <th className='tableHead py-5 w-2/12'>Taken</th>
                       <th className='tableHead py-5 w-2/12'>Name</th>
                       <th className='tableHead py-5 w-2/12'>Class</th>
-                      <th className='tableHead py-5 w-3/12 rounded-tr-2xl'>
-                        Teacher's Star
+                      <th className='tableHead py-5 w-2/12 rounded-tr-2xl'>
+                        Teacher's Stars
                       </th>
                     </tr>
                   </thead>

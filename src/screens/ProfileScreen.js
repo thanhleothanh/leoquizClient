@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useTransition, animated } from 'react-spring';
 import { useSelector, useDispatch } from 'react-redux';
-import { getScoreboard, updateStar } from './../actions/userActions';
+import { getYourStudents, updateStar } from './../actions/userActions';
 import { getTestResultsOfStudent } from './../actions/testResultsActions';
 import Loader from './../components/Loader';
 import Alert from './../components/Alert';
@@ -24,11 +24,11 @@ const ProfileScreen = ({ history }) => {
   const { register, handleSubmit } = useForm(); // initialize the hook
   const { userInfo } = useSelector((state) => state.userLogin);
   const {
-    scoreboard,
-    loading: loadingScoreboard,
-    error: errorScoreboard,
-    success: successScoreboard,
-  } = useSelector((state) => state.scoreboard);
+    students,
+    loading: loadingStudents,
+    error: errorStudents,
+    success: successStudents,
+  } = useSelector((state) => state.getStudents);
   const {
     testResults,
     loading: loadingGetTestResults,
@@ -42,10 +42,10 @@ const ProfileScreen = ({ history }) => {
     else if (!testResults && userInfo && userInfo.role === 'student') {
       dispatch(getTestResultsOfStudent());
     } else if (
-      !scoreboard &&
+      !students &&
       (userInfo.role === 'teacher' || userInfo.role === 'admin')
     ) {
-      dispatch(getScoreboard());
+      dispatch(getYourStudents());
     }
   }, [userInfo, history, dispatch]);
 
@@ -61,7 +61,7 @@ const ProfileScreen = ({ history }) => {
   const openModal = () => setIsOpen(true);
   const closeModal = () => setIsOpen(false);
   const updateHandler = (userId) => {
-    const user = scoreboard.find((e) => e._id === userId);
+    const user = students.find((e) => e._id === userId);
     setUserId(userId);
     setName(user.name);
     setClass(user.class);
@@ -275,21 +275,21 @@ const ProfileScreen = ({ history }) => {
                         </th>
                         <th className='tableHead py-5 w-1/12 '>Score</th>
                         <th className='tableHead py-5 w-2/12 md:w-3/12 '>
-                          Quiz Taken
+                          Taken
                         </th>
-                        <th className='tableHead py-5 w-2/12 '>Name</th>
+                        <th className='tableHead py-5 w-3/12 '>Name</th>
                         <th className='tableHead py-5 w-2/12 '>Class</th>
-                        <th className='tableHead py-5 w-4/12 md:w-3/12  rounded-tr-2xl'>
+                        <th className='tableHead py-5 w-3/12 md:w-3/12  rounded-tr-2xl'>
                           Teacher's Star
                         </th>
                       </tr>
                     </thead>
                     <tbody>
                       {userInfo &&
-                        successScoreboard &&
-                        scoreboard &&
-                        scoreboard.length !== 0 &&
-                        scoreboard.map((user, i) => {
+                        successStudents &&
+                        students &&
+                        students.length !== 0 &&
+                        students.map((user, i) => {
                           if (user.teacher._id === userInfo._id)
                             return (
                               <tr key={user._id}>
@@ -331,17 +331,17 @@ const ProfileScreen = ({ history }) => {
                   </table>
                 </div>
                 <div className='mt-3'>
-                  {loadingScoreboard ? (
+                  {loadingStudents ? (
                     <Loader
                       loader={Math.floor(Math.random() * 10 + 1)}
                       color={Math.floor(Math.random() * 10 + 1)}
                     />
-                  ) : errorScoreboard ? (
-                    <Alert>{errorScoreboard}</Alert>
+                  ) : errorStudents ? (
+                    <Alert>{errorStudents}</Alert>
                   ) : userInfo &&
-                    successScoreboard &&
-                    scoreboard &&
-                    scoreboard.findIndex(
+                    successStudents &&
+                    students &&
+                    students.findIndex(
                       (student) => student.teacher._id === userInfo._id
                     ) === -1 ? (
                     <Message type='info'>You don't have any student</Message>

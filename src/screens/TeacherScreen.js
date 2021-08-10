@@ -53,9 +53,8 @@ const TeacherScreen = ({ history }) => {
       if (!tests) dispatch(getTests());
       dispatch({ type: 'GET_TEST_RESET' });
       dispatch({ type: 'GET_TEST_RESULTS_OF_TEST_RESET' });
-      dispatch({ type: 'GET_TEST_RESULTS_OF_STUDENT_RESET' });
     }
-  }, [history, dispatch]);
+  }, [dispatch]);
 
   //ANIMATION
   const transition = useTransition(animation, {

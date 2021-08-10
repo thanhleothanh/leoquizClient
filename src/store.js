@@ -27,6 +27,7 @@ import {
   userUpdateStarReducer,
   userGameTicketsReducer,
   scoreboardReducer,
+  getStudentsReducer,
 } from './reducers/userReducers';
 
 const reducer = combineReducers({
@@ -44,6 +45,7 @@ const reducer = combineReducers({
   getTestResultsOfStudent: getTestResultsOfStudentReducer,
   getTestResult: getTestResultReducer,
   //
+  getStudents: getStudentsReducer,
   scoreboard: scoreboardReducer,
   userLogin: userLoginReducer,
   userSignup: userSignupReducer,
