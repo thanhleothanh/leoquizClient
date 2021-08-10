@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useTransition, animated } from 'react-spring';
 import { useSelector, useDispatch } from 'react-redux';
 import { getYourStudents, updateStar } from './../actions/userActions';
@@ -15,10 +15,10 @@ const ProfileScreen = ({ history }) => {
   const [animation] = useState(false);
   //MODAL STATE
   const [modalIsOpen, setIsOpen] = useState(false);
-  const [userId, setUserId] = useState('');
-  const [name, setName] = useState('');
-  const [Class, setClass] = useState('');
-  const [star, setStar] = useState(0);
+  const userId = useRef('');
+  const name = useRef('');
+  const Class = useRef('');
+  const star = useRef(0);
 
   //redux
   const { register, handleSubmit } = useForm(); // initialize the hook
@@ -60,20 +60,25 @@ const ProfileScreen = ({ history }) => {
   /////////// MODAL MODAL MODAL MODAL MODAL MODAL MODAL MODAL MODAL MODAL MODAL MODAL MODAL MODAL MODAL MODAL
   const openModal = () => setIsOpen(true);
   const closeModal = () => setIsOpen(false);
-  const updateHandler = (userId) => {
-    const user = students.find((e) => e._id === userId);
-    setUserId(userId);
-    setName(user.name);
-    setClass(user.class);
-    setStar(user.star);
+  const updateHandler = (id) => {
+    const user = students.find((e) => e._id === id);
+    userId.current = id;
+    name.current = user.name;
+    Class.current = user.class;
+    star.current = user.star;
     openModal();
   };
 
   const actualUpdateHandler = (data) => {
-    if (window.confirm(`Are you sure to update ${name}?`)) {
-      dispatch(updateStar({ star: data.star }, userId));
-      document.getElementById(`star-${userId}`).innerHTML = data.star;
-      setStar(0);
+    if (window.confirm(`Are you sure to update ${name.current}?`)) {
+      dispatch(updateStar({ star: data.star * 1 }, userId.current));
+      document.getElementById(`star-${userId.current}`).innerHTML =
+        data.star * 1 + ' ';
+
+      userId.current = '';
+      name.current = '';
+      Class.current = '';
+      star.current = 0;
       closeModal();
     }
   };
@@ -111,9 +116,8 @@ const ProfileScreen = ({ history }) => {
               className='fieldAboutYou'
               name='name'
               type='text'
-              autoComplete='off'
               placeholder={`Student's name`}
-              defaultValue={name}
+              defaultValue={name.current}
               readOnly
               disabled
             />
@@ -122,9 +126,8 @@ const ProfileScreen = ({ history }) => {
               className='fieldAboutYou'
               name='class'
               type='text'
-              autoComplete='off'
               placeholder={`Student's class`}
-              defaultValue={Class}
+              defaultValue={Class.current}
               readOnly
               disabled
             />
@@ -132,11 +135,10 @@ const ProfileScreen = ({ history }) => {
             <input
               className='fieldAboutYou'
               name='star'
-              name='star'
               type='number'
               placeholder='Star'
               ref={register}
-              defaultValue={star}
+              defaultValue={star.current}
             />
             <div className='flex items-center justify-between outline-none mt-5'>
               <button className='buttonAboutYou' type='submit'>
@@ -296,7 +298,7 @@ const ProfileScreen = ({ history }) => {
                                 <td className='tableCell'>{i + 1}</td>
                                 <td className='tableCell'>{user.score}</td>
                                 <td className='tableCell'>{user.quizTaken}</td>
-                                <td className='tableCell'>
+                                <td className='tableCell break-words'>
                                   {user.name[0].toUpperCase() +
                                     user.name.slice(1)}
                                 </td>
@@ -304,8 +306,11 @@ const ProfileScreen = ({ history }) => {
                                   {user.class[0].toUpperCase() +
                                     user.class.slice(1)}
                                 </td>
-                                <td className='tableCell flex justify-center '>
-                                  <div className='mx-1' id={`star-${user._id}`}>
+                                <td className='tableCell'>
+                                  <div
+                                    className='inline'
+                                    id={`star-${user._id}`}
+                                  >
                                     {user.star}{' '}
                                   </div>
                                   <i className='fas fa-star text-yellow-400 dark:text-cyan-400' />
