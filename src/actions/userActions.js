@@ -24,6 +24,7 @@ import {
   GET_STUDENTS_REQUEST,
 } from '../constants/userConstants';
 import axios from 'axios';
+import { API_URL } from '../utils/config';
 import {
   GET_TEST_RESULTS_OF_TEST_RESET,
   GET_TEST_RESULTS_OF_STUDENT_RESET,
@@ -41,7 +42,7 @@ export const login = (username, password) => async (dispatch) => {
       },
     };
     const { data } = await axios.post(
-      `${`https://leoquizapp.herokuapp.com/api/users/login`}`,
+      `${API_URL}/api/users/login`,
       { username, password },
       config
     );
@@ -77,7 +78,7 @@ export const signup = (username, name, password) => async (dispatch) => {
       },
     };
     const { data } = await axios.post(
-      `${`https://leoquizapp.herokuapp.com/api/users/signup`}`,
+      `${API_URL}/api/users/signup`,
       { username, name, password },
       config
     );
@@ -144,7 +145,7 @@ export const updateScore = (score) => async (dispatch, getState) => {
       },
     };
     const { data } = await axios.patch(
-      `${`https://leoquizapp.herokuapp.com/api/users/${userInfo._id}`}`,
+      `${API_URL}/api/users/${userInfo._id}`,
       score,
       config
     );
@@ -184,7 +185,7 @@ export const updateStar = (star, studentId) => async (dispatch, getState) => {
       },
     };
     const { data } = await axios.patch(
-      `${`https://leoquizapp.herokuapp.com/api/users/students/${studentId}`}`,
+      `${API_URL}/api/users/students/${studentId}`,
       star,
       config
     );
@@ -224,7 +225,7 @@ export const updatePassword = (password) => async (dispatch, getState) => {
       },
     };
     const { data } = await axios.patch(
-      `${`https://leoquizapp.herokuapp.com/api/users/${userInfo._id}/changePassword`}`,
+      `${API_URL}/api/users/${userInfo._id}/changePassword`,
       password,
       config
     );
@@ -263,10 +264,7 @@ export const getScoreboard = () => async (dispatch, getState) => {
         authorization: `Bearer ${userInfo.token}`,
       },
     };
-    const { data } = await axios.get(
-      `${`https://leoquizapp.herokuapp.com/api/users`}`,
-      config
-    );
+    const { data } = await axios.get(`${API_URL}/api/users`, config);
 
     dispatch({
       type: GET_SCOREBOARD_SUCCESS,
@@ -302,10 +300,7 @@ export const getYourStudents = () => async (dispatch, getState) => {
         authorization: `Bearer ${userInfo.token}`,
       },
     };
-    const { data } = await axios.get(
-      `${`https://leoquizapp.herokuapp.com/api/users/students/`}`,
-      config
-    );
+    const { data } = await axios.get(`${API_URL}/api/users/students/`, config);
 
     dispatch({
       type: GET_STUDENTS_SUCCESS,

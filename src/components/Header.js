@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import ProfileDropdown from './ProfileDropdown';
+import DropdownMenu from './DropdownMenu';
 import 'react-tippy/dist/tippy.css';
 import { Tooltip } from 'react-tippy';
 
@@ -20,11 +20,8 @@ const Header = () => {
     }
   }, []);
   return (
-    <header
-      className='fixed inset-0 z-10 w-full fixedHeader
-      select-none customGradient flex justify-between items-end shadow-sm rounded-b-2xl'
-    >
-      <div className='font-black text-2xl md:text-3xl text-white p-3 md:p-4'>
+    <nav className='fixed inset-0 z-10 flex items-end justify-between w-full shadow-sm select-none fixedHeader customGradient rounded-b-2xl'>
+      <div className='p-3 text-2xl font-black text-white md:text-3xl md:p-4'>
         {!window.matchMedia('(display-mode: standalone)').matches &&
         window.matchMedia('(min-width: 640px)').matches ? (
           /*nếu mà không ở standalone && media to hơn 640px thì mới có tooltip*/
@@ -46,7 +43,7 @@ const Header = () => {
           >
             <Link to={`${userInfo ? '/home' : '/'}`}>
               <h1>
-                <i className='fas fa-puzzle-piece headerIcons mr-1' />
+                <i className='mr-1 fas fa-puzzle-piece headerIcons' />
                 Leo Quiz
               </h1>
             </Link>
@@ -54,7 +51,7 @@ const Header = () => {
         ) : (
           <Link to={`${userInfo ? '/home' : '/'}`}>
             <h1>
-              <i className='fas fa-puzzle-piece headerIcons mr-1' />
+              <i className='mr-1 fas fa-puzzle-piece headerIcons' />
               Leo Quiz
             </h1>
           </Link>
@@ -64,19 +61,16 @@ const Header = () => {
       <div className='flex p-3 md:p-4'>
         {!userInfo ? (
           <Link
-            className='px-4 py-1 bg-white shadow-md rounded-full  
-          text-base md:text-lg focus:outline-none font-bold 
-          hover:bg-orange-700 text-orange-800 hover:text-white 
-          dark:hover:bg-purple-800 dark:text-purple-800 dark:hover:text-white'
+            className='px-4 py-1 text-base font-bold text-orange-800 bg-white rounded-full shadow-md md:text-lg focus:outline-none hover:bg-orange-700 hover:text-white dark:hover:bg-purple-800 dark:text-purple-800 dark:hover:text-white'
             to='/login'
           >
             Sign in <i className='fas fa-smile animate-bounce' />
           </Link>
         ) : (
-          <ProfileDropdown user={userInfo} />
+          <DropdownMenu user={userInfo} />
         )}
       </div>
-    </header>
+    </nav>
   );
 };
 

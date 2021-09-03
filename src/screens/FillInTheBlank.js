@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useTransition, animated } from 'react-spring';
-import { getQuestions } from './../actions/questionActions';
 import { useDispatch, useSelector } from 'react-redux';
+import { useForm } from 'react-hook-form';
+import { useLocation } from 'react-router-dom';
 import EndGame from './../components/EndGame';
 import Loader from './../components/Loader';
 import Meta from './../components/Meta';
 import Alert from './../components/Alert';
-import { useLocation } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
+import { getQuestions } from './../actions/questionActions';
 import { getTestResult } from '../actions/testResultsActions';
 import { getTest } from '../actions/testActions';
 
@@ -78,6 +78,7 @@ const FillInTheBlank = ({ history }) => {
     if (testID !== undefined) dispatch(getTestResult(testID));
     if (!userInfo) history.push('/login');
   }, [userInfo, history]);
+
   useEffect(() => {
     if (playing && !loading && !end) {
       //if pressed PLAY button

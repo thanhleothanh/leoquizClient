@@ -39,7 +39,7 @@ const App = () => {
         <main className='h-auto min-h-screen pt-14 md:pt-16'>
           <Suspense
             fallback={
-              <div className='h-screen w-full flex justify-center items-center'>
+              <div className='flex items-center justify-center w-full h-screen'>
                 <Loader
                   loader={Math.floor(Math.random() * 10) + 1}
                   color={Math.floor(Math.random() * 10) + 1}

@@ -9,6 +9,7 @@ import {
   GET_TEST_RESULTS_OF_STUDENT_REQUEST,
   GET_TEST_RESULTS_OF_STUDENT_FAIL,
 } from '../constants/testResultsConstants';
+import { API_URL } from '../utils/config';
 import axios from 'axios';
 
 export const getTestResultsOfTest = (testID) => async (dispatch, getState) => {
@@ -26,7 +27,7 @@ export const getTestResultsOfTest = (testID) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.get(
-      `https://leoquizapp.herokuapp.com/api/testResults/teacher/${testID}`,
+      `${API_URL}/api/testResults/teacher/${testID}`,
       config
     );
     dispatch({ type: GET_TEST_RESULTS_OF_TEST_SUCCESS, payload: data });
@@ -59,7 +60,7 @@ export const getTestResultsOfStudent = () => async (dispatch, getState) => {
     };
 
     const { data } = await axios.get(
-      `https://leoquizapp.herokuapp.com/api/testResults/student`,
+      `${API_URL}/api/testResults/student`,
       config
     );
     dispatch({ type: GET_TEST_RESULTS_OF_STUDENT_SUCCESS, payload: data });
@@ -92,7 +93,7 @@ export const getTestResult = (testID) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.get(
-      `https://leoquizapp.herokuapp.com/api/testResults/${testID}`,
+      `${API_URL}/api/testResults/${testID}`,
       config
     );
     dispatch({ type: GET_TEST_RESULT_SUCCESS, payload: data });

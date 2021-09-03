@@ -6,6 +6,7 @@ import {
   POST_QUESTION_REQUEST,
   POST_QUESTION_FAIL,
 } from '../constants/questionConstants';
+import { API_URL } from '../utils/config';
 import axios from 'axios';
 
 export const getQuestions = (request) => async (dispatch, getState) => {
@@ -33,7 +34,7 @@ export const getQuestions = (request) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.get(
-      `${`https://leoquizapp.herokuapp.com/api/questions/${request.preference}?type=${request.type}${additionalType}&page=${page}`}`,
+      `${API_URL}/api/questions/${request.preference}?type=${request.type}${additionalType}&page=${page}`,
       config
     );
 
@@ -66,7 +67,7 @@ export const postQuestion = (newQuestion) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.post(
-      `${`https://leoquizapp.herokuapp.com/api/questions`}`,
+      `${API_URL}/api/questions`,
       newQuestion,
       config
     );

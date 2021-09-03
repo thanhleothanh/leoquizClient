@@ -1,122 +1,121 @@
 @tailwind base;
 @tailwind components;
 
+@layer components {
+  .fixedHeader {
+    height: calc(4rem + env(safe-area-inset-top));
+  }
+  /*play button screen, prepare to call api screen*/
+  .playButton {
+    @apply px-10 py-4 text-xl font-bold text-white uppercase rounded-full shadow-lg select-none lg:text-2xl lg:px-14 focus:outline-none;
+  }
+  .playButtonPressed {
+    @apply select-none animate-pulse customGradient;
+  }
+  /*games-related*/
+  .preferences {
+    @apply inline-flex items-center text-sm font-medium sm:text-base;
+  }
+
+  /*reaction game*/
+  .answerTiles {
+    @apply h-20 bg-white shadow-lg pointer-events-none select-none dark:bg-purple-900 rounded-2xl md:h-28;
+  }
+  .answers {
+    @apply flex flex-col justify-center h-full text-sm font-semibold text-center text-gray-100 sm:text-base lg:text-lg;
+  }
+  .show {
+    @apply bg-purple-600 pointer-events-auto select-none dark:bg-purple-500 hover:bg-purple-800 dark:hover:bg-purple-700 rounded-2xl;
+  }
+  /*Free Fall game*/
+  .answerTilesFreeFall {
+    @apply h-20 shadow-lg pointer-events-none select-none bg-emerald-700 dark:bg-emerald-700 rounded-2xl md:h-28;
+  }
+  .answersFreeFall {
+    @apply flex flex-col justify-center h-full text-sm font-semibold text-center text-gray-100 sm:text-base lg:text-lg;
+  }
+  .showFreeFall {
+    @apply pointer-events-auto select-none bg-emerald-700 dark:bg-emerald-700 hover:bg-emerald-600 dark:hover:bg-emerald-600 rounded-2xl;
+  }
+
+  /*multiple choice*/
+  .answerTilesMultipleChoice {
+    @apply h-16 shadow-xl pointer-events-none rounded-2xl bg-lightBlue-600 md:h-20 lg:h-32;
+  }
+  .showMultiple {
+    @apply pointer-events-auto hover:bg-lightBlue-700 rounded-2xl;
+  }
+
+  /*fill in the blank*/
+  .submitBtnFillintheblank {
+    @apply px-3 text-sm font-semibold text-white bg-indigo-600 rounded-r-full select-none hover:bg-indigo-800 md:text-base focus:outline-none;
+  }
+  .disableSubmitBtnFillintheblank {
+    @apply px-3 text-sm font-semibold text-white bg-indigo-600 bg-opacity-50 rounded-r-full select-none md:text-base focus:outline-none;
+  }
+
+  /*answers*/
+  .correct-chosen {
+    @apply select-none bg-lime-600 dark:bg-lime-600 rounded-2xl animate-bounce;
+  }
+  .wrong {
+    @apply bg-red-600 select-none dark:bg-red-700 rounded-2xl animate-wiggle;
+  }
+
+  /*form form form*/
+  .fieldAboutYou {
+    @apply w-full px-5 py-2 text-sm text-red-900 placeholder-red-900 rounded shadow-md appearance-none md:text-base focus:ring-4 focus:ring-opacity-75 focus:ring-yellow-600 dark:focus:ring-purple-600 dark:text-purple-800 focus:outline-none dark:placeholder-purple-800;
+  }
+  .labelFieldAboutYou {
+    @apply block mb-2 text-base font-bold text-red-800 dark:text-purple-800;
+  }
+  .buttonAboutYou {
+    @apply w-full px-6 py-2 text-base font-bold text-white bg-yellow-500 rounded shadow-md lg:text-lg focus:outline-none hover:bg-yellow-600 dark:bg-purple-500 dark:hover:bg-purple-600;
+  }
+  .buttonAboutYouWithoutWfull {
+    @apply px-6 py-2 text-base font-bold text-white bg-yellow-500 rounded-md shadow-md lg:text-lg focus:outline-none hover:bg-yellow-600 dark:bg-purple-500 dark:hover:bg-purple-600;
+  }
+
+  /*table*/
+  .tableHead {
+    @apply text-sm text-orange-800 shadow-sm md:text-base lg:text-lg dark:text-purple-800 bg-gray-50 dark:bg-backGroundColorLight;
+  }
+  .tableCell {
+    @apply py-2 text-xs font-medium text-center text-orange-900 md:text-sm lg:text-base dark:text-purple-800 bg-gray-50 dark:bg-backGroundColorLight;
+  }
+
+  /*table for TEST CARD ONLY*/
+  .tableHeadTestCard {
+    @apply py-2 text-sm text-orange-800 bg-white md:text-base lg:text-lg dark:text-orange-50 dark:bg-orange-900;
+  }
+  .tableCellTestCard {
+    @apply py-1 text-xs font-medium text-orange-800 bg-white md:text-sm lg:text-base dark:text-orange-50 dark:bg-orange-900;
+  }
+
+  /**/
+  .buttonInDropdown {
+    @apply block px-4 py-2 text-sm font-semibold text-right lg:text-base hover:bg-orange-600 dark:hover:bg-purple-700 hover:text-white;
+  }
+  .topHeader {
+    @apply px-3 py-1 text-lg font-bold text-red-800 shadow-md lg:text-xl dark:text-purple-800 lg:px-4 lg:py-2;
+  }
+  .customGradient {
+    @apply bg-gradient-to-br from-rose-800 via-orange-300 to-yellow-200 dark:from-cyan-700 dark:via-indigo-400 dark:to-purple-400;
+  }
+
+  .headerIcons {
+    display: inline;
+  }
+}
+
 body {
   padding-top: env(safe-area-inset-top);
   @apply bg-backGroundColorLight dark:bg-backGroundColorDark;
-}
-.fixedHeader {
-  height: calc(4rem + env(safe-area-inset-top));
 }
 @media screen and (max-width: 768px) {
   .fixedHeader {
     height: calc(3.5rem + env(safe-area-inset-top));
   }
-}
-
-/*play button screen, prepare to call api screen*/
-.playButton {
-  @apply lg:text-2xl text-xl text-white font-bold px-10 lg:px-14 py-4 rounded-full shadow-lg focus:outline-none uppercase select-none;
-}
-.playButtonPressed {
-  @apply animate-pulse customGradient select-none;
-}
-
-/*games-related*/
-.preferences {
-  @apply inline-flex items-center font-medium text-sm sm:text-base;
-}
-
-/*reaction game*/
-.answerTiles {
-  @apply bg-white dark:bg-purple-900 rounded-2xl shadow-lg h-20 md:h-28 pointer-events-none select-none;
-}
-.answers {
-  @apply h-full flex flex-col justify-center text-center text-sm sm:text-base lg:text-lg font-semibold text-gray-100;
-}
-.show {
-  @apply bg-purple-600 dark:bg-purple-500 hover:bg-purple-800 dark:hover:bg-purple-700 rounded-2xl pointer-events-auto select-none;
-}
-
-/*Free Fall game*/
-.answerTilesFreeFall {
-  @apply bg-emerald-700 dark:bg-emerald-700 rounded-2xl shadow-lg h-20 md:h-28 pointer-events-none select-none;
-}
-.answersFreeFall {
-  @apply h-full flex flex-col justify-center text-center text-sm sm:text-base lg:text-lg font-semibold text-gray-100;
-}
-.showFreeFall {
-  @apply bg-emerald-700 dark:bg-emerald-700 hover:bg-emerald-600 dark:hover:bg-emerald-600 rounded-2xl pointer-events-auto select-none;
-}
-
-/*multiple choice*/
-.answerTilesMultipleChoice {
-  @apply rounded-2xl bg-lightBlue-600 shadow-xl h-16 md:h-20 lg:h-32 pointer-events-none;
-}
-.showMultiple {
-  @apply hover:bg-lightBlue-700 rounded-2xl pointer-events-auto;
-}
-
-/*fill in the blank*/
-.submitBtnFillintheblank {
-  @apply px-3 bg-indigo-600 hover:bg-indigo-800 font-semibold text-sm md:text-base text-white rounded-r-full focus:outline-none select-none;
-}
-.disableSubmitBtnFillintheblank {
-  @apply px-3 bg-indigo-600 bg-opacity-50 font-semibold text-sm md:text-base text-white rounded-r-full focus:outline-none select-none;
-}
-
-/*answers*/
-.correct-chosen {
-  @apply bg-lime-600 dark:bg-lime-600 rounded-2xl animate-bounce select-none;
-}
-.wrong {
-  @apply bg-red-600 dark:bg-red-700 rounded-2xl animate-wiggle select-none;
-}
-
-/*form form form*/
-.fieldAboutYou {
-  @apply text-sm md:text-base rounded w-full py-2 px-5 shadow-md appearance-none focus:ring-4 focus:ring-opacity-75  focus:ring-yellow-600  dark:focus:ring-purple-600 text-red-900 dark:text-purple-800 focus:outline-none placeholder-red-900 dark:placeholder-purple-800;
-}
-.labelFieldAboutYou {
-  @apply block text-base font-bold mb-2 text-red-800 dark:text-purple-800;
-}
-.buttonAboutYou {
-  @apply text-base lg:text-lg font-bold py-2 px-6 shadow-md rounded focus:outline-none w-full bg-yellow-500 hover:bg-yellow-600 dark:bg-purple-500 dark:hover:bg-purple-600 text-white;
-}
-.buttonAboutYouWithoutWfull {
-  @apply text-base lg:text-lg font-bold py-2 px-6 shadow-md rounded-md focus:outline-none bg-yellow-500 hover:bg-yellow-600 dark:bg-purple-500 dark:hover:bg-purple-600 text-white;
-}
-
-/*table*/
-.tableHead {
-  @apply text-sm md:text-base lg:text-lg text-orange-800 dark:text-purple-800 bg-gray-50 dark:bg-backGroundColorLight shadow-sm;
-}
-.tableCell {
-  @apply text-center font-medium py-2 text-xs md:text-sm lg:text-base text-orange-900 dark:text-purple-800 bg-gray-50 dark:bg-backGroundColorLight;
-}
-
-/*table for TEST CARD ONLY*/
-.tableHeadTestCard {
-  @apply text-sm md:text-base lg:text-lg text-orange-800 dark:text-orange-50  bg-white dark:bg-orange-900 py-2;
-}
-.tableCellTestCard {
-  @apply font-medium py-1 text-xs md:text-sm lg:text-base text-orange-800 dark:text-orange-50 bg-white dark:bg-orange-900;
-}
-
-/**/
-.buttonInDropdown {
-  @apply block text-right px-4 py-2 font-semibold text-sm lg:text-base hover:bg-orange-600 dark:hover:bg-purple-700 hover:text-white;
-}
-.topHeader {
-  @apply text-lg lg:text-xl text-red-800 dark:text-purple-800 font-bold px-3 lg:px-4 py-1 lg:py-2 shadow-md;
-}
-.customGradient {
-  @apply bg-gradient-to-br from-rose-800 via-orange-300 to-yellow-200 
-  dark:from-cyan-700 dark:via-indigo-400 dark:to-purple-400;
-}
-
-.headerIcons {
-  display: inline;
 }
 @media screen and (max-width: 395px) {
   .headerIcons {

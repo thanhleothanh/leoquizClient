@@ -60,8 +60,8 @@ const Scoreboard = ({ history }) => {
                       </th>
                       <th className='tableHead py-5 w-2/12'>Score</th>
                       <th className='tableHead py-5 w-2/12'>Taken</th>
-                      <th className='tableHead py-5 w-2/12'>Name</th>
-                      <th className='tableHead py-5 w-2/12 sm:w-3/12'>Class</th>
+                      <th className='tableHead py-5 w-3/12'>Name</th>
+                      <th className='tableHead py-5 w-2/12 md:w-3/12'>Class</th>
                       <th className='tableHead py-5 w-2/12 rounded-tr-2xl'>
                         Stars
                       </th>
@@ -94,13 +94,15 @@ const Scoreboard = ({ history }) => {
                                 <i className='pl-1 fas fa-hand-point-left'></i>
                               )}
                             </td>
-                            <td className='tableCell py-2 break-normal'>
+                            <td className='tableCell py-2'>
                               {user.class[0].toUpperCase() +
                                 user.class.slice(1)}{' '}
-                              {'(' +
-                                user.teacher.name[0].toUpperCase() +
-                                user.teacher.name.slice(1) +
-                                ')'}
+                              <div className='md:inline'>
+                                {'(' +
+                                  user.teacher.name[0].toUpperCase() +
+                                  user.teacher.name.slice(1) +
+                                  ')'}
+                              </div>
                             </td>
                             <td className='tableCell py-2 '>
                               {user.star}{' '}

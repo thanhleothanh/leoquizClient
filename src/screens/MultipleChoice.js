@@ -246,7 +246,7 @@ const MultipleChoice = ({ history }) => {
       ) : errorGetTestResult ? (
         <Alert>{errorGetTestResult}</Alert>
       ) : !playing ? (
-        <div className='w-full h-screen flex flex-col justify-center items-center'>
+        <div className='flex flex-col items-center justify-center w-full h-screen'>
           {testID === undefined || (testResult && testResult.length === 0) ? (
             <button
               className='playButton bg-lightBlue-600 hover:bg-lightBlue-700'
@@ -258,33 +258,33 @@ const MultipleChoice = ({ history }) => {
           ) : (
             <>
               <button
-                className='playButton bg-lightBlue-600 opacity-50'
+                className='opacity-50 playButton bg-lightBlue-600'
                 disabled
               >
                 {testID === undefined ? 'Play' : 'Go'}
                 <i className='ml-3 fas fa-play' />
               </button>
-              <div className='preferences text-lightBlue-800 dark:text-lightBlue-50 mt-5'>
+              <div className='mt-5 preferences text-lightBlue-800 dark:text-lightBlue-50'>
                 You already finished this test!
               </div>
             </>
           )}
           {testID === undefined && (
-            <div className='mt-4 flex flex-col'>
+            <div className='flex flex-col mt-4'>
               <label className='preferences text-lightBlue-800 dark:text-lightBlue-50'>
                 <input
                   type='radio'
-                  className='form-radio w-4 h-4 md:w-7 md:h-7'
+                  className='w-4 h-4 form-radio md:w-7 md:h-7'
                   name='preference'
                   value='random'
                   onChange={(e) => (preference.current = e.target.value)}
                 />
                 <span className='ml-2'>Random Quizzes</span>
               </label>
-              <label className='preferences text-lightBlue-800 dark:text-lightBlue-50 mt-2'>
+              <label className='mt-2 preferences text-lightBlue-800 dark:text-lightBlue-50'>
                 <input
                   type='radio'
-                  className='form-radio w-4 h-4 md:w-7 md:h-7'
+                  className='w-4 h-4 form-radio md:w-7 md:h-7'
                   name='preference'
                   value='newest'
                   onChange={(e) => (preference.current = e.target.value)}
@@ -318,10 +318,10 @@ const MultipleChoice = ({ history }) => {
           {transition((style) => (
             <animated.div
               style={style}
-              className='flex justify-center lg:space-x-5 container mx-auto w-full mt-4'
+              className='container flex justify-center w-full mx-auto mt-4 lg:space-x-5'
             >
-              <div className='lg:w-1/2 w-full'>
-                <div className='w-full flex justify-center items-center px-1'>
+              <div className='w-full lg:w-1/2'>
+                <div className='flex items-center justify-center w-full px-1'>
                   <div
                     className={`text-center bg-backGroundColorLight dark:bg-backGroundColorDark text-lg sm:text-xl lg:text-2xl italic font-sans font-bold  text-lightBlue-800 dark:text-lightBlue-50 shadow-sm rounded-lg py-2 mt-2 lg:mr-0 ${
                       testID === undefined
@@ -350,9 +350,9 @@ const MultipleChoice = ({ history }) => {
                     ? question.current < maxQuestion.current &&
                       questions[question.current] &&
                       questions[question.current].question_image && (
-                        <div className='w-9/12 lg:w-0 select-none mt-2'>
+                        <div className='w-9/12 mt-2 select-none lg:w-0'>
                           <img
-                            className='w-full object-cover overflow-hidden rounded-2xl max-h-96'
+                            className='object-cover w-full overflow-hidden rounded-2xl max-h-96'
                             src={questions[question.current].question_image}
                             alt='quiz-pic'
                           />
@@ -361,9 +361,9 @@ const MultipleChoice = ({ history }) => {
                     : question.current < maxQuestion.current &&
                       test.questions[question.current] &&
                       test.questions[question.current].question_image && (
-                        <div className='w-9/12 lg:w-0 select-none mt-2'>
+                        <div className='w-9/12 mt-2 select-none lg:w-0'>
                           <img
-                            className='w-full object-cover overflow-hidden rounded-2xl max-h-96'
+                            className='object-cover w-full overflow-hidden rounded-2xl max-h-96'
                             src={
                               test.questions[question.current].question_image
                             }
@@ -373,9 +373,9 @@ const MultipleChoice = ({ history }) => {
                       )}
                 </div>
 
-                <div className='mt-6 mx-1 flex items-center bg-backGroundColorLight dark:bg-backGroundColorDark'>
+                <div className='flex items-center mx-1 mt-6 bg-backGroundColorLight dark:bg-backGroundColorDark'>
                   <div className='flex-1 max-w-2xl mx-auto'>
-                    <ul className='grid grid-cols-1 md:grid-cols-2 gap-1 md:gap-2 question-answer-container'>
+                    <ul className='grid grid-cols-1 gap-1 md:grid-cols-2 md:gap-2 question-answer-container'>
                       <li
                         className=' answerTilesMultipleChoice items'
                         id='item-1'
@@ -406,7 +406,7 @@ const MultipleChoice = ({ history }) => {
                       </li>
                     </ul>
                     <div className='flex justify-between mt-6 '>
-                      <div className='text-left italic font-mono text-base lg:text-lg font-bold w-5/12 text-lightBlue-800 dark:text-lightBlue-50'>
+                      <div className='w-5/12 font-mono text-base italic font-bold text-left lg:text-lg text-lightBlue-800 dark:text-lightBlue-50'>
                         Score:{' '}
                         {score.current > 9
                           ? score.current
@@ -419,25 +419,25 @@ const MultipleChoice = ({ history }) => {
                           initialSeconds={0}
                         />
                       </div>
-                      <div className='text-right italic font-mono text-base lg:text-lg font-bold w-5/12 text-lightBlue-800 dark:text-lightBlue-50'>
+                      <div className='w-5/12 font-mono text-base italic font-bold text-right lg:text-lg text-lightBlue-800 dark:text-lightBlue-50'>
                         Quiz: {question.current + 1}/{maxQuestion.current}
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <div className='h-screen w-0 lg:w-1/2 select-none'>
+              <div className='w-0 h-screen select-none lg:w-1/2'>
                 {testID === undefined ? (
                   question.current < maxQuestion.current &&
                   questions[question.current] &&
                   questions[question.current].question_image ? (
                     <img
-                      className='w-full lg:h-3/4 max-h-screen mt-2 object-cover overflow-hidden rounded-2xl'
+                      className='object-cover w-full max-h-screen mt-2 overflow-hidden lg:h-3/4 rounded-2xl'
                       src={questions[question.current].question_image}
                       alt='quiz-pic'
                     />
                   ) : (
-                    <div className='mt-4 hidden lg:flex justify-center items-center md:w-full max-h-96 h-full bg-orange-200 dark:bg-lightBlue-800 rounded-full animate-pulse font-semibold text-lightBlue-800 dark:text-lightBlue-50'>
+                    <div className='items-center justify-center hidden h-full mt-4 font-semibold bg-orange-200 rounded-full lg:flex md:w-full max-h-96 dark:bg-lightBlue-800 animate-pulse text-lightBlue-800 dark:text-lightBlue-50'>
                       No picture for this question!
                     </div>
                   )
@@ -445,12 +445,12 @@ const MultipleChoice = ({ history }) => {
                   test.questions[question.current] &&
                   test.questions[question.current].question_image ? (
                   <img
-                    className='w-full lg:h-3/4 max-h-screen mt-2 object-cover overflow-hidden rounded-2xl'
+                    className='object-cover w-full max-h-screen mt-2 overflow-hidden lg:h-3/4 rounded-2xl'
                     src={test.questions[question.current].question_image}
                     alt='quiz-pic'
                   />
                 ) : (
-                  <div className='mt-4 hidden lg:flex justify-center items-center md:w-full max-h-96 h-full bg-orange-200 dark:bg-lightBlue-800 rounded-full animate-pulse font-semibold text-lightBlue-800 dark:text-lightBlue-50'>
+                  <div className='items-center justify-center hidden h-full mt-4 font-semibold bg-orange-200 rounded-full lg:flex md:w-full max-h-96 dark:bg-lightBlue-800 animate-pulse text-lightBlue-800 dark:text-lightBlue-50'>
                     No picture for this question!
                   </div>
                 )}

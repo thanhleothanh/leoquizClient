@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { updatePassword } from './../actions/userActions';
-import Loader from './../components/Loader';
-import Alert from './../components/Alert';
-import Message from './../components/Message';
+import { updatePassword } from '../../actions/userActions';
+import Loader from '../Loader';
+import Alert from '../Alert';
+import Message from '../Message';
 import { useForm } from 'react-hook-form';
 
 const ProfileForm = () => {
@@ -11,6 +11,7 @@ const ProfileForm = () => {
   const dispatch = useDispatch();
   const { register, handleSubmit } = useForm(); // initialize the hook
   const { userInfo } = useSelector((state) => state.userLogin);
+
   const {
     loading: loadingUpdatePassword,
     error: errorUpdatePassword,
@@ -31,13 +32,14 @@ const ProfileForm = () => {
       }
     }
   };
+
   return (
     <div className='mx-1'>
-      <div className='text-left font-bold text-red-800 dark:text-purple-800 text-xl lg:text-2xl w-full  bg-gray-50 dark:bg-backGroundColorLight rounded-t-2xl pl-7 pt-2 shadow-md'>
+      <div className='w-full pt-2 text-xl font-bold text-left text-red-800 shadow-md dark:text-purple-800 lg:text-2xl bg-gray-50 dark:bg-backGroundColorLight rounded-t-2xl pl-7'>
         About You <div className='inline'>👁👄👁</div>
       </div>
       <form
-        className='bg-gray-50 dark:bg-backGroundColorLight shadow-sm rounded-b-2xl px-8 pt-6 pb-8 mb-3 flex flex-col w-full'
+        className='flex flex-col w-full px-8 pt-6 pb-8 mb-3 shadow-sm bg-gray-50 dark:bg-backGroundColorLight rounded-b-2xl'
         onSubmit={handleSubmit(changePassword)}
       >
         <div>
@@ -136,7 +138,7 @@ const ProfileForm = () => {
             ref={register}
           />
         </div>
-        <div className='flex items-center justify-between outline-none mt-5'>
+        <div className='flex items-center justify-between mt-5 outline-none'>
           <button className='buttonAboutYou' type='submit'>
             Change Password
           </button>

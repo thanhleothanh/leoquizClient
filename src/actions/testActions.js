@@ -19,6 +19,7 @@ import {
   UPDATE_TEST_FAIL,
 } from '../constants/testConstants';
 import axios from 'axios';
+import { API_URL } from '../utils/config';
 
 export const getTests = () => async (dispatch, getState) => {
   try {
@@ -34,10 +35,7 @@ export const getTests = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(
-      `https://leoquizapp.herokuapp.com/api/tests/teacher`,
-      config
-    );
+    const { data } = await axios.get(`${API_URL}/api/tests/teacher`, config);
     dispatch({ type: GET_TESTS_SUCCESS, payload: data });
   } catch (error) {
     const errorMessage = error.response
@@ -67,10 +65,7 @@ export const getActiveTests = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(
-      `https://leoquizapp.herokuapp.com/api/tests/`,
-      config
-    );
+    const { data } = await axios.get(`${API_URL}/api/tests/`, config);
     dispatch({ type: GET_ACTIVE_TESTS_SUCCESS, payload: data });
   } catch (error) {
     const errorMessage = error.response
@@ -99,7 +94,7 @@ export const postTest = (newTest) => async (dispatch, getState) => {
       },
     };
     const { data } = await axios.post(
-      `https://leoquizapp.herokuapp.com/api/tests/teacher`,
+      `${API_URL}/api/tests/teacher`,
       newTest,
       config
     );
@@ -131,13 +126,11 @@ export const getTest = (id) => async (dispatch, getState) => {
         authorization: `Bearer ${userInfo.token}`,
       },
     };
-    const { data } = await axios.get(
-      `https://leoquizapp.herokuapp.com/api/tests/${id}`,
-      config
-    );
+    const { data } = await axios.get(`${API_URL}/api/tests/${id}`, config);
 
     dispatch({ type: GET_TEST_SUCCESS, payload: data });
   } catch (error) {
+    console.log('object');
     const errorMessage = error.response
       ? error.response.data.message
       : error.response.message
@@ -165,7 +158,7 @@ export const updateTest =
         },
       };
       const { data } = await axios.patch(
-        `https://leoquizapp.herokuapp.com/api/tests/${id}`,
+        `${API_URL}/api/tests/${id}`,
         { questions, active },
         config
       );
@@ -198,7 +191,7 @@ export const postTestResult = (newTestResult) => async (dispatch, getState) => {
       },
     };
     const { data } = await axios.post(
-      `https://leoquizapp.herokuapp.com/api/testResults`,
+      `${API_URL}/api/testResults`,
       newTestResult,
       config
     );

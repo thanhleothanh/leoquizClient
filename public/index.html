@@ -8,10 +8,6 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-title" content="Leo Quiz" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"></meta>
-    <meta
-      name="description"
-      content="Leo English Quiz App made for mntta/GrapeSEED English classes"
-    />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
@@ -165,11 +161,17 @@
       media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"
     />
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <title>Leo Quiz</title>
+    <title>Leo Quiz | English Quiz App for Kids</title>
+    <meta
+      name="description"
+      content="Leo English Quiz App made for mntta/GrapeSEED English classes"
+    />
   </head>
   <body id="bodyRoot">
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
+    <div id='modal-root'></div>
+
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {

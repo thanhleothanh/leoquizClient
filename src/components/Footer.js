@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 const Footer = () => {
   const changeThemeHandler = () => {
@@ -18,7 +18,7 @@ const Footer = () => {
   };
 
   return (
-    <footer className='text-center font-medium p-6 mt-20 select-none text-yellow-900 dark:text-purple-100'>
+    <footer className='p-6 mt-20 font-medium text-center text-yellow-900 select-none dark:text-purple-100'>
       <div className='text-xs sm:text-sm lg:text-base'>
         Copyright &copy; Leo Quiz{' '}
         <i className='fas fa-lightbulb' onClick={changeThemeHandler} />
