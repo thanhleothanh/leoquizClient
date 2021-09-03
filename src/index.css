@@ -40,10 +40,10 @@
 
   /*multiple choice*/
   .answerTilesMultipleChoice {
-    @apply h-16 shadow-xl pointer-events-none rounded-2xl bg-lightBlue-600 md:h-20 lg:h-32;
+    @apply h-16 shadow-xl pointer-events-none rounded-2xl bg-sky-600 md:h-20 lg:h-32;
   }
   .showMultiple {
-    @apply pointer-events-auto hover:bg-lightBlue-700 rounded-2xl;
+    @apply pointer-events-auto hover:bg-sky-700 rounded-2xl;
   }
 
   /*fill in the blank*/

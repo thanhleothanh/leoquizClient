@@ -70,7 +70,7 @@ const HomeScreen = ({ history }) => {
                 description='Choose the right answers for the quizzes. '
                 image='/images/multiplechoice.jpg'
                 link='/multiplechoice'
-                color='lightBlue'
+                color='sky'
               />
               <div className='topHeader bg-white rounded-full mt-8 mb-5 hidden md:inline select-none'>
                 <i className='fas fa-info' />

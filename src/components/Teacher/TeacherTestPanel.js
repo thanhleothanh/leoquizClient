@@ -68,10 +68,10 @@ const TeacherTestPanel = () => {
                       </td>
                       <td className='tableCell'>
                         <Link to={`/tests/${test._id}`}>
-                          <i className='text-xl md:text-3xl text-lightBlue-500 hover:text-lightBlue-700 fas fa-edit' />{' '}
+                          <i className='text-xl md:text-3xl text-sky-500 hover:text-sky-700 fas fa-edit' />{' '}
                         </Link>
                         <Link to={`/tests/results/${test._id}`}>
-                          <i className='text-xl md:text-3xl text-lightBlue-500 hover:text-lightBlue-700 fas fa-poll' />
+                          <i className='text-xl md:text-3xl text-sky-500 hover:text-sky-700 fas fa-poll' />
                         </Link>
                       </td>
                     </tr>

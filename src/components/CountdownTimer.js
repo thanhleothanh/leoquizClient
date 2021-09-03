@@ -12,7 +12,7 @@ const CountdownTimer = ({ initialMinute, initialSeconds, color }) => {
   bg-purple-100 bg-purple-700 bg-purple-600 dark:bg-purple-800 bg-purple-200 text-purple-800 dark:text-purple-50
   bg-cyan-100 bg-cyan-700 bg-cyan-600 dark:bg-cyan-800 bg-cyan-200 text-cyan-800 dark:text-cyan-50
   bg-emerald-100 bg-emerald-700 bg-emerald-600 dark:bg-emerald-800 bg-emerald-200 text-emerald-800 dark:text-emerald-50
-  bg-lime-100 bg-lime-700 bg-lime-600 dark:bg-lime-800 bg-lime-200 text-lime-800 dark:text-lime-50 bg-lightBlue-100 bg-lightBlue-700 bg-lightBlue-600 dark:bg-lightBlue-800 bg-lightBlue-200 text-lightBlue-800 dark:text-lightBlue-50
+  bg-lime-100 bg-lime-700 bg-lime-600 dark:bg-lime-800 bg-lime-200 text-lime-800 dark:text-lime-50 bg-sky-100 bg-sky-700 bg-sky-600 dark:bg-sky-800 bg-sky-200 text-sky-800 dark:text-sky-50
   `;
 
   useEffect(() => {

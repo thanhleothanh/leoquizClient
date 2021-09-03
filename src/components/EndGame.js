@@ -18,7 +18,7 @@ const EndGame = ({
   testID,
 }) => {
   const endScreenTailwind = `
-  hover:bg-lightBlue-800 bg-lightBlue-600 text-lightBlue-50 
+  hover:bg-sky-800 bg-sky-600 text-sky-50 
   hover:bg-rose-800 bg-rose-600 text-rose-50 
   hover:bg-orange-800 bg-orange-600 text-orange-50 
   hover:bg-lime-800 bg-lime-600 text-lime-50 

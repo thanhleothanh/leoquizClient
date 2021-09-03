@@ -249,7 +249,7 @@ const MultipleChoice = ({ history }) => {
         <div className='flex flex-col items-center justify-center w-full h-screen'>
           {testID === undefined || (testResult && testResult.length === 0) ? (
             <button
-              className='playButton bg-lightBlue-600 hover:bg-lightBlue-700'
+              className='playButton bg-sky-600 hover:bg-sky-700'
               onClick={playHandler}
             >
               {testID === undefined ? 'Play' : 'Go'}{' '}
@@ -257,21 +257,18 @@ const MultipleChoice = ({ history }) => {
             </button>
           ) : (
             <>
-              <button
-                className='opacity-50 playButton bg-lightBlue-600'
-                disabled
-              >
+              <button className='opacity-50 playButton bg-sky-600' disabled>
                 {testID === undefined ? 'Play' : 'Go'}
                 <i className='ml-3 fas fa-play' />
               </button>
-              <div className='mt-5 preferences text-lightBlue-800 dark:text-lightBlue-50'>
+              <div className='mt-5 preferences text-sky-800 dark:text-sky-50'>
                 You already finished this test!
               </div>
             </>
           )}
           {testID === undefined && (
             <div className='flex flex-col mt-4'>
-              <label className='preferences text-lightBlue-800 dark:text-lightBlue-50'>
+              <label className='preferences text-sky-800 dark:text-sky-50'>
                 <input
                   type='radio'
                   className='w-4 h-4 form-radio md:w-7 md:h-7'
@@ -281,7 +278,7 @@ const MultipleChoice = ({ history }) => {
                 />
                 <span className='ml-2'>Random Quizzes</span>
               </label>
-              <label className='mt-2 preferences text-lightBlue-800 dark:text-lightBlue-50'>
+              <label className='mt-2 preferences text-sky-800 dark:text-sky-50'>
                 <input
                   type='radio'
                   className='w-4 h-4 form-radio md:w-7 md:h-7'
@@ -298,7 +295,7 @@ const MultipleChoice = ({ history }) => {
         <EndGame
           title={endState.current}
           score={score.current}
-          color='lightBlue'
+          color='sky'
           history={history}
           preference={preference.current}
           type='multiple'
@@ -323,7 +320,7 @@ const MultipleChoice = ({ history }) => {
               <div className='w-full lg:w-1/2'>
                 <div className='flex items-center justify-center w-full px-1'>
                   <div
-                    className={`text-center bg-backGroundColorLight dark:bg-backGroundColorDark text-lg sm:text-xl lg:text-2xl italic font-sans font-bold  text-lightBlue-800 dark:text-lightBlue-50 shadow-sm rounded-lg py-2 mt-2 lg:mr-0 ${
+                    className={`text-center bg-backGroundColorLight dark:bg-backGroundColorDark text-lg sm:text-xl lg:text-2xl italic font-sans font-bold  text-sky-800 dark:text-sky-50 shadow-sm rounded-lg py-2 mt-2 lg:mr-0 ${
                       testID === undefined
                         ? question.current < maxQuestion.current &&
                           questions[question.current] &&
@@ -406,7 +403,7 @@ const MultipleChoice = ({ history }) => {
                       </li>
                     </ul>
                     <div className='flex justify-between mt-6 '>
-                      <div className='w-5/12 font-mono text-base italic font-bold text-left lg:text-lg text-lightBlue-800 dark:text-lightBlue-50'>
+                      <div className='w-5/12 font-mono text-base italic font-bold text-left lg:text-lg text-sky-800 dark:text-sky-50'>
                         Score:{' '}
                         {score.current > 9
                           ? score.current
@@ -414,12 +411,12 @@ const MultipleChoice = ({ history }) => {
                       </div>
                       <div className='w-3/12'>
                         <CountdownTimer
-                          color='lightBlue'
+                          color='sky'
                           initialMinute={5}
                           initialSeconds={0}
                         />
                       </div>
-                      <div className='w-5/12 font-mono text-base italic font-bold text-right lg:text-lg text-lightBlue-800 dark:text-lightBlue-50'>
+                      <div className='w-5/12 font-mono text-base italic font-bold text-right lg:text-lg text-sky-800 dark:text-sky-50'>
                         Quiz: {question.current + 1}/{maxQuestion.current}
                       </div>
                     </div>
@@ -437,7 +434,7 @@ const MultipleChoice = ({ history }) => {
                       alt='quiz-pic'
                     />
                   ) : (
-                    <div className='items-center justify-center hidden h-full mt-4 font-semibold bg-orange-200 rounded-full lg:flex md:w-full max-h-96 dark:bg-lightBlue-800 animate-pulse text-lightBlue-800 dark:text-lightBlue-50'>
+                    <div className='items-center justify-center hidden h-full mt-4 font-semibold bg-orange-200 rounded-full lg:flex md:w-full max-h-96 dark:bg-sky-800 animate-pulse text-sky-800 dark:text-sky-50'>
                       No picture for this question!
                     </div>
                   )
@@ -450,7 +447,7 @@ const MultipleChoice = ({ history }) => {
                     alt='quiz-pic'
                   />
                 ) : (
-                  <div className='items-center justify-center hidden h-full mt-4 font-semibold bg-orange-200 rounded-full lg:flex md:w-full max-h-96 dark:bg-lightBlue-800 animate-pulse text-lightBlue-800 dark:text-lightBlue-50'>
+                  <div className='items-center justify-center hidden h-full mt-4 font-semibold bg-orange-200 rounded-full lg:flex md:w-full max-h-96 dark:bg-sky-800 animate-pulse text-sky-800 dark:text-sky-50'>
                     No picture for this question!
                   </div>
                 )}

@@ -5,7 +5,7 @@ const Message = ({ children, type, className }) => {
     <div>
       {type === 'info' ? (
         <div
-          className={`${className} dark:bg-lightBlue-200 bg-lightBlue-100 font-medium text-sm md:text-base border-4 border-lightBlue-500 text-lightBlue-900 px-6 py-3 rounded-xl text-center`}
+          className={`${className} dark:bg-sky-200 bg-sky-100 font-medium text-sm md:text-base border-4 border-sky-500 text-sky-900 px-6 py-3 rounded-xl text-center`}
         >
           <span className='block sm:inline'>{children}</span>
         </div>
