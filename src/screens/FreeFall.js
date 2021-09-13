@@ -6,22 +6,7 @@ import EndGame from '../components/EndGame';
 import Loader from '../components/Loader';
 import Meta from '../components/Meta';
 import { getQuestions } from './../actions/questionActions';
-
-//shuffle questions fisher-yates
-const shuffle = (array) => {
-  var currentIndex = array.length,
-    temporaryValue,
-    randomIndex;
-
-  while (0 !== currentIndex) {
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex -= 1;
-    temporaryValue = array[currentIndex];
-    array[currentIndex] = array[randomIndex];
-    array[randomIndex] = temporaryValue;
-  }
-  return array;
-};
+import shuffle from '../utils/shuffleArray';
 
 const FreeFall = ({ history }) => {
   //game related
@@ -335,20 +320,20 @@ const FreeFall = ({ history }) => {
     }
   };
   return (
-    <div className='h-auto flex flex-col md:flex-row'>
+    <div className='flex flex-col h-auto md:flex-row'>
       <Meta
         title='Free Fall'
         description='Leo English Quiz App for Kids | Free Fall Game'
       />
       {!playing ? (
-        <div className='w-full h-screen flex flex-col justify-center items-center'>
+        <div className='flex flex-col items-center justify-center w-full h-screen'>
           <button
             className='playButton bg-emerald-600 hover:bg-emerald-700'
             onClick={playHandler}
           >
             Play <i className='ml-3 fas fa-play' />
           </button>
-          <div className='text-base md:text-lg text-emerald-800 dark:text-emerald-50 mt-5 text-center'>
+          <div className='mt-5 text-base text-center md:text-lg text-emerald-800 dark:text-emerald-50'>
             You can play this game without{' '}
             <strong className='font-bold'>Game Ticket(s)</strong>!
           </div>
@@ -370,12 +355,12 @@ const FreeFall = ({ history }) => {
           {transition((style) => (
             <animated.div
               style={style}
-              className='flex flex-col md:flex-row container mx-auto w-full'
+              className='container flex flex-col w-full mx-auto md:flex-row'
             >
-              <div className='w-full md:w-2/5 md:h-screen mt-1 select-none md:mt-6'>
-                <canvas className='w-full h-68 md:h-3/4 lg:h-2/3 px-1 rounded-3xl overflow-hidden'></canvas>
+              <div className='w-full mt-1 select-none md:w-2/5 md:h-screen md:mt-6'>
+                <canvas className='w-full px-1 overflow-hidden h-68 md:h-3/4 lg:h-2/3 rounded-3xl'></canvas>
               </div>
-              <div className='w-full md:w-3/5 h-auto bg-backGroundColorLight dark:bg-backGroundColorDark'>
+              <div className='w-full h-auto md:w-3/5 bg-backGroundColorLight dark:bg-backGroundColorDark'>
                 {loading ? (
                   <div className='mt-3'>
                     <Loader
@@ -384,11 +369,10 @@ const FreeFall = ({ history }) => {
                     />
                   </div>
                 ) : (
-                  <div className='mx-1 md:mx-5 mt-4'>
-                    <div className='flex justify-center items-center '>
+                  <div className='mx-1 mt-4 md:mx-5'>
+                    <div className='flex items-center justify-center '>
                       <div
-                        className='text-center bg-backGroundColorLight dark:bg-backGroundColorDark 
-                        text-lg sm:text-xl lg:text-2xl italic font-sans font-bold text-emerald-900 dark:text-emerald-50 shadow-sm rounded-lg py-2 px-4 mt-2'
+                        className='px-4 py-2 mt-2 font-sans text-lg italic font-bold text-center rounded-lg shadow-sm bg-backGroundColorLight dark:bg-backGroundColorDark sm:text-xl lg:text-2xl text-emerald-900 dark:text-emerald-50'
                         id='question'
                       >
                         {question.current < maxQuestion.current &&
@@ -398,9 +382,9 @@ const FreeFall = ({ history }) => {
                       </div>
                     </div>
 
-                    <div className='mt-4 flex items-center bg-backGroundColorLight dark:bg-backGroundColorDark'>
+                    <div className='flex items-center mt-4 bg-backGroundColorLight dark:bg-backGroundColorDark'>
                       <div className='flex-1 max-w-2xl mx-auto'>
-                        <ul className='grid grid-cols-1 lg:grid-cols-2 gap-1 md:gap-2 question-answer-container'>
+                        <ul className='grid grid-cols-1 gap-1 lg:grid-cols-2 md:gap-2 question-answer-container'>
                           <li
                             className='answerTilesFreeFall items'
                             id='item-1'
@@ -423,7 +407,7 @@ const FreeFall = ({ history }) => {
                           </li>
                         </ul>
                         <div className='flex justify-between mt-6'>
-                          <div className='text-left italic font-mono lg:text-lg font-bold w-5/12 text-emerald-900 dark:text-emerald-50'>
+                          <div className='w-5/12 font-mono italic font-bold text-left lg:text-lg text-emerald-900 dark:text-emerald-50'>
                             Score:{' '}
                             {score.current > 9
                               ? score.current
@@ -442,22 +426,22 @@ const FreeFall = ({ history }) => {
                             ) : (
                               <>
                                 {answered.current === 'Game Over!' ? (
-                                  <div className='bg-red-600 text-center lg:text-lg font-bold italic font-sans text-white px-2 py-2 rounded-full'>
+                                  <div className='px-2 py-2 font-sans italic font-bold text-center text-white bg-red-600 rounded-full lg:text-lg'>
                                     {answered.current}
                                   </div>
                                 ) : (
-                                  <div className='bg-lime-600 text-center lg:text-lg font-bold italic font-sans text-white px-2 py-2 rounded-full'>
+                                  <div className='px-2 py-2 font-sans italic font-bold text-center text-white rounded-full bg-lime-600 lg:text-lg'>
                                     {answered.current}
                                   </div>
                                 )}
                               </>
                             )
 
-                            // <div className='bg-emerald-700 text-center lg:text-lg font-bold italic font-sans text-white px-2 py-2 rounded-full'>
+                            // <div className='px-2 py-2 font-sans italic font-bold text-center text-white rounded-full bg-emerald-700 lg:text-lg'>
                             //   {answered.current}
                             // </div>
                           }
-                          <div className='text-right italic font-mono lg:text-lg font-bold w-5/12 text-emerald-900 dark:text-emerald-50'>
+                          <div className='w-5/12 font-mono italic font-bold text-right lg:text-lg text-emerald-900 dark:text-emerald-50'>
                             Quiz: {question.current + 1}/{maxQuestion.current}
                           </div>
                         </div>

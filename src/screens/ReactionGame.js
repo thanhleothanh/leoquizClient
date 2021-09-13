@@ -1,31 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useTransition, animated } from 'react-spring';
-import { getQuestions } from './../actions/questionActions';
+import { useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { getQuestions } from './../actions/questionActions';
 import EndGame from './../components/EndGame';
 import CountdownTimer from './../components/CountdownTimer';
 import Loader from './../components/Loader';
 import Alert from './../components/Alert';
 import Meta from './../components/Meta';
-import { useLocation } from 'react-router-dom';
 import { getTest } from '../actions/testActions';
 import { getTestResult } from '../actions/testResultsActions';
+import shuffle from '../utils/shuffleArray';
 
-//shuffle questions fisher-yates
-const shuffle = (array) => {
-  var currentIndex = array.length,
-    temporaryValue,
-    randomIndex;
-
-  while (0 !== currentIndex) {
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex -= 1;
-    temporaryValue = array[currentIndex];
-    array[currentIndex] = array[randomIndex];
-    array[randomIndex] = temporaryValue;
-  }
-  return array;
-};
 //REMOVE STATE OF THE PREVIOUS QUESTION
 const remove = () => {
   const allItems = document.querySelectorAll('.items');
@@ -88,12 +74,12 @@ const ReactionGame = ({ history }) => {
   });
 
   useEffect(() => {
-    if (testID !== undefined) dispatch(getTestResult(testID));
     if (!userInfo) history.push('/login');
-  }, [userInfo, history]);
+    if (userInfo && testID !== undefined) dispatch(getTestResult(testID));
+  }, [userInfo]);
 
   useEffect(() => {
-    if (playing && !loading && !end && !error) {
+    if (playing && !loading && !testLoading && !testError && !end && !error) {
       //if pressed PLAY button
 
       if (!shuffled.current) {
@@ -109,7 +95,7 @@ const ReactionGame = ({ history }) => {
         shuffled.current = true;
       }
 
-      //check if reached the end of the questions
+      //check if already reached the end of the questions array
       if (
         testID === undefined &&
         question.current === questions.length &&
@@ -157,12 +143,22 @@ const ReactionGame = ({ history }) => {
           }, 15000);
           timerLeft.current = idTimeout;
           setTimerRun(15);
-          // THIS ONE TRICKS THE RERENDER OF QUESTION, TIMER, QUESTION/QUESTIONS, POINTS
+          // THIS ONE TRIGGERS RERENDER (QUESTION, TIMER, QUESTION/QUESTIONS, POINTS)
           // !IMPORTANT
         }
       }
     }
-  }, [next, playing, loading, end, error, questions]);
+  }, [
+    next,
+    playing,
+    questions,
+    loading,
+    end,
+    error,
+    testError,
+    test,
+    testLoading,
+  ]);
 
   //clear on unmount ngon ngon ngon
   useEffect(() => {
@@ -171,8 +167,6 @@ const ReactionGame = ({ history }) => {
     };
   }, []);
 
-  //handlers
-  //handlers
   //handlers
   const playHandler = () => {
     if (!playPressed.current) {
@@ -241,10 +235,10 @@ const ReactionGame = ({ history }) => {
       ) : errorGetTestResult ? (
         <Alert>{errorGetTestResult}</Alert>
       ) : !playing ? (
-        <div className='w-full h-screen flex flex-col justify-center items-center'>
+        <div className='flex flex-col items-center justify-center w-full h-screen'>
           {testID === undefined || (testResult && testResult.length === 0) ? (
             <button
-              className='playButton bg-purple-600 hover:bg-purple-700'
+              className='bg-purple-600 playButton hover:bg-purple-700'
               onClick={playHandler}
             >
               {testID === undefined ? 'Play' : 'Go'}
@@ -252,31 +246,31 @@ const ReactionGame = ({ history }) => {
             </button>
           ) : (
             <>
-              <button className='playButton bg-purple-600 opacity-50' disabled>
+              <button className='bg-purple-600 opacity-50 playButton' disabled>
                 {testID === undefined ? 'Play' : 'Go'}
                 <i className='ml-3 fas fa-play' />
               </button>
-              <div className='preferences text-purple-800 dark:text-purple-50 mt-5'>
+              <div className='mt-5 text-purple-800 preferences dark:text-purple-50'>
                 You already finished this test!
               </div>
             </>
           )}
           {testID === undefined && (
-            <div className='mt-5 flex flex-col'>
-              <label className='preferences text-purple-800 dark:text-purple-50'>
+            <div className='flex flex-col mt-5'>
+              <label className='text-purple-800 preferences dark:text-purple-50'>
                 <input
                   type='radio'
-                  className='form-radio w-4 h-4 md:w-7 md:h-7'
+                  className='w-4 h-4 form-radio md:w-7 md:h-7'
                   name='preference'
                   value='random'
                   onChange={(e) => (preference.current = e.target.value)}
                 />
                 <span className='ml-2'>Random Quizzes</span>
               </label>
-              <label className='preferences text-purple-800 dark:text-purple-50 mt-2'>
+              <label className='mt-2 text-purple-800 preferences dark:text-purple-50'>
                 <input
                   type='radio'
-                  className='form-radio w-4 h-4 md:w-7 md:h-7'
+                  className='w-4 h-4 form-radio md:w-7 md:h-7'
                   name='preference'
                   value='newest'
                   onChange={(e) => (preference.current = e.target.value)}
@@ -309,10 +303,9 @@ const ReactionGame = ({ history }) => {
         <div>
           {transition((style) => (
             <animated.div style={style} className='container mx-auto mt-4'>
-              <div className='flex justify-center items-center '>
+              <div className='flex items-center justify-center '>
                 <div
-                  className='text-center bg-backGroundColorLight dark:bg-backGroundColorDark
-                  text-lg sm:text-xl lg:text-2xl italic font-sans font-bold text-purple-900 dark:text-purple-50 shadow-sm rounded-lg py-2 px-3 mt-2'
+                  className='px-3 py-2 mt-2 font-sans text-lg italic font-bold text-center text-purple-900 rounded-lg shadow-sm bg-backGroundColorLight dark:bg-backGroundColorDark sm:text-xl lg:text-2xl dark:text-purple-50'
                   id='question'
                 >
                   {testID === undefined
@@ -327,9 +320,9 @@ const ReactionGame = ({ history }) => {
                 </div>
               </div>
 
-              <div className='mt-4 mx-1 flex items-center bg-backGroundColorLight dark:bg-backGroundColorDark'>
+              <div className='flex items-center mx-1 mt-4 bg-backGroundColorLight dark:bg-backGroundColorDark'>
                 <div className='flex-1 max-w-2xl mx-auto'>
-                  <ul className='grid grid-cols-2 md:grid-cols-3 gap-1 md:gap-2 question-answer-container'>
+                  <ul className='grid grid-cols-2 gap-1 md:grid-cols-3 md:gap-2 question-answer-container'>
                     <li
                       className='answerTiles items'
                       id='item-1'
@@ -398,7 +391,7 @@ const ReactionGame = ({ history }) => {
                     </li>
                   </ul>
                   <div className='flex justify-between mt-6'>
-                    <div className='text-left italic font-mono lg:text-lg font-bold w-5/12 text-purple-900 dark:text-purple-50'>
+                    <div className='w-5/12 font-mono italic font-bold text-left text-purple-900 lg:text-lg dark:text-purple-50'>
                       Score:{' '}
                       {score.current > 9 ? score.current : '0' + score.current}
                     </div>
@@ -413,15 +406,15 @@ const ReactionGame = ({ history }) => {
                       </div>
                     ) : (
                       <div className='flex flex-col'>
-                        <div className='bg-purple-700 text-center lg:text-lg font-bold italic font-sans text-white px-2 py-2 rounded-full'>
+                        <div className='px-2 py-2 font-sans italic font-bold text-center text-white bg-purple-700 rounded-full lg:text-lg'>
                           {answered.current}
                         </div>
-                        <div className='py-2 text-gray-100 dark:text-gray-900 w-2/12'>
+                        <div className='w-2/12 py-2 text-gray-100 dark:text-gray-900'>
                           .
                         </div>
                       </div>
                     )}
-                    <div className='text-right italic font-mono lg:text-lg font-bold w-5/12 text-purple-900 dark:text-purple-50'>
+                    <div className='w-5/12 font-mono italic font-bold text-right text-purple-900 lg:text-lg dark:text-purple-50'>
                       Quiz: {question.current + 1}/{maxQuestion.current}
                     </div>
                   </div>

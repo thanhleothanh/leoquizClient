@@ -37,13 +37,13 @@ const Scoreboard = ({ history }) => {
       <>
         {transition((style) => (
           <animated.div style={style}>
-            <div className='flex flex-col  h-auto min-h-screen w-full mt-8 sm:px-10 lg:px-24'>
-              <div className='max-w-lg md:mx-auto text-center space-x-3 md:space-x-6 lg:space-x-12 flex justify-center'>
+            <div className='flex flex-col w-full h-auto min-h-screen mt-8 sm:px-10 lg:px-24'>
+              <div className='flex justify-center max-w-lg space-x-3 text-center md:mx-auto md:space-x-6 lg:space-x-12'>
                 <Loader
                   loader={Math.floor(Math.random() * 10 + 1)}
                   color={Math.floor(Math.random() * 10 + 1)}
                 />
-                <h2 className=' topHeader text-xl lg:text-2xl bg-gray-50 dark:bg-backGroundColorLight rounded-t-2xl'>
+                <h2 className='text-xl  topHeader lg:text-2xl bg-gray-50 dark:bg-backGroundColorLight rounded-t-2xl'>
                   Scoreboard
                 </h2>
                 <Loader
@@ -52,17 +52,17 @@ const Scoreboard = ({ history }) => {
                 />
               </div>
               <div className='flex justify-center mx-1'>
-                <table className='table-auto w-full'>
+                <table className='w-full table-auto'>
                   <thead>
                     <tr>
-                      <th className='tableHead py-5 w-1/12 rounded-tl-2xl'>
+                      <th className='w-1/12 py-5 tableHead rounded-tl-2xl'>
                         #
                       </th>
-                      <th className='tableHead py-5 w-2/12'>Score</th>
-                      <th className='tableHead py-5 w-2/12'>Taken</th>
-                      <th className='tableHead py-5 w-3/12'>Name</th>
-                      <th className='tableHead py-5 w-2/12 md:w-3/12'>Class</th>
-                      <th className='tableHead py-5 w-2/12 rounded-tr-2xl'>
+                      <th className='w-2/12 py-5 tableHead'>Score</th>
+                      <th className='w-2/12 py-5 tableHead'>Taken</th>
+                      <th className='w-3/12 py-5 tableHead'>Name</th>
+                      <th className='w-2/12 py-5 tableHead md:w-3/12'>Class</th>
+                      <th className='w-2/12 py-5 tableHead rounded-tr-2xl'>
                         Stars
                       </th>
                     </tr>
@@ -75,26 +75,26 @@ const Scoreboard = ({ history }) => {
                       scoreboard.map((user, i) => {
                         return (
                           <tr key={user._id}>
-                            <td className='tableCell py-2'>
+                            <td className='py-2 tableCell'>
                               {i === 0 ? (
-                                <i className='fas fa-hand-rock text-red-700 dark:text-teal-800 text-3xl lg:text-5xl' />
+                                <i className='text-3xl text-red-700 fas fa-hand-rock dark:text-teal-800 lg:text-5xl' />
                               ) : i === 1 ? (
-                                <i className='fas fa-hand-rock text-red-500 dark:text-teal-600 text-2xl lg:text-4xl' />
+                                <i className='text-2xl text-red-500 fas fa-hand-rock dark:text-teal-600 lg:text-4xl' />
                               ) : i === 2 ? (
-                                <i className='fas fa-hand-rock text-red-300 dark:text-teal-400 text-xl lg:text-3xl' />
+                                <i className='text-xl text-red-300 fas fa-hand-rock dark:text-teal-400 lg:text-3xl' />
                               ) : (
                                 i + 1
                               )}
                             </td>
-                            <td className='tableCell py-2'>{user.score}</td>
-                            <td className='tableCell py-2'>{user.quizTaken}</td>
-                            <td className='tableCell py-2'>
+                            <td className='py-2 tableCell'>{user.score}</td>
+                            <td className='py-2 tableCell'>{user.quizTaken}</td>
+                            <td className='py-2 tableCell'>
                               {user.name[0].toUpperCase() + user.name.slice(1)}
                               {user._id === userInfo._id && (
                                 <i className='pl-1 fas fa-hand-point-left'></i>
                               )}
                             </td>
-                            <td className='tableCell py-2'>
+                            <td className='py-2 tableCell'>
                               {user.class[0].toUpperCase() +
                                 user.class.slice(1)}{' '}
                               <div className='md:inline'>
@@ -104,10 +104,10 @@ const Scoreboard = ({ history }) => {
                                   ')'}
                               </div>
                             </td>
-                            <td className='tableCell py-2 '>
+                            <td className='py-2 tableCell '>
                               {user.star}{' '}
                               {
-                                <i className='fas fa-star text-yellow-400 dark:text-cyan-400 ' />
+                                <i className='text-yellow-400 fas fa-star dark:text-cyan-400 ' />
                               }
                             </td>
                           </tr>
@@ -125,7 +125,7 @@ const Scoreboard = ({ history }) => {
                 </table>
               </div>
 
-              <div className='my-3 mx-1'>
+              <div className='mx-1 my-3'>
                 {loading ? (
                   <Loader
                     loader={Math.floor(Math.random() * 10 + 1)}

@@ -62,24 +62,14 @@ const SignupScreen = ({ history }) => {
         {transition((style) => (
           <animated.div
             style={style}
-            className='w-full flex flex-col items-center justify-center mt-10'
+            className='flex flex-col items-center justify-center w-full mt-10'
           >
-            <div className='w-11/12 md:w-full max-w-lg'>
-              <div className='w-full pb-6'>
-                {loading ? (
-                  <Loader
-                    loader={Math.floor(Math.random() * 10 + 1)}
-                    color={Math.floor(Math.random() * 10 + 1)}
-                  />
-                ) : (
-                  error && <Alert>{error}</Alert>
-                )}
-              </div>
-              <div className='text-left rounded-t-2xl  font-bold text-white text-2xl md:text-3xl w-full px-7 py-3 customGradient'>
+            <div className='w-11/12 max-w-lg md:w-full'>
+              <div className='w-full py-3 text-2xl font-bold text-left text-white rounded-t-2xl md:text-3xl px-7 customGradient'>
                 Sign up <i className='fas fa-id-card-alt' />
               </div>
               <form
-                className='bg-white dark:bg-gray-50 shadow-lg rounded-b-2xl px-8 pb-3 flex flex-col w-full'
+                className='flex flex-col w-full px-8 pb-3 bg-white shadow-lg dark:bg-gray-50 rounded-b-2xl'
                 onSubmit={handleSubmit(signupHandler)}
               >
                 <div className='mt-3'>
@@ -115,7 +105,7 @@ const SignupScreen = ({ history }) => {
                     required
                   />
                 </div>
-                <div className='mb-5 mt-3'>
+                <div className='mt-3 mb-5'>
                   <label className='labelFieldAboutYou'>Confirm Password</label>
                   <input
                     className='fieldAboutYou'
@@ -131,7 +121,7 @@ const SignupScreen = ({ history }) => {
                     Sign up
                   </button>
                 </div>
-                <div className='labelFieldAboutYou mt-3'>
+                <div className='mt-3 labelFieldAboutYou'>
                   Already have an account?{' '}
                   <Link
                     to='/login'
@@ -141,6 +131,16 @@ const SignupScreen = ({ history }) => {
                   </Link>
                 </div>
               </form>
+              <div className='w-full pt-6'>
+                {loading ? (
+                  <Loader
+                    loader={Math.floor(Math.random() * 10 + 1)}
+                    color={Math.floor(Math.random() * 10 + 1)}
+                  />
+                ) : (
+                  error && <Alert>{error}</Alert>
+                )}
+              </div>
             </div>
           </animated.div>
         ))}

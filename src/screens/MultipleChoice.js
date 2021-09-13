@@ -10,26 +10,13 @@ import Alert from './../components/Alert';
 import { useLocation } from 'react-router-dom';
 import { getTest } from '../actions/testActions';
 import { getTestResult } from '../actions/testResultsActions';
+import shuffle from '../utils/shuffleArray';
 
-//thy flow for thy test:
-//đầu tiên fetch test result với testID trên address bar, fetch ngay khi zô, useEffect
+//test workflow:
+//đầu tiên fetch test result với testID trên url, fetch ngay khi zô, useEffect
 //nếu đã có test result cho testID này nghĩa là đã làm test này rồi => GO button disabled
 //nếu chưa có thì cho bấm GO, fetch câu hỏi test
 
-const shuffle = (array) => {
-  var currentIndex = array.length,
-    temporaryValue,
-    randomIndex;
-
-  while (0 !== currentIndex) {
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex -= 1;
-    temporaryValue = array[currentIndex];
-    array[currentIndex] = array[randomIndex];
-    array[randomIndex] = temporaryValue;
-  }
-  return array;
-};
 const remove = () => {
   const allItems = document.querySelectorAll('.items');
   Array.from(allItems).forEach((e) => {
@@ -65,7 +52,6 @@ const MultipleChoice = ({ history }) => {
   const { userInfo } = useSelector((state) => state.userLogin);
 
   //for the test
-  //for the test
   const {
     test,
     loading: testLoading,
@@ -94,7 +80,7 @@ const MultipleChoice = ({ history }) => {
 
   useEffect(() => {
     //if pressed PLAY button
-    if (playing && !loading && !end) {
+    if (playing && !loading && !testLoading && !testError && !end && !error) {
       if (!shuffled.current) {
         if (testID === undefined) {
           //for quiz
@@ -169,9 +155,19 @@ const MultipleChoice = ({ history }) => {
       }
       if (!triggerFirstTimeRerender) setTriggerFirstTimeRerender(true);
     }
-  }, [next, playing, loading, end]);
+  }, [
+    next,
+    playing,
+    questions,
+    loading,
+    end,
+    error,
+    testError,
+    test,
+    testLoading,
+  ]);
 
-  //pre-fectch the images
+  //pre-fetch the images
   useEffect(() => {
     if (testID === undefined && questions) {
       questions.map((question) => {

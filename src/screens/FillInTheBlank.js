@@ -10,22 +10,7 @@ import Alert from './../components/Alert';
 import { getQuestions } from './../actions/questionActions';
 import { getTestResult } from '../actions/testResultsActions';
 import { getTest } from '../actions/testActions';
-
-//shuffle questions fisher-yates
-const shuffle = (array) => {
-  var currentIndex = array.length,
-    temporaryValue,
-    randomIndex;
-
-  while (0 !== currentIndex) {
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex -= 1;
-    temporaryValue = array[currentIndex];
-    array[currentIndex] = array[randomIndex];
-    array[randomIndex] = temporaryValue;
-  }
-  return array;
-};
+import shuffle from '../utils/shuffleArray';
 
 const FillInTheBlank = ({ history }) => {
   //state
@@ -80,7 +65,7 @@ const FillInTheBlank = ({ history }) => {
   }, [userInfo, history]);
 
   useEffect(() => {
-    if (playing && !loading && !end) {
+    if (playing && !loading && !testLoading && !testError && !end && !error) {
       //if pressed PLAY button
 
       if (!shuffled.current) {
@@ -118,7 +103,17 @@ const FillInTheBlank = ({ history }) => {
         }
       }
     }
-  }, [next, playing, loading, end]);
+  }, [
+    next,
+    playing,
+    questions,
+    loading,
+    end,
+    error,
+    testError,
+    test,
+    testLoading,
+  ]);
 
   //pre-fectch the images
   useEffect(() => {
@@ -215,10 +210,10 @@ const FillInTheBlank = ({ history }) => {
       ) : errorGetTestResult ? (
         <Alert>{errorGetTestResult}</Alert>
       ) : !playing ? (
-        <div className='w-full h-screen flex flex-col justify-center items-center'>
+        <div className='flex flex-col items-center justify-center w-full h-screen'>
           {testID === undefined || (testResult && testResult.length === 0) ? (
             <button
-              className='playButton bg-indigo-600 hover:bg-indigo-700'
+              className='bg-indigo-600 playButton hover:bg-indigo-700'
               onClick={playHandler}
             >
               {testID === undefined ? 'Play' : 'Go'}{' '}
@@ -226,31 +221,31 @@ const FillInTheBlank = ({ history }) => {
             </button>
           ) : (
             <>
-              <button className='playButton bg-indigo-600 opacity-50' disabled>
+              <button className='bg-indigo-600 opacity-50 playButton' disabled>
                 {testID === undefined ? 'Play' : 'Go'}
                 <i className='ml-3 fas fa-play' />
               </button>
-              <div className='preferences text-indigo-800 dark:text-indigo-50 mt-5'>
+              <div className='mt-5 text-indigo-800 preferences dark:text-indigo-50'>
                 You already finished this test!
               </div>
             </>
           )}
           {testID === undefined && (
-            <div className='mt-5 flex flex-col'>
-              <label className='preferences text-indigo-800 dark:text-indigo-50'>
+            <div className='flex flex-col mt-5'>
+              <label className='text-indigo-800 preferences dark:text-indigo-50'>
                 <input
                   type='radio'
-                  className='form-radio w-4 h-4 md:w-7 md:h-7'
+                  className='w-4 h-4 form-radio md:w-7 md:h-7'
                   name='preference'
                   value='random'
                   onChange={(e) => (preference.current = e.target.value)}
                 />
                 <span className='ml-2'>Random Quizzes</span>
               </label>
-              <label className='preferences text-indigo-800 dark:text-indigo-50 mt-2'>
+              <label className='mt-2 text-indigo-800 preferences dark:text-indigo-50'>
                 <input
                   type='radio'
-                  className='form-radio w-4 h-4 md:w-7 md:h-7'
+                  className='w-4 h-4 form-radio md:w-7 md:h-7'
                   name='preference'
                   value='newest'
                   onChange={(e) => (preference.current = e.target.value)}
@@ -259,7 +254,7 @@ const FillInTheBlank = ({ history }) => {
               </label>
             </div>
           )}
-          <div className='text-base text-indigo-800 dark:text-indigo-50 mt-5  text-center'>
+          <div className='mt-5 text-base text-center text-indigo-800 dark:text-indigo-50'>
             If a quiz is too hard <br />
             Submit <strong className='font-extrabold'>-skip</strong> to skip it
           </div>
@@ -289,10 +284,10 @@ const FillInTheBlank = ({ history }) => {
           {transition((style) => (
             <animated.div
               style={style}
-              className='flex justify-center lg:space-x-5 container mx-auto w-full mt-4'
+              className='container flex justify-center w-full mx-auto mt-4 lg:space-x-5'
             >
-              <div className='lg:w-6/12 w-full'>
-                <div className='w-full flex flex-col md:flex-row justify-center items-center px-1'>
+              <div className='w-full lg:w-6/12'>
+                <div className='flex flex-col items-center justify-center w-full px-1 md:flex-row'>
                   <div
                     className={`text-center bg-backGroundColorLight dark:bg-backGroundColorDark text-lg sm:text-xl lg:text-2xl italic font-sans font-bold text-indigo-800 dark:text-indigo-50 shadow-sm rounded-lg py-2 mt-2 lg:mr-0 md:mr-1 ${
                       testID === undefined
@@ -323,36 +318,36 @@ const FillInTheBlank = ({ history }) => {
                     question.current < maxQuestion.current &&
                     questions[question.current] &&
                     questions[question.current].question_image ? (
-                      <div className='w-full md:w-8/12 lg:w-0 select-none mt-4'>
+                      <div className='w-full mt-4 select-none md:w-8/12 lg:w-0'>
                         <img
-                          className='w-full object-cover overflow-hidden rounded-2xl md:max-h-96'
+                          className='object-cover w-full overflow-hidden rounded-2xl md:max-h-96'
                           src={questions[question.current].question_image}
                           alt='quiz-pic'
                         />
                       </div>
                     ) : (
-                      <div className='mt-4 flex lg:hidden justify-center items-center w-full h-48 bg-orange-200 dark:bg-indigo-900 rounded-full opacity-50 font-semibold text-indigo-800 dark:text-indigo-50 text-sm'>
+                      <div className='flex items-center justify-center w-full h-48 mt-4 text-sm font-semibold text-indigo-800 bg-orange-200 rounded-full opacity-50 lg:hidden dark:bg-indigo-900 dark:text-indigo-50'>
                         No picture for this question!
                       </div>
                     )
                   ) : question.current < maxQuestion.current &&
                     test.questions[question.current] &&
                     test.questions[question.current].question_image ? (
-                    <div className='w-full md:w-8/12 lg:w-0 select-none mt-4'>
+                    <div className='w-full mt-4 select-none md:w-8/12 lg:w-0'>
                       <img
-                        className='w-full object-cover overflow-hidden rounded-2xl md:max-h-96'
+                        className='object-cover w-full overflow-hidden rounded-2xl md:max-h-96'
                         src={test.questions[question.current].question_image}
                         alt='quiz-pic'
                       />
                     </div>
                   ) : (
-                    <div className='mt-4 flex lg:hidden justify-center items-center w-full h-48 bg-orange-200 dark:bg-indigo-900 rounded-full opacity-50 font-semibold text-indigo-800 dark:text-indigo-50 text-sm'>
+                    <div className='flex items-center justify-center w-full h-48 mt-4 text-sm font-semibold text-indigo-800 bg-orange-200 rounded-full opacity-50 lg:hidden dark:bg-indigo-900 dark:text-indigo-50'>
                       No picture for this question!
                     </div>
                   )}
                 </div>
 
-                <div className='mt-6 mx-1 flex items-center bg-backGroundColorLight dark:bg-backGroundColorDark'>
+                <div className='flex items-center mx-1 mt-6 bg-backGroundColorLight dark:bg-backGroundColorDark'>
                   <div className='flex-1 max-w-2xl mx-auto'>
                     <form
                       onSubmit={handleSubmit(answerHandler)}
@@ -360,7 +355,7 @@ const FillInTheBlank = ({ history }) => {
                     >
                       <div className='flex'>
                         <input
-                          className='rounded-l-full w-full py-5 pl-8 shadow-md appearance-none font-semibold focus:ring-4 focus:ring-opacity-75 focus:ring-indigo-600 focus:outline-none dark:bg-indigo-900 text-indigo-700 dark:text-indigo-50 placeholder-indigo-700 dark:placeholder-indigo-50 text-sm lg:text-base'
+                          className='w-full py-5 pl-8 text-sm font-semibold text-indigo-700 placeholder-indigo-700 rounded-l-full shadow-md appearance-none focus:ring-4 focus:ring-opacity-75 focus:ring-indigo-600 focus:outline-none dark:bg-indigo-900 dark:text-indigo-50 dark:placeholder-indigo-50 lg:text-base'
                           name='answer'
                           id='answerField'
                           type='text'
@@ -379,7 +374,7 @@ const FillInTheBlank = ({ history }) => {
                       </div>
                     </form>
                     <div className='flex justify-between mt-6'>
-                      <div className='text-left italic font-mono lg:text-lg font-bold w-5/12 text-indigo-800 dark:text-indigo-50'>
+                      <div className='w-5/12 font-mono italic font-bold text-left text-indigo-800 lg:text-lg dark:text-indigo-50'>
                         Score:{' '}
                         {score.current > 9
                           ? score.current
@@ -388,40 +383,40 @@ const FillInTheBlank = ({ history }) => {
 
                       {answered ? (
                         !wrongAnswer.current ? (
-                          <div className='bg-lime-600 text-center lg:text-lg font-bold italic font-sans text-white px-2 py-2 rounded-full animate-bounce w-3/12'>
+                          <div className='w-3/12 px-2 py-2 font-sans italic font-bold text-center text-white rounded-full bg-lime-600 lg:text-lg animate-bounce'>
                             {answered && 'Very cool!'}
                             {/* THIS ONE! MUỐN RENDER LẠI CÁI NÀY THÌ PHẢI ĐẶT CÁI THAY ĐỔI VÀO TRONG DIV */}
                           </div>
                         ) : (
-                          <div className='bg-red-600 text-center lg:text-lg font-bold italic font-sans text-white px-2 py-2 rounded-full animate-wiggle w-3/12'>
+                          <div className='w-3/12 px-2 py-2 font-sans italic font-bold text-center text-white bg-red-600 rounded-full lg:text-lg animate-wiggle'>
                             {answered && 'Try again!'}
                             {/* THIS ONE! MUỐN RENDER LẠI CÁI NÀY THÌ PHẢI ĐẶT CÁI THAY ĐỔI VÀO TRONG DIV */}
                           </div>
                         )
                       ) : (
-                        <div className='py-2 text-gray-100 dark:text-gray-900 w-3/12'>
+                        <div className='w-3/12 py-2 text-gray-100 dark:text-gray-900'>
                           .
                         </div>
                       )}
-                      <div className='text-right italic font-mono lg:text-lg font-bold w-5/12 text-indigo-800 dark:text-indigo-50'>
+                      <div className='w-5/12 font-mono italic font-bold text-right text-indigo-800 lg:text-lg dark:text-indigo-50'>
                         Quiz: {question.current + 1}/{maxQuestion.current}
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <div className='h-screen w-0 lg:w-6/12 select-none'>
+              <div className='w-0 h-screen select-none lg:w-6/12'>
                 {testID === undefined ? (
                   question.current < maxQuestion.current &&
                   questions[question.current] &&
                   questions[question.current].question_image ? (
                     <img
-                      className='w-full lg:h-3/4 max-h-screen mt-2 object-cover overflow-hidden rounded-2xl'
+                      className='object-cover w-full max-h-screen mt-2 overflow-hidden lg:h-3/4 rounded-2xl'
                       src={questions[question.current].question_image}
                       alt='quiz-pic'
                     />
                   ) : (
-                    <div className='mt-2 hidden lg:flex justify-center items-center md:w-full max-h-96 h-full bg-orange-200 dark:bg-indigo-900 rounded-full animate-pulse font-semibold text-indigo-800 dark:text-indigo-50'>
+                    <div className='items-center justify-center hidden h-full mt-2 font-semibold text-indigo-800 bg-orange-200 rounded-full lg:flex md:w-full max-h-96 dark:bg-indigo-900 animate-pulse dark:text-indigo-50'>
                       No picture for this question!
                     </div>
                   )
@@ -429,12 +424,12 @@ const FillInTheBlank = ({ history }) => {
                   test.questions[question.current] &&
                   test.questions[question.current].question_image ? (
                   <img
-                    className='w-full lg:h-3/4 max-h-screen mt-2 object-cover overflow-hidden rounded-2xl'
+                    className='object-cover w-full max-h-screen mt-2 overflow-hidden lg:h-3/4 rounded-2xl'
                     src={test.questions[question.current].question_image}
                     alt='quiz-pic'
                   />
                 ) : (
-                  <div className='mt-2 hidden lg:flex justify-center items-center md:w-full max-h-96 h-full bg-orange-200 dark:bg-indigo-900 rounded-full animate-pulse font-semibold text-indigo-800 dark:text-indigo-50'>
+                  <div className='items-center justify-center hidden h-full mt-2 font-semibold text-indigo-800 bg-orange-200 rounded-full lg:flex md:w-full max-h-96 dark:bg-indigo-900 animate-pulse dark:text-indigo-50'>
                     No picture for this question!
                   </div>
                 )}

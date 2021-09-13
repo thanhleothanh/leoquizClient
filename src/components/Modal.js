@@ -14,7 +14,7 @@ export default function Modal({ show, onClose, title, children }) {
             <i className='fas fa-times fa-lg' />
           </button>
         </div>
-        <div className='px-2 overflow-auto lg:px-7'>{children}</div>
+        <div className='px-3 overflow-auto lg:px-7'>{children}</div>
       </div>
     </div>
   ) : null;

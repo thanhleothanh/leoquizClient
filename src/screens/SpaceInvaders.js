@@ -46,8 +46,6 @@ const SpaceInvaders = ({ history }) => {
         canvas.height = canvas.offsetHeight;
 
         //class class class class class class class class class class class
-        //class class class class class class class class class class class
-        //class class class class class class class class class class class
         class Player {
           constructor(x, y, radius, color) {
             this.x = x;
@@ -62,6 +60,7 @@ const SpaceInvaders = ({ history }) => {
             c.fill();
           }
         }
+
         class Projectile {
           constructor(x, y, radius, color, velocity) {
             this.x = x;
@@ -82,6 +81,7 @@ const SpaceInvaders = ({ history }) => {
             this.y = this.y + this.velocity.y;
           }
         }
+
         class Enemy {
           constructor(x, y, radius, color, velocity) {
             this.x = x;
@@ -102,6 +102,7 @@ const SpaceInvaders = ({ history }) => {
             this.y = this.y + this.velocity.y;
           }
         }
+
         class Particle {
           constructor(x, y, radius, color, velocity) {
             this.x = x;
@@ -313,13 +314,13 @@ const SpaceInvaders = ({ history }) => {
     }
   };
   return (
-    <div className='h-screen container mx-auto'>
+    <div className='container h-screen mx-auto'>
       <Meta
         title='Space Invaders'
         description='Leo English Quiz App for Kids | Space Invaders Game'
       />
       {!playing ? (
-        <div className='w-full h-screen flex flex-col justify-center items-center'>
+        <div className='flex flex-col items-center justify-center w-full h-screen'>
           {gameTickets >= 1 || (userInfo && userInfo.role) !== 'student' ? (
             <button
               className='playButton bg-lime-600 hover:bg-lime-700'
@@ -332,21 +333,21 @@ const SpaceInvaders = ({ history }) => {
               Play <i className='ml-3 fas fa-play' />
             </button>
           )}
-          <div className='mt-4 flex flex-col'>
+          <div className='flex flex-col mt-4'>
             <label className='preferences text-lime-800 dark:text-lime-50'>
               <input
                 type='radio'
-                className='form-radio w-4 h-4 md:w-7 md:h-7'
+                className='w-4 h-4 form-radio md:w-7 md:h-7'
                 name='preference'
                 value='2500'
                 onChange={(e) => (difficulty.current = e.target.value)}
               />
               <span className='ml-2'>Easy</span>
             </label>
-            <label className='preferences text-lime-800 dark:text-lime-50 mt-2'>
+            <label className='mt-2 preferences text-lime-800 dark:text-lime-50'>
               <input
                 type='radio'
-                className='form-radio w-4 h-4 md:w-7 md:h-7'
+                className='w-4 h-4 form-radio md:w-7 md:h-7'
                 name='preference'
                 value='1700'
                 onChange={(e) => (difficulty.current = e.target.value)}
@@ -354,15 +355,15 @@ const SpaceInvaders = ({ history }) => {
               <span className='ml-2'>Hard</span>
             </label>
           </div>
-          <div className='text-base md:text-lg text-lime-800 dark:text-lime-50 mt-5 text-center'>
+          <div className='mt-5 text-base text-center md:text-lg text-lime-800 dark:text-lime-50'>
             You have {Math.floor(gameTickets)}{' '}
             <strong className='font-bold'>Game Ticket(s)</strong>
           </div>
-          <div className='text-base md:text-lg text-lime-800 dark:text-lime-50 text-center'>
+          <div className='text-base text-center md:text-lg text-lime-800 dark:text-lime-50'>
             Finishing 1 Quizzes = 1{' '}
             <strong className='font-bold'>Game Ticket</strong>
           </div>
-          <div className='mt-3 text-xs text-lime-800 dark:text-lime-50 text-center'>
+          <div className='mt-3 text-xs text-center text-lime-800 dark:text-lime-50'>
             All credit to @Christopher Lis
           </div>
         </div>
@@ -380,13 +381,13 @@ const SpaceInvaders = ({ history }) => {
           {transition((style) => (
             <animated.div
               style={style}
-              className='flex flex-col h-screen container mx-auto w-full'
+              className='container flex flex-col w-full h-screen mx-auto'
             >
-              <div className='w-full h-3/4 mt-1 select-none md:mt-6'>
-                <canvas className='w-full h-full rounded-3xl px-1 overflow-hidden'></canvas>
+              <div className='w-full mt-1 select-none h-3/4 md:mt-6'>
+                <canvas className='w-full h-full px-1 overflow-hidden rounded-3xl'></canvas>
               </div>
-              <div className='flex justify-between mt-3 mx-1 select-none'>
-                <div className='text-left italic font-mono text-base lg:text-lg font-bold w-1/2 text-lime-800 dark:text-lime-50'>
+              <div className='flex justify-between mx-1 mt-3 select-none'>
+                <div className='w-1/2 font-mono text-base italic font-bold text-left lg:text-lg text-lime-800 dark:text-lime-50'>
                   Score: {score > 9 ? score : '0' + score}
                 </div>
 

@@ -44,10 +44,10 @@ const HomeScreen = ({ history }) => {
         {transition((style) => (
           <animated.div
             style={style}
-            className='grid md:grid-cols-2 md:gap-5 lg:gap-9 px-6 sm:px-12 md:px-7 lg:px-20  overflow-auto pb-5'
+            className='grid px-6 pb-5 overflow-auto md:grid-cols-2 md:gap-5 lg:gap-9 sm:px-12 md:px-7 lg:px-20'
           >
             <div className='flex flex-col items-center'>
-              <div className=' topHeader bg-white rounded-full mt-8 mb-5 select-none'>
+              <div className='mt-8 mb-5 bg-white rounded-full select-none  topHeader'>
                 Quizzes
               </div>
 
@@ -72,7 +72,7 @@ const HomeScreen = ({ history }) => {
                 link='/multiplechoice'
                 color='sky'
               />
-              <div className='topHeader bg-white rounded-full mt-8 mb-5 hidden md:inline select-none'>
+              <div className='hidden mt-8 mb-5 bg-white rounded-full select-none topHeader md:inline'>
                 <i className='fas fa-info' />
               </div>
               <div className='w-full mt-3'>
@@ -85,7 +85,7 @@ const HomeScreen = ({ history }) => {
               </div>
             </div>
             <div className='flex flex-col items-center'>
-              <div className=' topHeader bg-white rounded-full mt-8 mb-5 select-none'>
+              <div className='mt-8 mb-5 bg-white rounded-full select-none  topHeader'>
                 Games
               </div>
               <QuizCard
@@ -102,7 +102,7 @@ const HomeScreen = ({ history }) => {
                 link='/freefall'
                 color='emerald'
               />
-              <div className=' topHeader bg-white rounded-full mt-8 mb-5 select-none'>
+              <div className='mt-8 mb-5 bg-white rounded-full select-none  topHeader'>
                 Tests |{' '}
                 <i
                   className='fas fa-redo-alt hover:text-orange-400 dark:hover:text-purple-400'

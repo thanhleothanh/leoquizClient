@@ -51,14 +51,6 @@ const DeleteTestQuestion = ({
           </button>
         </div>
       </form>
-      <div className='flex justify-end'>
-        <button
-          className='px-5 py-2 text-base font-bold text-white bg-orange-500 rounded-lg focus:outline-none hover:bg-orange-700 dark:bg-purple-500 dark:hover:bg-purple-700'
-          onClick={closeModal}
-        >
-          Close
-        </button>
-      </div>
     </Modal>
   );
 };
